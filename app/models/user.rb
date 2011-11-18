@@ -7,12 +7,9 @@ class User
          
          field :full_name
          field :admin, type: Boolean, default: false
-         field :phone_number
-         field :company
+
        
-         validates_presence_of :full_name, :company, :phone_number
-         
-         has_many :campaigns
+         validates_presence_of :full_name, 
          
          
          def update_with_password(params={})
