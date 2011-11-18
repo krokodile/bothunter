@@ -9,9 +9,8 @@ class User
          field :admin, type: Boolean, default: false
 
        
-         validates_presence_of :full_name, 
-         
-         
+         validates_presence_of :full_name
+                  
          def update_with_password(params={})
            params.delete(:current_password)
            self.update_without_password(params)

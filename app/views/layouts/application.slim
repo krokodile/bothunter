@@ -2,10 +2,9 @@ doctype
 html
   head
     title 
-      ' Telefront
-    = stylesheet_link_tag    "application"
-    link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css"
-    = javascript_include_tag "soundmanager2-jsmin", "mp3-player-button", "application"
+      ' Appname
+    = stylesheet_link_tag    "application", "http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css"
+    = javascript_include_tag "application"
     = csrf_meta_tags
   body
     - if current_user
