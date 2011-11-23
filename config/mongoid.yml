@@ -1,25 +1,20 @@
-defaults: &defaults
-  host: localhost
-
 development:
-  <<: *defaults
+  host: localhost
   database: telefront_development
 
 test:
-  <<: *defaults
+  host: localhost
   database: telefront_test
+
 # set these environment variables on your prod server
 production:
-  <<: *defaults
-  database: telefront_production
-#  host: <%= ENV['MONGOID_HOST'] %>
-#  port: <%= ENV['MONGOID_PORT'] %>
-#  username: <%= ENV['MONGOID_USERNAME'] %>
-#  password: <%= ENV['MONGOID_PASSWORD'] %>
-#  database: <%= ENV['MONGOID_DATABASE'] %>
+  host: <%= ENV['MONGOID_HOST'] %>
+  port: <%= ENV['MONGOID_PORT'] %>
+  username: <%= ENV['MONGOID_USERNAME'] %>
+  password: <%= ENV['MONGOID_PASSWORD'] %>
+  database: <%= ENV['MONGOID_DATABASE'] %>
   # slaves:
   #   - host: slave1.local
   #     port: 27018
   #   - host: slave2.local
   #     port: 27019
-
