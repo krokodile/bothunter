@@ -3,7 +3,7 @@ require File.expand_path('../boot', __FILE__)
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
-require "rails/test_unit/railtie"
+#require "rails/test_unit/railtie"
 require "sprockets/railtie"  # Uncomment this line for Rails 3.1+
 
 if defined?(Bundler)
@@ -15,6 +15,8 @@ end
 
 module Telefront
   class Application < Rails::Application
+    config.middleware.use RobokassaMerchant, YAML.load(File.open('config/robokassa_merchant.yml'))
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

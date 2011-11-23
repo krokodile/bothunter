@@ -4,3 +4,5 @@ log/
 tmp/
 .sass-cache/
 public/uploads/
+config/database.yml
+config/robokassa_merchant.yml

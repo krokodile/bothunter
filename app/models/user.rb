@@ -18,5 +18,10 @@ class User
            params.delete(:current_password)
            self.update_without_password(params)
          end
+
+  field :money_amount, :type => Integer, :default => 0 # amount is in cents!
+  attr_protected :money_amount
+
+  references_many :invoices
         
 end
