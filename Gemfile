@@ -6,6 +6,8 @@ gem 'rack', '1.3.3'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
+gem 'therubyracer'
+
 gem "mongoid", "~> 2.3"
 gem "bson_ext", "~> 1.4"
 gem "devise"

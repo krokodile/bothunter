@@ -13,9 +13,11 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+load 'lib/robokassa_merchant.rb'
+
 module Telefront
   class Application < Rails::Application
-    config.middleware.use RobokassaMerchant, YAML.load(File.open('config/robokassa_merchant.yml'))
+    config.middleware.use ::RobokassaMerchant, YAML.load(File.open('config/robokassa_merchant.yml'))
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
