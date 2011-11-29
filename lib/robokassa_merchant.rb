@@ -4,13 +4,13 @@ require 'uri'
 class RobokassaMerchant
   class << self
     # we aren't use signed params in this app
-    #def signed_start_params objects_amount, objects_filter, objects_cost, user
+    #def signed_start_params objects_amount, objects_filter, objects_cost, profile
     #  hash = {
     #    'objects_amount' => objects_amount.to_s,
     #    'objects_filter' => objects_filter.to_s,
     #    'objects_cost'   => objects_cost.to_s,
-    #    'user_id'        => user.id.to_s,
-    #    'user_token'     => user.attributes.to_s
+    #    'user_id'        => profile.id.to_s,
+    #    'user_token'     => profile.attributes.to_s
     #  }
 
     #  hash['user_token'] = Digest::MD5.hexdigest(query('user_token' => Digest::MD5.digest(query(Hash[hash.sort]))))
@@ -43,7 +43,7 @@ class RobokassaMerchant
         return [404, {}, []] if [params['user_id'], params['objects_cost']].include? nil
         #digest = params.delete('user_token')
         user = User.find(params['user_id'])
-        #params['user_token'] = user.attributes.to_s
+        #params['user_token'] = profile.attributes.to_s
 
         #return [403, {}, []] unless digest == Digest::MD5.hexdigest(self.class.query('user_token' => Digest::MD5.digest(self.class.query(Hash[params.sort]))))
 

@@ -12,5 +12,5 @@ class Invoice
   #field :objects_filter, :type => String
   #validates_presence_of :objects_filter
 
-  referenced_in :user
+  referenced_in :profile
 end

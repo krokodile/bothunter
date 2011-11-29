@@ -20,7 +20,7 @@ set :scm, :git
 set :scm_verbose, true
 set :use_sudo, false
 set :rvm_ruby_string, '1.9.2' # Это указание на то, какой Ruby интерпретатор мы будем использовать.
-set :rvm_type, :user # Указывает на то, что мы будем использовать rvm, установленный у пользователя, от которого происходит деплой, а не системный rvm.
+set :rvm_type, :profile # Указывает на то, что мы будем использовать rvm, установленный у пользователя, от которого происходит деплой, а не системный rvm.
 set :unicorn_script, "/etc/init.d/voipman"
 
 
@@ -28,7 +28,7 @@ set :unicorn_script, "/etc/init.d/voipman"
 #require 'capistrano/ext/multistage'
 
 default_run_options[:pty] = true
-ssh_options[:user] = "deploy"
+ssh_options[:profile] = "deploy"
 ssh_options[:forward_agent] = true
 
 

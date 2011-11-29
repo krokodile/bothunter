@@ -7,6 +7,6 @@ class Group
   validates_presence_of :link
   
   has_many :profiles
-  belongs_to :user
+  belongs_to :profile
   
 end
