@@ -1,8 +1,20 @@
-div class="row show-grid" 
-  div class="span12 columns"
-    div class="page-header"
-      h1
-        ' Hello
-        = current_user.full_name
-        ' !
-
+div class="row"
+  div class="span-one-third"
+    h3
+      | Группы
+    ul
+      li
+        a href="#"
+         | Ваши интересности
+      li
+        a href="#"
+         | Всякие полезности
+    h4
+      | Добавить группу
+    = form_for Group.new do
+      div class="clearfix"
+        = text_field_tag 'group_url', params['group_url'], :class => 'xlarge', :placeholder => 'http://vk...'
+      div class="actions"
+        = submit_tag 'Добавить', :class => 'btn primary'
+  div class="span-two-thirds"
+    | ofrf
