@@ -1,69 +1,68 @@
 /*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
- *= require_self 
- *= require formtastic
+* This is a manifest file that'll automatically include all the stylesheets available in this directory
+* and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+* the top of the compiled file, but it's generally better to create a new file per style scope.
+*= require_self 
+*= require formtastic
 */ 
 
-
-a.sm2_button {
- position:relative;
- display:inline-block; /* If you worry about old browser bugs, Firefox 2 might not like this and may need -moz-inline-box instead. :D */
- width:18px;
- height:18px;
- text-indent:-9999px; /* don't show link text */
- overflow:hidden; /* don't draw inner link text */
- vertical-align:middle;
- /* and, a bit of round-ness for the cool browsers. */
- -moz-border-radius:6px;
- -webkit-border-radius:6px;
- -o-border-radius:6px;
- border-radius:6px;
- margin-top:-1px; /* vertical align tweak */
- float:right;
- /* safari 3.1+ fun (/W3 working draft extension, TBD.) */
- -webkit-transition-property: hover;
- -webkit-transition: all 0.2s ease-in-out;
- -moz-transition: all 0.2s ease-in-out 0s; /* firefox 4 (couldn't sort out -moz-transform vs. MozTransform, so, "all" for now) */
- -o-transition-property: background-color; /* opera 10.5 */
- -o-transition-duration: 0.15s;
- /* weird IE 6/7 display fixes, and/or I'm doing it wrong */
- *text-indent:0px;
- *line-height:99em;
- *vertical-align: top;
+body {
+	background-image: url('/assets/bg_noise_lg.png');
+	padding-top: 40px;
 }
 
-a.sm2_button:focus {
- outline:none; /* maybe evil, but don't show the slight border outline on focus. */
+.messages {
+margin-top: 5px;
+width: 940px;
+zoom: 1;
+margin-right: auto;
+margin-left: auto;
+margin-bottom: 0;
 }
 
-a.sm2_button,
-a.sm2_button.sm2_paused:hover {
- background-color:#3399cc;
- background-image:url(../image/arrow-right-white.png);
- /* where possible, use data: and skip the HTTP request. Fancy-pants. Would use short-hand background: for above, but IE 8 doesn't override background-image. */
- background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAKCAYAAABmBXS+AAAAbklEQVQY02NgQAL//v1jZMAF/v//vwuIs9HEUBUBTbj4HwIeA3EGVsVAxtn/qOAVUGM8uknIiv4hsV8A5ZKxKfoLVvnvHwifAzLtMKwDSQLBVSBti27dJajkcSD2RJODO3wtkOOMz/tMSJJYAxMA5dmsL0IfubQAAAAASUVORK5CYII=);
- *background-image:url(../image/arrow-right-white.gif); /* IE 6+7 don't do DATA: URIs */
- background-repeat:no-repeat;
- background-position:5px 50%;
- *background-position:5px 4px; /* IE 6 again */
+.toolbar-free-space {
+	height: 15px;
 }
 
-a.sm2_button:hover,
-a.sm2_button.sm2_playing,
-a.sm2_button.sm2_playing:hover {
- background-color:#cc3333;
+.content {
+	background-color: white;
+	padding: 10px;
+	padding-top: 5px;
+	padding-bottom: 10px;
+	border-radius: 4px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.7);
+	-o-box-shadow: 0 1px 3px rgba(0,0,0,0.7);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.7);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.7);
+	-ms-box-shadow: 0 1px 3px rgba(0,0,0,0.7);
 }
 
-a.sm2_button.sm2_playing,
-a.sm2_button.sm2_playing:hover {
- -moz-transform:rotate(90deg);
- -webkit-transform:rotate(90deg);
- -ms-transform:rotate(90deg);
+footer {
+-webkit-transition: all 0.2s;
+opacity: 0.7;
 }
 
-a.sm2_button.sm2_paused,
-a.sm2_button.sm2_paused:hover {
- background-color:#666;
+footer:hover {
+-webkit-transition: all 0.2s;
+opacity: 1.0;
 }
+
+footer li:first-child {
+padding-left: 0;
+border-left: none;
+}
+
+footer ul, footer li {
+	list-style: none;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+
+footer li {
+margin-right: 10px;
+border-left: 1px solid rgba(0, 0, 0, 0.25);
+padding-left: 10px;
+}
+
+
