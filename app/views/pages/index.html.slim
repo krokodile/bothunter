@@ -1,6 +1,6 @@
 div class="row"
-  div class="span-one-third"
-    h3
+  div class="span5"
+    h2
       | Группы
     ul
       li
@@ -13,8 +13,76 @@ div class="row"
       | Добавить группу
     = form_for Group.new do
       div class="clearfix"
-        = text_field_tag 'group_url', params['group_url'], :class => 'xlarge', :placeholder => 'http://vk...'
-      div class="actions"
-        = submit_tag 'Добавить', :class => 'btn primary'
-  div class="span-two-thirds"
-    | ofrf
+        = text_field_tag 'group_url', params['group_url'], :class => 'span5', :placeholder => 'http://vk...'
+      div class="clearfix"
+        = submit_tag 'Добавить', :class => 'btn primary small'
+  div class="span10"
+    h2
+      | Страницы по группам
+    div class="row"
+      div class="span3"
+        h4
+          | Люди
+      div class="span3" style="text-align: center"
+        h4
+          | Неопределённые
+      div class="span3"
+        h4
+          | Роботы
+    div class="row" style="overflow-y: scroll"
+      div class="span3"
+        div
+          a href="#"
+            img width="16" height="16" src="#"
+            | Микiта Елды-Колпак
+        div
+          a href="#"
+            img width="16" height="16" src="#"
+            | Марат Тебердыев
+      div class="span3" style="text-align: center"
+        div
+          a class="label success" href="#"
+            | &lt;
+          a href="#"
+            img width="16" height="16" src="#"
+            | Павел Дуров 
+          a class="label important" href="#"
+            | &gt;
+        div
+          a class="label success" href="#"
+            | &lt;
+          a href="#"
+            img width="16" height="16" src="#"
+            | Mr Freeman
+          a class="label important" href="#"
+            | &gt;
+      div class="span3"
+        div
+          a href="#"
+            img width="16" height="16" src="#"
+            | Увеличить Пинус
+        div
+          a href="#"
+            img width="16" height="16" src="#"
+            | Бар Ресторан
+    div class="row"
+      div class="span4 offset8"
+        a href="#" class="btn danger" data-controls-modal="robots-destroy-modal" data-keyboard="true" data-backdrop="true"
+         | Сжечь!
+div id="robots-destroy-modal" class="modal hide fade alert-message warning"
+  form method="post" action="#"
+    a class="close" href="#"
+      | x
+    h2
+      | Удаление роботов из группы
+    div class="clearfix"
+      | Необходимы логин и пароль от аккаунта, наделённого правом удаления пользователей из этой группы.
+    div class="clearfix"
+      strong
+        | Действие необратимо!
+    div class="clearfix"
+      = text_field_tag 'login', '', :placeholder => 'логин'
+    div class="clearfix"
+      = password_field_tag 'password', '', :placeholder => 'пароль'
+    div class="clearfix"
+      = submit_tag 'Выполнить', class: 'btn danger'
