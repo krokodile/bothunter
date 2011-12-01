@@ -1,19 +1,48 @@
 h2
   | Пользователи
-table class="condensed-table zebra-striped"
-  thead
-    tr
-      th
-        | xx
-      th
-        | yy
-      th 
-        | zz
-  tbody
-    tr
-      td
-        | xx
-      td
-        | yy
-      td
-        | zz
+div class="row"
+  div class="span1"
+    h4
+      | №
+  div class="span4"
+    h4
+      | Имя
+  div class="span4"
+    h4
+      | Компания
+  div class="span2"
+    h4
+      | Остаток
+
+- i = 0; @users.each do |user|
+  div class="row"
+    div class="span1"
+      = (i = i.next).to_s
+    div class="span4"
+      = user.full_name
+    div class="span4"
+      = user.company
+    div class="span2"
+      = user.objects_amount
+      | &nbsp;
+      a href="#" id="create-invoice-link" class="label success" data-controls-modal="create-invoice-modal" data-keyboard="true" data-backdrop="true" data-user-id="#{user.id.to_s}"
+       | пополнить
+div id="create-invoice-modal" class="modal hide fade alert-message warning"
+  form method="post" action="#"
+    a class="close" href="#"
+      | x
+    h2
+      | Удаление роботов из группы
+    div class="clearfix"
+      | Необходимы логин и пароль от аккаунта администратора этой группы.
+    div class="clearfix"
+      strong
+        | Действие необратимо!
+    div class="clearfix"
+      = text_field_tag 'login', '', :placeholder => 'логин'
+    div class="clearfix"
+      = password_field_tag 'password', '', :placeholder => 'пароль'
+    div class="clearfix"
+      = submit_tag 'Выполнить', class: 'btn danger'
+javascript:
+  $('#create-invoice-link').click(function() { $('#create-invoice-modal').html(this.getAttribute('data-user-id')) })
