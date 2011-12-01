@@ -14,6 +14,7 @@ gem "devise"
 gem "slim", "~> 1.0.3"
 gem 'formtastic'
 gem 'qu-mongo'
+gem 'inherited_resources'
 
 
 # Gems used only for assets and not required
