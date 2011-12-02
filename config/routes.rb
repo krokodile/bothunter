@@ -10,7 +10,9 @@ Telefront::Application.routes.draw do
 
   devise_for :users
 
-  resources :users
+  resources :users do
+    resources :manual_invoices
+  end
   
   root :to => "pages#index"
 

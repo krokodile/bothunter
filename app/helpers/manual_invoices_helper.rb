@@ -1,0 +1,2 @@
+module ManualInvoicesHelper
+end

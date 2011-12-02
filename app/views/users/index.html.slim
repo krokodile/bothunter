@@ -23,26 +23,8 @@ div class="row"
     div class="span4"
       = user.company
     div class="span2"
-      = user.objects_amount
-      | &nbsp;
-      a href="#" id="create-invoice-link" class="label success" data-controls-modal="create-invoice-modal" data-keyboard="true" data-backdrop="true" data-user-id="#{user.id.to_s}"
-       | пополнить
+      a href="#" class="objects-amount" data-user-id="#{user.id.to_s}" data-controls-modal="create-invoice-modal" data-keyboard="true" data-backdrop="true"
+        = user.objects_amount
 div id="create-invoice-modal" class="modal hide fade alert-message warning"
-  form method="post" action="#"
-    a class="close" href="#"
-      | x
-    h2
-      | Удаление роботов из группы
-    div class="clearfix"
-      | Необходимы логин и пароль от аккаунта администратора этой группы.
-    div class="clearfix"
-      strong
-        | Действие необратимо!
-    div class="clearfix"
-      = text_field_tag 'login', '', :placeholder => 'логин'
-    div class="clearfix"
-      = password_field_tag 'password', '', :placeholder => 'пароль'
-    div class="clearfix"
-      = submit_tag 'Выполнить', class: 'btn danger'
 javascript:
-  $('#create-invoice-link').click(function() { $('#create-invoice-modal').html(this.getAttribute('data-user-id')) })
+  $('a[data-user-id]').click(function() { $('#create-invoice-modal').load("#{raw new_user_manual_invoice_path('USER_ID')}".replace(/USER_ID/,this.getAttribute('data-user-id'))) })
