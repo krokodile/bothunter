@@ -88,7 +88,7 @@ class Vkontakte
                 })
               )
 
-              _items = (data.to_nokogiri_html / options[:item_for_parse]).map { |item|
+              _items = (data.to_nokogiri_html(true) / options[:item_for_parse]).map { |item|
                 item.inner_html.force_encoding('utf-8')
               }
 

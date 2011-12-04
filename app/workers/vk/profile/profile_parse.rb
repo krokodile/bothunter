@@ -1,50 +1,68 @@
-class ProfileParse
-  def self.perform uid
-    ::Vkontakte.parse_each_item({
-      method: 'post',
-      offset: 10,
-      url: 'al_wall.php',
-      #last_date: group.posts.by_date.first.try(:pub_date).try(:to_datetime),
-      thread_count: THREAD_COUNT,
-      params: {
-        act: 'get_wall',
-        al: 1,
-        type: 'all', # own - for group
-        owner_id: "#{uid}", # without minus for person wall
-      },
-      item_for_parse: 'div.post',
-    }) do |items|
-      items.each do |item|
-        item_html = item.to_nokogiri_html
-        uid = /wpt(\d*_\d*)/.match((item_html /  'div[id^=wpt]').first['id'])[1]
-        pub_date = russian_date_scan((item_html / '.rel_date').first.content)
-        puts pub_date
-        conent = nil
-        if content_html = (item_html / 'div.wall_post_text').presence
-          content = content_html.first.content.strip.gsub(/.*показать полностью\.\./, '')
-        end
-        src = nil
-        if content_html = (item_html / 'div.post_media img').presence
-          src = content_html.first['src']
-        elsif content_html = (item_html / 'div.post_media div.audio').presence
-          src = content_html.first.content
-        elsif content_html = (item_html / 'div.post_media div.video').presence
-          src = content_html.first['href']
-        end
-        puts content
-        puts src
+# encoding: utf-8
+VK_NOPHOTO = "http://vk.com/images/question_c.gif"
 
-        if count_node = (item_html / '.wrh_text').first.presence
-          comments_count = /.* (\d+) .*/.match(count_node.content)[1].to_i
-        end
-        comments_count ||= (item_html / '.reply').size
-        likes_count = (item_html / 'span.like_count').first.content.to_i rescue nil
-        likes_count ||= 0
-
-        puts comments_count
-        puts likes_count
-
-      end
+class Vk::ProfileParse
+  def self.parse uid
+    person = Person.find_or_create_by(uid:uid)
+    api = ::Vk::API.new
+    profile = api.getProfiles({
+          uids: person.uid || person.domain,
+          fields: 'uid, domain, first_name, last_name, photo'
+    })
+    page = ::Vkontakte.http_get("/id#{uid}").to_nokogiri_html
+    if (page / '.profile_deleted').present?
+      person.state = :robot
+      person.save
+      return
     end
+    person.write_attributes(profile[0])
+    person.save
+    WallParse.perform(person.uid)
+    FriendsParse.perform(person.uid)
   end
+
+  def self.perform uid
+    self.parse uid
+    person = Person.where(uid:uid).first
+    if person.state!= :pending
+      return
+    end
+    bot_balls = 0
+    if person.wall_posts.count==0
+      bot_balls += 10
+    if person.photo == 'http://vkontakte.ru/images/question_a.gif'
+      bot_balls+=10
+    end
+    elsif person.wall_posts.where(:repost_from.exists=>true).count/person.wall_posts.count.to_f>0.95
+      bot_balls += 4
+    end
+    if person.wall_posts.where(own_post:false).count==0
+      bot_balls += 4
+    end
+    if person.friends_count == 0
+      bot_balls +=4
+
+    elsif person.friends_count <= 25
+      bot_balls +=3
+    end
+    if  person.wall_posts.where(:likes_count.in =>[1,2,3]).count/person.wall_posts.where(:likes_count.nin => [1,2,3]).count.to_f<=0.95
+      bot_balls +=3
+    end
+    if person.wall_posts.where(:comments_count.gte => 1).count == 0
+      bot_balls +=3
+    end
+    puts bot_balls
+    if bot_balls <= 8
+      person.state = :human
+    elsif bot_balls <= 16
+      person.state = :undetected
+    else
+      person.state= :robot
+    end
+
+  end
+  #Person.by_state(:pending).each do |person|
+
+  #end
+
 end
