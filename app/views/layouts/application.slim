@@ -7,6 +7,7 @@ html
     = javascript_include_tag "application"
     = csrf_meta_tags
     = javascript_include_tag 'http://twitter.github.com/bootstrap/1.4.0/bootstrap-modal.js'
+    = javascript_include_tag 'http://twitter.github.com/bootstrap/1.4.0/bootstrap-dropdown.js'
   body
     - if current_user
       = render :partial => "layouts/topbar"

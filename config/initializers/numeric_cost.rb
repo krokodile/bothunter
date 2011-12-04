@@ -19,3 +19,13 @@ Numeric.class_eval do
     self.class.cost(self / 100.0)
   end
 end
+
+String.class_eval do # compatibility
+  def cost
+    self
+  end
+
+  def cost? value
+    Numeric.cents(self) == Numeric.cents(value)
+  end
+end

@@ -3,7 +3,7 @@ require 'uri'
 
 class RobokassaMerchant
   class << self
-    def signed_start_params objects_amount, objects_filter, user # objects_cost, 
+    def signed_start_params objects_amount, objects_cost, user # objects_filter, 
       hash = {
         'objects_amount' => objects_amount.to_s,
         #'objects_filter' => objects_filter.to_s,
@@ -118,7 +118,7 @@ class RobokassaMerchant
 
         flash[:notice] = 'Invoice has been paid successfully!'
 
-        return [301, { 'Location' => "/users/#{invoice.user_id.to_s}" }, []]
+        return [301, { 'Location' => "/" }, []]
 
       when /fail$/ then
         invoice_id = params['shpInvoiceId']
@@ -126,7 +126,7 @@ class RobokassaMerchant
 
         flash[:error] = 'Your payment failed.'
 
-        return [301, { 'Location' => "/users/#{invoice.user_id.to_s}" }, []]
+        return [301, { 'Location' => "/" }, []]
 
       else [404, {}, []]
       end
