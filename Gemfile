@@ -14,6 +14,7 @@ gem "devise"
 gem "slim", "~> 1.0.3"
 gem 'formtastic'
 gem 'qu-mongo'
+gem 'inherited_resources'
 
 gem 'resque', require: 'resque/server'
 gem 'resque-scheduler', require: 'resque_scheduler'

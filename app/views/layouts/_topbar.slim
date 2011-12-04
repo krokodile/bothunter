@@ -2,13 +2,16 @@ div class="topbar"
   div class="topbar-inner fill"
     div class="container"
       h3
-        =link_to "Botfilter", :root
+        =link_to "Бот-фильтр", :root
       ul class="nav"
         li
-          =link_to "Capmpaign", "#"
+          =link_to "FAQ", "#"
         li
-          =link_to "Edit Profile", edit_user_registration_path
-        ul class="nav secondary-nav"
+          =link_to "Профиль", edit_user_registration_path
+        - if current_user.kind_of? Manager
           li
-            =link_to "Log out", destroy_user_session_path
-div style="margin-bottom:40px;"
+            = link_to "Пользователи", users_path
+      ul class="nav secondary-nav"
+        li
+          =link_to "Выйти", destroy_user_session_path
+

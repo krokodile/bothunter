@@ -1,0 +1,42 @@
+= form_for @manual_invoice, :url => user_manual_invoices_path(@user.id), :remote => true do |f|
+  a class="close" href="#"
+    | x
+  h2
+    | Пополнение баланса пользователя
+  div class="clearfix"
+    | Необходимо указать поступившую сумму, количество групп, доступных для проверки, а также номер документа, на основании которого производится зачисление.
+  div class="clearfix"
+    label
+      | Ваше имя
+    div class="input"
+      span class="uneditable-input"
+        = current_user.full_name
+  div class="clearfix"
+    label
+      | Имя пользователя
+    div class="input"
+      span class="uneditable-input"
+        = @user.full_name
+  div class="clearfix"
+    label
+      | Компания пользователя
+    div class="input"
+      span class="uneditable-input"
+        = @user.company
+  div class="clearfix"
+    strong
+      | Действие необратимо!
+  div class="clearfix"
+    = f.label :objects_amount, 'Количество групп'
+    div class="input"
+      = f.text_field :objects_amount, :placeholder => '0'
+  div class="clearfix"
+    = f.label :money_amount, 'Принятая сумма'
+    div class="input"
+      = f.text_field :money_amount, :placeholder => '0.00'
+  div class="clearfix"
+    = f.label :money_amount, 'Номер документа'
+    div class="input"
+      = f.text_field :agreement_number, :placeholder => '...'
+  div class="clearfix"
+    = f.submit 'Выполнить', class: 'btn danger'

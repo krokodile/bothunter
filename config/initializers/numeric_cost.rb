@@ -1,4 +1,4 @@
-Fixnum.class_eval do
+Numeric.class_eval do
   class << self
     def cents value
       value = value.to_s.strip
