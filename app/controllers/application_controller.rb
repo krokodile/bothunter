@@ -3,6 +3,6 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!
 
   def authenticate_manager!
-    redirect_to user_sign_in_path unless current_user.kind_of? Manager
+    redirect_to new_user_session_path unless current_user.manager?
   end
 end

@@ -6,7 +6,7 @@ class User
          :recoverable, :rememberable, :trackable, :validatable
          
          field :full_name
-         field :admin, type: Boolean, default: false
+         #field :admin, type: Boolean, default: false
          field :phone_number
          field :company
        
@@ -21,7 +21,13 @@ class User
 
   field :objects_amount, :type => Integer, :default => 0 # amount is in cents!
   attr_protected :objects_amount
+  
+  attr_protected :_type
 
   references_many :invoices
+
+  def manager?
+    kind_of? Manager
+  end
         
 end
