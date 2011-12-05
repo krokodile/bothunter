@@ -3,6 +3,7 @@ require 'uri'
 
 class RobokassaMerchant
   class << self
+<<<<<<< HEAD
 #<<<<<<< HEAD
     # we aren't use signed params in this app
     #def signed_start_params objects_amount, objects_filter, objects_cost, profile
@@ -20,6 +21,9 @@ class RobokassaMerchant
     #end
 #=======
     def signed_start_params objects_amount, objects_filter, user # objects_cost, 
+=======
+    def signed_start_params objects_amount, objects_cost, user # objects_filter, 
+>>>>>>> c587ff7c20813ecdb364806383b37b0471eb5283
       hash = {
         'objects_amount' => objects_amount.to_s,
         #'objects_filter' => objects_filter.to_s,
@@ -139,7 +143,7 @@ class RobokassaMerchant
 
         flash[:notice] = 'Invoice has been paid successfully!'
 
-        return [301, { 'Location' => "/users/#{invoice.user_id.to_s}" }, []]
+        return [301, { 'Location' => "/" }, []]
 
       when /fail$/ then
         invoice_id = params['shpInvoiceId']
@@ -147,7 +151,7 @@ class RobokassaMerchant
 
         flash[:error] = 'Your payment failed.'
 
-        return [301, { 'Location' => "/users/#{invoice.user_id.to_s}" }, []]
+        return [301, { 'Location' => "/" }, []]
 
       else [404, {}, []]
       end

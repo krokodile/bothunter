@@ -16,6 +16,10 @@ Telefront::Application.routes.draw do
 
   resources :users do
     resources :manual_invoices
+
+    member do
+      post 'manager'
+    end
   end
   
   root :to => "pages#index"

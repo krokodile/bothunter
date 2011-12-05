@@ -13,6 +13,9 @@ div class="row"
   div class="span2"
     h4
       | Остаток
+  div class="span2"
+    h4
+      | Менеджер?
 
 - i = 0; @users.each do |user|
   div class="row"
@@ -23,8 +26,16 @@ div class="row"
     div class="span4"
       = user.company
     div class="span2"
-      a href="#" class="objects-amount" data-user-id="#{user.id.to_s}" data-controls-modal="create-invoice-modal" data-keyboard="true" data-backdrop="true"
+      a href="#" data-user-id="#{user.id.to_s}" data-controls-modal="create-invoice-modal" data-keyboard="true" data-backdrop="true"
         = user.objects_amount
+    div class="span2"
+      - if user.id == current_user.id
+        span class="label warning"
+          | !
+      - else
+        a href="#{manager_user_path(user)}" class="label #{user.manager? ? 'success' : ''}" data-manager-id="#{user.id.to_s}" data-remote="true" data-method="post"
+          = user.kind_of?(Manager) ? 'Y' : 'N'
 div id="create-invoice-modal" class="modal hide fade alert-message warning"
 javascript:
   $('a[data-user-id]').click(function() { $('#create-invoice-modal').load("#{raw new_user_manual_invoice_path('USER_ID')}".replace(/USER_ID/,this.getAttribute('data-user-id'))) })
+  $('a[data-manager-id]').click(function(){ $(this).text('...') })
