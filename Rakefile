@@ -6,7 +6,7 @@ require File.expand_path('../config/application', __FILE__)
 require 'resque/tasks'
 require 'resque_scheduler/tasks'
 
-Bothunter::Application.load_tasks
+BotHunter::Application.load_tasks
 
 
 task "resque:setup" => :environment
