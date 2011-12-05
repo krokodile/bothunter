@@ -3,8 +3,7 @@ require 'uri'
 
 class RobokassaMerchant
   class << self
-<<<<<<< HEAD
-#<<<<<<< HEAD
+
     # we aren't use signed params in this app
     #def signed_start_params objects_amount, objects_filter, objects_cost, profile
     #  hash = {
@@ -19,11 +18,10 @@ class RobokassaMerchant
 
     #  query(hash)
     #end
-#=======
-    def signed_start_params objects_amount, objects_filter, user # objects_cost, 
-=======
+
+
     def signed_start_params objects_amount, objects_cost, user # objects_filter, 
->>>>>>> c587ff7c20813ecdb364806383b37b0471eb5283
+
       hash = {
         'objects_amount' => objects_amount.to_s,
         #'objects_filter' => objects_filter.to_s,
@@ -36,7 +34,6 @@ class RobokassaMerchant
 
       query(hash)
     end
-#>>>>>>> 4bb417d1f2e88630edfc234f427eb01dea6a4354
 
     def parse_query string 
       Hash[string.split('&').map{ |pair| pair = pair.split('=', 2); [pair[0], URI.unescape(pair[1])] }]
@@ -63,11 +60,7 @@ class RobokassaMerchant
         #return [404, {}, []] if [params['user_id'], params['objects_cost']].include? nil
         digest = params.delete('user_token')
         user = User.find(params['user_id'])
-#<<<<<<< HEAD
-        #params['user_token'] = profile.attributes.to_s
-#=======
         params['user_token'] = user.attributes.to_s
-#>>>>>>> 4bb417d1f2e88630edfc234f427eb01dea6a4354
 
         return [403, {}, []] unless digest == Digest::MD5.hexdigest(self.class.query('user_token' => Digest::MD5.digest(self.class.query(Hash[params.sort]))))
 
