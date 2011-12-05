@@ -1,5 +1,5 @@
 class Vk::GroupUsersParse
-  @queue = "vk::long"
+  #@queue = "vk::long"
 
   def self.perform gid
     group = ::Vkontakte.find_group gid

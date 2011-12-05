@@ -6,7 +6,6 @@ module Vk
 
     def initialize
       credentials = AccountQueue.next :vkontakte, :apps
-
       @app_id = credentials[:id]
       @app_secret = credentials[:secret]
     end

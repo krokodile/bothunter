@@ -20,7 +20,7 @@ module AccountQueue
     time = Time.now.strftime('%Y-%m')
     credentials_content = open(File.expand_path './config/credentials.yml', Rails.root).read
     credentials_md5 = Digest::MD5.hexdigest credentials_content
-    "SocialCRM::AccountQueue::#{credentials_md5}::#{time}"
+    "BotHunter::AccountQueue::#{credentials_md5}::#{time}"
   end
 
   def self.clear!
