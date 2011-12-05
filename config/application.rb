@@ -15,7 +15,7 @@ end
 
 load 'lib/robokassa_merchant.rb'
 
-module Telefront
+module Bothunter
   class Application < Rails::Application
     config.middleware.use ::RobokassaMerchant, YAML.load(File.open('config/robokassa_merchant.yml'))
 
