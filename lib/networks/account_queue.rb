@@ -85,11 +85,7 @@ module AccountQueue
     AccountQueue.initialize_queue! unless self.queue
 
     if self.queue[service.to_sym][kind.to_sym]
-      if self.queue[service.to_sym][kind.to_sym].is_a? Array
-        self.queue[service.to_sym][kind.to_sym] = self.queue[service.to_sym][kind.to_sym].cycle
-      end
-
-      _next = self.queue[service.to_sym][kind.to_sym].next
+      _next = self.queue[service.to_sym][kind.to_sym].shuffle.first
     else
       raise ArgumentError, "Unknown arguments: #{service} and #{kind}"
     end
