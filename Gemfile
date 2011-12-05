@@ -13,7 +13,7 @@ gem "bson_ext", "~> 1.4"
 gem "devise"
 gem "slim", "~> 1.0.3"
 gem 'formtastic'
-gem 'qu-mongo'
+#gem 'qu-mongo'
 gem 'inherited_resources'
 
 gem 'resque', require: 'resque/server'
