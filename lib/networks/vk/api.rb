@@ -43,8 +43,20 @@ module Vk
           sig(params)
         )
       )
+      if response['error']
+        if response['error']['error_code'] == 6
+           sleep(_sleep_thread += (1.0 / (rand(10) + 0.1)))
+           response = ::JSON::parse(
+           RestClient.post(
+            'http://api.vk.com/api.php',
+            sig(params)
+            )
+          )
+        else
+          raise ServerError, response if response['error']
+        end
+      end
 
-      raise ServerError, response if response['error']
 
       if block
         yield response['response']

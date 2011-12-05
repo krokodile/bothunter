@@ -1,12 +1,13 @@
 class Group
   include Mongoid::Document
   
-  field :link
-  field :name
+  field :link, type:String
+  field :name, type:String
+  field :gid,  type:String
+  field :domain, type:String
+  field :title, type:String
+  validates_presence_of :gid
   
-  validates_presence_of :link
-  
-  has_many :profiles
-  belongs_to :user
-  
+  has_and_belongs_to_many :people
+  has_and_belongs_to_many :users
 end

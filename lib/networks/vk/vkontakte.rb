@@ -4,11 +4,10 @@ class Vkontakte
   class << self
     def find_group group
       group = ::Vk.arg2gid group
-
       if ::Vk.gid? group
-        ::Vk::Group.find_by_gid group
+        Group.find_or_create_by(gid: group)
       else
-        ::Vk::Group.find_by_domain group
+        Group.find_or_create_by(domain: group).first
       end
     end
 
@@ -16,9 +15,9 @@ class Vkontakte
       person = ::Vk.arg2uid person
 
       if ::Vk.uid? person
-        ::Vk::Person.find_by_uid person
+        Person.find_or_create_by(uid: person)
       else
-        ::Vk::Person.find_by_domain person
+        Person.find_or_create_by(domain: person)
       end
     end
 
@@ -73,7 +72,15 @@ class Vkontakte
       thread_count.times do |id|
         threads << Thread.new(id) do |thread_id|
           _thread_offset = (offset += options[:offset].to_i)
-          _cookie = AccountQueue.next(:vkontakte, :accounts)['Cookies']
+          _cookie = nil
+          #while !(_cookie.present?)
+            #begin
+              _cookie = AccountQueue.next(:vkontakte, :accounts)['Cookies']
+            #rescue Exception => e
+            #  _cookie = nil
+            #end
+          #end
+          #_cookie = AccountQueue.next(:vkontakte, :accounts)['Cookies']
           _sleep_thread = 1
 
           loop do
@@ -88,7 +95,7 @@ class Vkontakte
                 })
               )
 
-              _items = (data.to_nokogiri_html / options[:item_for_parse]).map { |item|
+              _items = (data.to_nokogiri_html(true) / options[:item_for_parse]).map { |item|
                 item.inner_html.force_encoding('utf-8')
               }
 
