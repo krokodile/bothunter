@@ -8,12 +8,12 @@ set :stages, %w(production)
 set :default_stage, "staging"
 
 
-set :application, "voipman"
-role :web, "wayfi.ru"                          
-role :app, "wayfi.ru"
+set :application, "bothunter"
+role :web, "bothunter.itforest.co"
+role :app, "bothunter.itforest.co"
 set :port, 2122
-set :repository,  "git@github.com:reflow/voipman.git"
-set :deploy_to, "/var/rails/voipman"
+set :repository,  "git@github.com:reflow/bothunter.git"
+set :deploy_to, "/var/rails/bothunter"
 set :deploy_via, :remote_cache
 set :branch, 'master'
 set :scm, :git
@@ -21,7 +21,7 @@ set :scm_verbose, true
 set :use_sudo, false
 set :rvm_ruby_string, '1.9.2' # Это указание на то, какой Ruby интерпретатор мы будем использовать.
 set :rvm_type, :profile # Указывает на то, что мы будем использовать rvm, установленный у пользователя, от которого происходит деплой, а не системный rvm.
-set :unicorn_script, "/etc/init.d/voipman"
+set :unicorn_script, "/etc/init.d/bothunter"
 
 
 # require multistage. must be here! 
@@ -39,7 +39,7 @@ namespace :deploy do
 
 
  task :restart do
-  run "/etc/init.d/voipman restart"
+  run "/etc/init.d/bothunter restart"
  end
 
 

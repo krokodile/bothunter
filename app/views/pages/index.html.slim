@@ -3,15 +3,12 @@ div class="row"
     h2
       | Группы
     ul
+     - @groups.each do |group|
       li
-        a href="#"
-         | Ваши интересности
-      li
-        a href="#"
-         | Всякие полезности
+        = link_to "#{group.title}", group_path(group)
     h4
       | Добавить группу
-    = form_for Group.new do
+    = form_for add_group_path, :method => :post do
       div class="clearfix"
         = text_field_tag 'group_url', params['group_url'], :class => 'span5', :placeholder => 'http://vk...'
       div class="clearfix"

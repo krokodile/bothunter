@@ -13,6 +13,7 @@ class User
          validates_presence_of :full_name, :company, :phone_number
          
          has_many :campaigns
+         has_and_belongs_to_many :groups
          
          def update_with_password(params={})
            params.delete(:current_password)

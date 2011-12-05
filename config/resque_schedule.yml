@@ -1,0 +1,6 @@
+Parse_all:
+  cron: "10 * * * *"
+  class: "::ParseAll"
+  queue: "long"
+  args: ""
+  description: "Update all data"

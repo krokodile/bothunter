@@ -2,6 +2,8 @@ class Person
   include Mongoid::Document
   field :uid, type:String
   field :domain, type:String
+  field :first_name, type:String
+  field :last_name, type:String
   field :state, type:Symbol,  default: :pending
   field :friends_count, type:Integer
   field :photo, type:String

@@ -9,7 +9,14 @@ class Vk::ProfileParse
           uids: person.uid || person.domain,
           fields: 'uid, domain, first_name, last_name, photo'
     })
-    page = ::Vkontakte.http_get("/id#{uid}").to_nokogiri_html
+    page = nil
+    begin
+      page = ::Vkontakte.http_get("/id#{uid}").to_nokogiri_html
+    rescue Exception => e
+      person.state = :robot
+      person.save
+      return
+    end
     if (page / '.profile_deleted').present?
       person.state = :robot
       person.save
@@ -30,7 +37,7 @@ class Vk::ProfileParse
     bot_balls = 0
     if person.wall_posts.count==0
       bot_balls += 10
-    if person.photo == 'http://vkontakte.ru/images/question_a.gif'
+    if person.photo == VK_NOPHOTO
       bot_balls+=10
     end
     elsif person.wall_posts.where(:repost_from.exists=>true).count/person.wall_posts.count.to_f>0.95
@@ -59,7 +66,7 @@ class Vk::ProfileParse
     else
       person.state= :robot
     end
-
+    person.save
   end
   #Person.by_state(:pending).each do |person|
 

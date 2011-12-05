@@ -12,9 +12,9 @@ class Invoice
   #field :objects_filter, :type => String
   #validates_presence_of :objects_filter
 
-<<<<<<< HEAD
-  referenced_in :profile
-=======
+#<<<<<<< HEAD
+#  referenced_in :profile
+#=======
   referenced_in :user
 
   def money_amount
@@ -24,5 +24,5 @@ class Invoice
   def money_amount= string
     write_attribute :money_amount, Fixnum.cents(string)
   end
->>>>>>> 4bb417d1f2e88630edfc234f427eb01dea6a4354
+#>>>>>>> 4bb417d1f2e88630edfc234f427eb01dea6a4354
 end

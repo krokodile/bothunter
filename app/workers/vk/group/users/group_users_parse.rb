@@ -22,11 +22,16 @@ class Vk::GroupUsersParse
       persons.each do |person|
         person_link = Vk::arg2uid (Nokogiri::HTML(person) / 'a:first').first['href']
         if person_link.present?
-          if Vk.uid? person_link
-            group.persons << Vk::Person.find_or_create_by(uid:person_link)
-          else
-            group.persons << Vk::Person.find_or_create_by(domain:person_link)
+          puts person_link
+          #if Vk.uid? person_link
+          person = ::Vkontakte.find_person(person_link)
+          if !group.people.include?(person)
+            group.people << person
           end
+
+          #else
+          #group.people << Vk::Person.find_or_create_by(domain:person_link)
+          #end
         end
 
       end
