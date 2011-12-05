@@ -1,4 +1,4 @@
-Telefront::Application.routes.draw do
+BotHunter::Application.routes.draw do
 
   post "pages/create", as: 'add_group'
 
