@@ -2,9 +2,10 @@
 VK_NOPHOTO = "http://vk.com/images/question_c.gif"
 
 class Vk::ProfileParse
-  def self.parse uid
-    puts uid
-    person = Person.find_or_create_by(uid:uid)
+  @queue
+  def self.parse person
+    #puts uid
+    #person = Person.find_or_create_by(uid:uid)
     puts "parsing person #{person}"
     api = ::Vk::API.new
     profile = api.getProfiles({
@@ -25,22 +26,20 @@ class Vk::ProfileParse
       return
     end
     person.write_attributes(profile[0])
-   # person.save
+    person.save
     WallParse.perform(person.uid)
     FriendsParse.perform(person.uid)
-    person.save
   end
 
-  def self.perform uid
+  def self.perform person
     if !uid.present?
       return
     end
-    self.parse uid
-    person = Person.where(uid:uid).first
+    self.parse person
     if !person.presence
       return
     end
-    #person = Person.where(uid:uid).first
+    person = Person.where(uid:uid).first
     if person.state!= :pending
       return
     end
@@ -78,8 +77,5 @@ class Vk::ProfileParse
     end
     person.save
   end
-  #Person.by_state(:pending).each do |person|
-
-  #end
 
 end

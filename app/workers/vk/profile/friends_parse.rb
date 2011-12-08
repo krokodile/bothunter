@@ -1,4 +1,5 @@
 class FriendsParse
+  @queue = "bh:wall"
   def self.perform uid
     page = ::Vkontakte.http_get("/friends?id=#{uid}&section=all").to_nokogiri_html
     puts (page / '#friends_summary')

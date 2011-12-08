@@ -1,5 +1,5 @@
 class Vk::GroupUsersParse
-  #@queue = "vk::long"
+  @queue = "bh:group_users"
 
   def self.perform gid
     group = ::Vkontakte.find_group gid
@@ -32,7 +32,7 @@ class Vk::GroupUsersParse
           end
           person.save
           group.save
-          
+          Resque.enqueue(Vk::ProfileParse, person)
 
           #else
           #group.people << Vk::Person.find_or_create_by(domain:person_link)
