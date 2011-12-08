@@ -68,7 +68,7 @@ class Vkontakte
       items, threads = [], []
       offset = -options[:offset].to_i
       thread_count = options[:thread_count].to_i > 0 ? options[:thread_count].to_i : 1
-
+      puts "select threads"
       thread_count.times do |id|
         threads << Thread.new(id) do |thread_id|
           _thread_offset = (offset += options[:offset].to_i)

@@ -1,6 +1,7 @@
 module Vk
   class GroupParse
     def self.parse group_url
+      puts "parsing #{group_url}"
       group_url = group_url.to_s
       domain = nil
 

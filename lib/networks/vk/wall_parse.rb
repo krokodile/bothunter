@@ -2,6 +2,9 @@
 class WallParse
   def self.perform uid
      person = Person.where(uid:uid).first
+     if !person.present?
+       return
+     end
      ::Vkontakte.parse_each_item({
        method: 'post',
        offset: 10,
@@ -46,7 +49,7 @@ class WallParse
          puts src
 
          if count_node = (item_html / '.wrh_text').presence
-           comments_count = /.* (\d+) .*/.match(count_node.first.content).to_i
+           comments_count = /.* (\d+) .*/.match(count_node.first.content)[1].to_i
          end
          comments_count ||= (item_html / '.reply').size
          likes_count = (item_html / 'span.like_count').first.content.to_i rescue nil
@@ -63,7 +66,7 @@ class WallParse
          own_post = true
          author_attr = Vk::arg2uid((item_html / 'a.author').first["href"])
          if author_attr!=person.uid && author_attr != person.domain
-           own_post = false
+            own_post = false
          end
          puts "isOwn: #{own_post}"
          #if (pub_date) > 1.months.ago

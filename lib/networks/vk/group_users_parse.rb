@@ -3,6 +3,7 @@ class Vk::GroupUsersParse
 
   def self.perform gid
     group = ::Vkontakte.find_group gid
+    puts "detecting users of #{group.title}"
     gid = group.gid
     ::Vkontakte.parse_each_item({
       method: 'post',
@@ -20,6 +21,7 @@ class Vk::GroupUsersParse
       #TODO: Remove sign out users
 
       persons.each do |person|
+        puts "detecting person: #{person}"
         person_link = Vk::arg2uid (Nokogiri::HTML(person) / 'a:first').first['href']
         if person_link.present?
           puts person_link
@@ -28,6 +30,9 @@ class Vk::GroupUsersParse
           if !group.people.include?(person)
             group.people << person
           end
+          person.save
+          group.save
+          
 
           #else
           #group.people << Vk::Person.find_or_create_by(domain:person_link)
