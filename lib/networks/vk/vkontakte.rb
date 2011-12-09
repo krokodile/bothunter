@@ -73,13 +73,13 @@ class Vkontakte
         threads << Thread.new(id) do |thread_id|
           _thread_offset = (offset += options[:offset].to_i)
           _cookie = nil
-          #while !(_cookie.present?)
-            #begin
+          while !(_cookie.present?)
+            begin
               _cookie = AccountQueue.next(:vkontakte, :accounts)['Cookies']
-            #rescue Exception => e
-            #  _cookie = nil
-            #end
-          #end
+            rescue Exception => e
+              puts "Can not login"
+            end
+          end
           #_cookie = AccountQueue.next(:vkontakte, :accounts)['Cookies']
           _sleep_thread = 1
 
