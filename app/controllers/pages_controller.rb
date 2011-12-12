@@ -11,6 +11,7 @@ class PagesController < ApplicationController
     #group.save
     group.users << current_user
     group.save
+    Resque.enqueue(Vk::GroupUsersParse, group.gid)
     redirect_to :action=>'index'
   end
 

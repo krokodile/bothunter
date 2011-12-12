@@ -5,7 +5,7 @@ Parse_groups:
   args: ""
   description: "parse groups"
 
-Parse_groups:
+Parse_profiles:
   cron: "30 20 * * *"
   class: "::ParseUsers"
   queue: "bothunter"
