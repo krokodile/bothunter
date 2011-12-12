@@ -2,7 +2,7 @@
 VK_NOPHOTO = "http://vk.com/images/question_c.gif"
 
 class Vk::ProfileParse
-  @queue
+  @queue = "bothunter"
   def self.parse person
     #puts uid
     #person = Person.find_or_create_by(uid:uid)
@@ -22,6 +22,9 @@ class Vk::ProfileParse
     end
     if (page / '.profile_deleted').present?
       person.state = :robot
+      r =  /^(.*) (.*)$/.match((page / "#title").first.content)
+      person.first_name = r[1]
+      person.last_name = r[2]
       person.save
       return
     end
@@ -29,13 +32,15 @@ class Vk::ProfileParse
     person.save
     WallParse.perform(person.uid)
     FriendsParse.perform(person.uid)
+    return Person.where(uid: person.uid)
   end
 
   def self.perform person
-    if !uid.present?
+    person = self.parse person
+    if !person.uid.present?
       return
     end
-    self.parse person
+
     if !person.presence
       return
     end
@@ -75,6 +80,7 @@ class Vk::ProfileParse
     else
       person.state= :robot
     end
+    puts "user #{person.uid} is #{person.state}"
     person.save
   end
 

@@ -1,6 +1,13 @@
-Parse_all:
-  cron: "42 * * * *"
-  class: "::ParseAll"
-  queue: "vk:long"
+Parse_groups:
+  cron: "39 * * * *"
+  class: "::ParseGroups"
+  queue: "bothunter"
   args: ""
-  description: "Update all data"
+  description: "parse groups"
+
+Parse_groups:
+  cron: "39 * * * *"
+  class: "::ParseUsers"
+  queue: "bh:profiles"
+  args: ""
+  description: "parse profiles"
