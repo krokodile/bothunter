@@ -1,13 +1,13 @@
 Parse_groups:
-  cron: "39 * * * *"
+  cron: "20 20 * * *"
   class: "::ParseGroups"
   queue: "bothunter"
   args: ""
   description: "parse groups"
 
 Parse_groups:
-  cron: "39 * * * *"
+  cron: "20 20 * * *"
   class: "::ParseUsers"
-  queue: "bh:profiles"
+  queue: "bothunter"
   args: ""
   description: "parse profiles"
