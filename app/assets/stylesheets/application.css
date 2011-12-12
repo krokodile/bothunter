@@ -6,18 +6,25 @@
 *= require formtastic
 */ 
 
+html {
+	height:100%;
+	width:100%;
+}
+
 body {
 	background-image: url('/assets/bg_noise_lg.png');
 	padding-top: 40px;
+	height:100%;
+	width:100%;
 }
 
 .messages {
-margin-top: 5px;
-width: 940px;
-zoom: 1;
-margin-right: auto;
-margin-left: auto;
-margin-bottom: 0;
+	margin-top: 5px;
+	width: 940px;
+	zoom: 1;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 0;
 }
 
 .toolbar-free-space {
@@ -38,18 +45,22 @@ margin-bottom: 0;
 }
 
 footer {
--webkit-transition: all 0.2s;
-opacity: 0.7;
+	border-top:0px;
+	}
+
+footer .container {
+	-webkit-transition: all 0.2s;
+	opacity: 0.7;
 }
 
-footer:hover {
--webkit-transition: all 0.2s;
-opacity: 1.0;
+footer	.container:hover {
+	-webkit-transition: all 0.2s;
+	opacity: 1.0;
 }
 
 footer li:first-child {
-padding-left: 0;
-border-left: none;
+	padding-left: 0;
+	border-left: none;
 }
 
 footer ul, footer li {
@@ -60,9 +71,14 @@ footer ul, footer li {
 }
 
 footer li {
-margin-right: 10px;
-border-left: 1px solid rgba(0, 0, 0, 0.25);
-padding-left: 10px;
+	margin-right: 10px;
+	border-left: 1px solid rgba(0, 0, 0, 0.25);
+	padding-left: 10px;
 }
 
+
+.second {
+	margin-top:4.35em;
+	margin-left:2em;
+}
 

@@ -30,6 +30,6 @@ div class="row show-grid"
           = f.password_field :password_confirmation
       div class="clearfix"
         = f.submit "Sign up", :class => "btn primary"
-  div class="span4 columns" style="padding-top:4em;"
-    = render :partial => "devise/shared/links"
+  div class="span4 columns"
+    = link_to "Sign in", new_session_path(resource_name), :class => 'btn info second'
   div class="span4 columns" &#8201
