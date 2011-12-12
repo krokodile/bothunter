@@ -12,10 +12,12 @@ div class="topbar"
           li
             = link_to "Пользователи", users_path
       ul class="nav secondary-nav"
-        li class="menu" data-dropdown="dropdown"
-          a href="#" class="dropdown-toggle"
+        li
+          = link_to "Групп: #{current_user.objects_amount}", root_path
+        /li class="menu" data-dropdown="dropdown"
+          / href="#" class="dropdown-toggle"
             | Групп: #{current_user.objects_amount}
-          ul class="menu-dropdown"
+          /ul class="menu-dropdown"
             li
               =link_to "5 групп, 10.00 денег", "/robokassa/start?#{RobokassaMerchant.signed_start_params(5, 10, current_user)}"
             li
