@@ -12,75 +12,77 @@ class Vk::ProfileParse
           uids: person.uid || person.domain,
           fields: 'uid, domain, first_name, last_name, photo'
     })
-    page = nil
-    begin
-      page = ::Vkontakte.http_get("/id#{uid}").to_nokogiri_html
-    rescue Exception => e
-      person.state = :robot
-      person.save
-      return
-    end
+    person.write_attributes(profile[0])
+    #page = nil
+    page = ::Vkontakte.http_get("/id#{person.uid}").to_nokogiri_html
+    #rescue Exception => e
+    #  person.state = :robot
+    #  person.save
+    #  return person
+    #end
     if (page / '.profile_deleted').present?
       person.state = :robot
       r =  /^(.*) (.*)$/.match((page / "#title").first.content)
       person.first_name = r[1]
       person.last_name = r[2]
       person.save
-      return
+      return person
     end
-    person.write_attributes(profile[0])
     person.save
     WallParse.perform(person.uid)
     FriendsParse.perform(person.uid)
-    return Person.where(uid: person.uid)
+    return Person.where(uid: person.uid).first
   end
 
   def self.perform person
+    puts "detecting person: #{person.uid}"
+    if !person.present?
+      puts "person is null. something wrong"
+      return
+    end
     person = self.parse person
     if !person.uid.present?
+        puts "person uid unpresent"
       return
     end
-
-    if !person.presence
-      return
-    end
-    person = Person.where(uid:uid).first
+    #person = Person.where(uid:uid).first
     if person.state!= :pending
+      puts "person: #{person.uid} already detected"
       return
     end
-    bot_balls = 0
+    bot_points = 0
     if person.wall_posts.count==0
-      bot_balls += 10
+      bot_points += 10
     if person.photo == VK_NOPHOTO
-      bot_balls+=10
+      bot_points+=10
     end
     elsif person.wall_posts.where(:repost_from.exists=>true).count/person.wall_posts.count.to_f>0.95
-      bot_balls += 4
+      bot_points += 4
     end
     if person.wall_posts.where(own_post:false).count==0
-      bot_balls += 4
+      bot_points += 4
     end
     if person.friends_count == 0
-      bot_balls +=4
+      bot_points +=4
 
     elsif person.friends_count <= 25
-      bot_balls +=3
+      bot_points +=3
     end
     if  person.wall_posts.where(:likes_count.in =>[1,2,3]).count/person.wall_posts.where(:likes_count.nin => [1,2,3]).count.to_f<=0.95
-      bot_balls +=3
+      bot_points +=3
     end
     if person.wall_posts.where(:comments_count.gte => 1).count == 0
-      bot_balls +=3
+      bot_points +=3
     end
-    puts bot_balls
-    if bot_balls <= 8
+    puts "bot_points is #{bot_points}"
+    if bot_points <= 8
       person.state = :human
-    elsif bot_balls <= 16
+    elsif bot_points <= 16
       person.state = :undetected
     else
       person.state= :robot
     end
-    puts "user #{person.uid} is #{person.state}"
+    puts "user #{person.uid} is #{person.state} "
     person.save
   end
 

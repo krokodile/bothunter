@@ -12,8 +12,8 @@ class FriendsParse
     
     person = Person.where(uid:uid).first
     if person.present?
-	person.friends_count = friends_count
-	person.save
+	    person.friends_count = friends_count
+	    person.save
     end
   end
 end

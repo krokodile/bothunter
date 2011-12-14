@@ -32,7 +32,7 @@ class Vk::GroupUsersParse
           end
           person.save
           group.save
-          Resque.enqueue(Vk::ProfileParse, person)
+          #::ProfileParse.perform person
 
           #else
           #group.people << Vk::Person.find_or_create_by(domain:person_link)
