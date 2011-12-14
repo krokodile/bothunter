@@ -5,7 +5,7 @@ require 'bundler/capistrano'
 set :stages, ['production']
 set :default_stage, "production"
 
-set :application, "bothunter"
+set :application, 'scrm.myhotspot.ru:8080'
 set :repository,  "git@github.com:reflow/bothunter.git"
 
 set :rvm_ruby_string, '1.9.3-rc1'
