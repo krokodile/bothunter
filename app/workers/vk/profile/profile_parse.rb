@@ -35,7 +35,7 @@ class Vk::ProfileParse
   end
 
   def self.perform person
-    puts "detecting person: #{person.uid}"
+    puts "detecting person: #{person.uid || person.domain || "wrong"}"
     if !person.present?
       puts "person is null. something wrong"
       return
