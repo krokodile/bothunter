@@ -1,5 +1,6 @@
 domain = 'scrm.myhotspot.ru'
-server domain, :web, :app
+role :web, "scrm.myhotspot.ru:8080"
+#server 'scrm.myhotspot.ru', :web, :app
 #server domain, :db, :primary => true
 
 set :port, 2122
