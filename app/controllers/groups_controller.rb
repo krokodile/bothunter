@@ -1,9 +1,5 @@
 class GroupsController < ApplicationController
-  def add
-    group = Vk::GroupParse.parse params['group_url']
-    group.users << current_user
-    group.save
-  end
+
 
   def show #gid
     group = ::Group.where(_id: params['id']).first

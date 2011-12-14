@@ -1,5 +1,5 @@
 class FriendsParse
-  @queue = "bh:wall"
+  @queue = "bothunter"
   def self.perform uid
     page = ::Vkontakte.http_get("/friends?id=#{uid}&section=all").to_nokogiri_html
     puts (page / '#friends_summary')
@@ -12,8 +12,8 @@ class FriendsParse
     
     person = Person.where(uid:uid).first
     if person.present?
-	person.friends_count = friends_count
-	person.save
+	    person.friends_count = friends_count
+	    person.save
     end
   end
 end

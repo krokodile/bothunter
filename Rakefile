@@ -30,7 +30,7 @@ task 'bothunter:scheduler' => :environment do
   Rake::Task["resque:scheduler"].invoke
 end
 
-namespace :scrm do
+namespace :bothunter do
   desc "kill all workers (using -QUIT), god will take care of them"
   task :stop_workers => :environment do
     pids = []
