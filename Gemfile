@@ -20,6 +20,7 @@ gem "rack-pjax"
 
 gem 'resque', require: 'resque/server'
 gem 'resque-scheduler', require: 'resque_scheduler'
+gem 'rufus-scheduler'
 gem 'json'
 gem 'nokogiri'
 gem 'mechanize'

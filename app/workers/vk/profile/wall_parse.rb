@@ -1,6 +1,6 @@
 #coding = utf-8
 class WallParse
-  @queue = "bh:wall"
+  @queue = "bothunter"
   def self.perform uid
      person = Person.where(uid:uid).first
      if !person.present?

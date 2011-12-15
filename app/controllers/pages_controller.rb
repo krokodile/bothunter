@@ -18,6 +18,9 @@ class PagesController < ApplicationController
     group.users << current_user
     group.save
     redirect_to :action=>'index'
+#    Thread.new do
+#      Vk::GroupUsersParse.perform(group.gid)
+#    end
   end
 
   def delete_robots
