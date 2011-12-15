@@ -3,6 +3,12 @@ class PagesController < ApplicationController
   
   def index
     @groups =  current_user.groups #Group.where(user: )
+    if params['group_id']
+      @group = Group.first(conditions: {id: params['group_id']})
+      @humans = @group.persons.where(state: :human)
+      @robots = @group.persons.where(state: :robot)
+      @undetected = @group.persons.where(state: :undetected)
+    end
   end
 
   def create

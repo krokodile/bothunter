@@ -16,6 +16,8 @@ gem 'formtastic'
 #gem 'qu-mongo'
 gem 'inherited_resources'
 
+gem "rack-pjax"
+
 gem 'resque', require: 'resque/server'
 gem 'resque-scheduler', require: 'resque_scheduler'
 gem 'rufus-scheduler'

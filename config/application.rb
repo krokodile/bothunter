@@ -17,6 +17,7 @@ load 'lib/robokassa_merchant.rb'
 
 module BotHunter
   class Application < Rails::Application
+    config.middleware.use Rack::Pjax
     ###config.middleware.use ::RobokassaMerchant, YAML.load(File.open('config/robokassa_merchant.yml'))
 
     # Settings in config/environments/* take precedence over those specified here.

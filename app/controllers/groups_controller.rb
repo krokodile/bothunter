@@ -1,11 +1,11 @@
 class GroupsController < ApplicationController
 
 
-  def show #gid
-    group = ::Group.where(_id: params['id']).first
-    @humans = group.people.where(state: :human)
-    @robots = group.people.where(state: :robot)
-    @undetected = group.people.where(state: :undetected)
-  end
+  #def show #gid
+  #  @group = Group.first( :conditions {id: params['group_id']})
+  #  @humans = @group.persons.where(state: :human)
+  #  @robots = @group.persons.where(state: :robot)
+  #  @undetected = @group.persons.where(state: :undetected)
+  #end
 
 end

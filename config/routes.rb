@@ -2,8 +2,6 @@ BotHunter::Application.routes.draw do
 
   post "pages/create", as: 'add_group'
 
-  get "groups/show"
-
   resources :profiles
 
   resources :groups
