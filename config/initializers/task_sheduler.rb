@@ -4,7 +4,7 @@ end
 
 scheduler = Rufus::Scheduler.start_new
   
-scheduler.every("2m") do
+scheduler.every("12h") do
    ::Group.all.each do |group|
       puts "detect group: #{group.title}"
       Vk::GroupUsersParse.perform(group.gid || group.domain  || group.link)
