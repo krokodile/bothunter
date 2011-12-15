@@ -101,8 +101,10 @@ class Vkontakte
 
               if _items.empty? or _items.nil?
                 if data.to_s =~ /Вы попытались загрузить более одной однотипной страницы в секунду/u
+                  puts "VK says no more!"
                   sleep(_sleep_thread += (1.0 / (rand(10) + 0.1)))
                 else
+                  puts "no items found"
                   break
                 end
               else
@@ -121,6 +123,7 @@ class Vkontakte
                 _thread_offset = (offset += options[:offset].to_i)
               end
             rescue Exception => e
+              puts "ERROR!!!!!11"
               Rails.logger.warn e, e.message
             ensure
               items += _items.to_a unless _items.nil? or _items.empty?
