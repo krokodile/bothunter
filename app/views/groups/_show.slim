@@ -1,0 +1,48 @@
+div class="span4"
+  h4
+    ' Реальные
+  - @humans.each do |profile|
+    div
+      a href="http://vkontakte.ru/id#{profile.uid}"
+        img width="16" height="16" src="#{profile.photo}"
+        | "#{profile.first_name} #{profile.last_name}"
+div class="span4"
+  h4
+    ' Неопределенные
+  - @undetected.each do |profile|
+    div
+      a class="label success real" rel='twipsy' data-placement="left" title="Реальный пользователь" href="#"
+        | ◀
+      a href="http://vkontakte.ru/id#{profile.uid}"
+        img width="16" height="16" src="#{profile.photo}"
+        | "#{profile.first_name} #{profile.last_name}"
+      a class="label important bot" rel='twipsy' data-placement="right" title="Бот" href="#"
+        | ▶
+div class="span4"
+  h4
+    ' Боты
+  - @robots.each do |profile|
+    div
+      a href="http://vkontakte.ru/id#{profile.uid}"
+        img width="16" height="16" src="#{profile.photo}"
+        | "#{profile.first_name} #{profile.last_name}"
+  a href="#" class="btn danger" data-controls-modal="robots-destroy-modal" data-keyboard="true" data-backdrop="true"
+    | Сжечь!
+
+div id="robots-destroy-modal" class="modal hide fade alert-message warning"
+  form method="post" action="#"
+    a class="close" href="#"
+      | x
+    h2
+      | Удаление роботов из группы
+    div class="clearfix"
+      | Необходимы логин и пароль от аккаунта администратора этой группы.
+    div class="clearfix"
+      strong
+        | Действие необратимо!
+    div class="clearfix"
+      = text_field_tag 'login', '', :placeholder => 'логин'
+    div class="clearfix"
+      = password_field_tag 'password', '', :placeholder => 'пароль'
+    div class="clearfix"
+      = submit_tag 'Выполнить', class: 'btn danger'

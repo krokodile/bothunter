@@ -6,8 +6,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//
-
-
-soundManager.url = '/swf'; // directory where SM2 .SWFs live
-soundManager.debugMode = false;
+//= require jquery.pjax
+//= require bootstrap-twipsy
+//= require_tree .
