@@ -72,7 +72,7 @@ class Vkontakte
       thread_count.times do |id|
         threads << Thread.new(id) do |thread_id|
           _thread_offset = (offset += options[:offset].to_i)
-          _cookie = nil
+          _cookie = options[:cookies]
           while !(_cookie.present?)
             begin
               _cookie = AccountQueue.next(:vkontakte, :accounts)['Cookies']
