@@ -1,4 +1,8 @@
-scheduler = Rufus::Scheduler.start_new  
+Dir.glob(File.expand_path('./app/workers/**/*.rb', Rails.root)).each do |worker|
+  require worker
+end
+
+scheduler = Rufus::Scheduler.start_new
   
 scheduler.every("2m") do
    ::Group.all.each do |group|

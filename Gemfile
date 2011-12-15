@@ -16,16 +16,12 @@ gem 'formtastic'
 #gem 'qu-mongo'
 gem 'inherited_resources'
 
-gem "rack-pjax"
 
-gem 'resque', require: 'resque/server'
-gem 'resque-scheduler', require: 'resque_scheduler'
 gem 'rufus-scheduler'
 gem 'json'
 gem 'nokogiri'
 gem 'mechanize'
 gem 'rest-client'
-gem 'tidy_ffi'
 gem 'redis'
 # Gems used only for assets and not required
 # in production environments by default.
