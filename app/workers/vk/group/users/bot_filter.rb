@@ -1,7 +1,8 @@
 class BotFilter
-  def delete_robots (gid, login, password)
-    cookies = VkontakteHeaders.user_sign_in (login, password)
+  def self.delete_robots (gid, login, password)
+    cookies = VkontakteHeaders.user_sign_in(login, password)
     group = ::Vkontakte.find_group gid
+    puts cookies
     puts "detecting users of #{group.title}"
     gid = group.gid
     ::Vkontakte.parse_each_item({
@@ -20,15 +21,15 @@ class BotFilter
     }) do |persons|
       #TODO: Remove sign out users
 
-      persons.each do |person|
-        puts "detecting person: #{person}"
-        person_link = Vk::arg2uid (Nokogiri::HTML(person) / 'a:first').first['href']
+      persons.each do |person_source|
+        person_html = person_source.to_nokogiri_html
+        person_link = Vk::arg2uid (Nokogiri::HTML(person_source) / 'a:first').first['href']
         if person_link.present?
           puts person_link
           #if Vk.uid? person_link
           person = ::Vkontakte.find_person(person_link)
-          if !group.people.include?(person)
-             js = (Nokogiri::HTML(person) / 'div.group_p_actions small span a').first['onclick']
+          if !group.persons.include?(person)
+             js = (person_html / 'div.group_p_actions').first.content
              puts js
           end
           group.save
