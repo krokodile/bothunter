@@ -4,10 +4,19 @@ class PagesController < ApplicationController
   def index
     @groups =  current_user.groups #Group.where(user: )
     if params['group_id']
-      @group = Group.first(conditions: {id: params['group_id']})
+      @group = @groups.find(params['group_id'])
       @humans = @group.persons.where(state: :human)
       @robots = @group.persons.where(state: :robot)
       @undetected = @group.persons.where(state: :undetected)
+      if params['human_person_id']
+        @person = @group.persons.find(params['human_person_id'])
+        @person.state = "human"
+        @person.save
+      elsif params['robot_person_id']
+        @person = @group.persons.find(params['robot_person_id'])
+        @person.state = "robot"
+        @person.save
+      end
     end
   end
 

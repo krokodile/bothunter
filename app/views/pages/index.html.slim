@@ -13,9 +13,9 @@ div class="row"
         h4
           ' Ваши группы
         ul
-         - @groups.each do |group|
-          li id="pjax"
-            = link_to "#{group.title}", :group_id => group
+         - @groups.each do |group|          
+            li id="pjax"
+              = link_to "#{group.title}", :group_id => group
       div{data-pjax-container}
         - if @group
           = render :partial => "groups/show"

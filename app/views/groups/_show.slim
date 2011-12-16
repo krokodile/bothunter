@@ -11,13 +11,11 @@ div class="span4"
     ' Неопределенные
   - @undetected.each do |profile|
     div
-      a class="label success real" rel='twipsy' data-placement="left" title="Реальный пользователь" href="#"
-        | ◀
+      = link_to "◀", {:human_person_id => profile, :group_id => @group}, {:class => "label success real", :id => "pjax", :rel => "twipsy", :title => "Реальный пользователь", :"data-placement" => "left"}
       a href="http://vkontakte.ru/id#{profile.uid}"
         img width="16" height="16" src="#{profile.photo}"
         | "#{profile.first_name} #{profile.last_name}"
-      a class="label important bot" rel='twipsy' data-placement="right" title="Бот" href="#"
-        | ▶
+      = link_to "▶", {:robot_person_id => profile, :group_id => @group}, {:class => "label important bot", :id => "pjax", :rel => 'twipsy', :title => "Бот", :"data-placement" => "right"} 
 div class="span4"
   h4
     ' Боты
