@@ -87,7 +87,7 @@ class Vkontakte
           loop do
             begin
               _start = Time.now
-              puts _thread_offset
+              #puts _thread_offset
               data = _proc.call(
                 options[:url],
                 options[:params].merge({
