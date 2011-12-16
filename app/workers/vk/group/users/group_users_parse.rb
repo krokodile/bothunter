@@ -3,7 +3,7 @@ class Vk::GroupUsersParse
 
   def self.perform gid
     group = ::Vkontakte.find_group gid
-    puts "detecting users of #{group.title}"
+    puts "detecting users of #{group.gid} #{group.title}"
     gid = group.gid
     ::Vkontakte.parse_each_item({
       method: 'post',
@@ -27,8 +27,8 @@ class Vk::GroupUsersParse
           puts person_link
           #if Vk.uid? person_link
           person = ::Vkontakte.find_person(person_link)
-          if !group.people.include?(person)
-            group.people << person
+          if !group.persons.include?(person)
+            group.persons << person
           end
           person.save
           group.save

@@ -72,7 +72,8 @@ class Vkontakte
       thread_count.times do |id|
         threads << Thread.new(id) do |thread_id|
           _thread_offset = (offset += options[:offset].to_i)
-          _cookie = nil
+          _cookie = options[:cookies]
+          #puts "cookies now is: #{_cookie}"
           while !(_cookie.present?)
             begin
               _cookie = AccountQueue.next(:vkontakte, :accounts)['Cookies']
@@ -86,7 +87,7 @@ class Vkontakte
           loop do
             begin
               _start = Time.now
-          
+              #puts _thread_offset
               data = _proc.call(
                 options[:url],
                 options[:params].merge({
@@ -94,17 +95,25 @@ class Vkontakte
                   cookies: _cookie
                 })
               )
-
-              _items = (data.to_nokogiri_html(true) / options[:item_for_parse]).map { |item|
+             # puts "data is: #{data}"
+              #FixMe.. no, seriously, stupid param!
+              #puts (data.force_encoding('utf-8').to_nokogiri_html(true,options[:gjson]) / ".group_p_row").size
+              _items = (data.to_nokogiri_html(true,options[:gjson]) / options[:item_for_parse]).map { |item|
                 item.inner_html.force_encoding('utf-8')
               }
-
+              #puts "_items is: #{_items}"
               if _items.empty? or _items.nil?
                 if data.to_s =~ /Вы попытались загрузить более одной однотипной страницы в секунду/u
+                  puts "VK says no more!"
                   sleep(_sleep_thread += (1.0 / (rand(10) + 0.1)))
                 else
+                  puts "no items found"
+                  yield items.compact.uniq
                   break
                 end
+              elsif _items.size<options[:offset]
+                puts "it page was last"
+                break
               else
                 if options[:last_date].is_a?(DateTime) and (last_item_date = russian_date_scan(_items.first))
                   stop_date = options[:last_date]
@@ -121,6 +130,7 @@ class Vkontakte
                 _thread_offset = (offset += options[:offset].to_i)
               end
             rescue Exception => e
+              puts "ERROR!!!!!11"
               Rails.logger.warn e, e.message
             ensure
               items += _items.to_a unless _items.nil? or _items.empty?

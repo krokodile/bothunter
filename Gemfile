@@ -18,6 +18,7 @@ gem 'inherited_resources'
 
 
 gem 'rufus-scheduler'
+gem "rack-pjax"
 gem 'json'
 gem 'nokogiri'
 gem 'mechanize'

@@ -4,7 +4,9 @@ class Person
   field :domain, type:String
   field :first_name, type:String
   field :last_name, type:String
+  #TODO make validation, for only :robot, :human and :undetected state avaible
   field :state, type:Symbol,  default: :pending
+
   field :friends_count, type:Integer
   field :photo, type:String
   has_and_belongs_to_many :groups
