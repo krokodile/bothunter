@@ -7,7 +7,7 @@ class Vkontakte
       if ::Vk.gid? group
         Group.find_or_create_by(gid: group)
       else
-        Group.find_or_create_by(domain: group).first
+        Group.find_or_create_by(domain: group)
       end
     end
 

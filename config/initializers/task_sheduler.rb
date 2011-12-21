@@ -4,7 +4,6 @@ end
 
 #scheduler = Rufus::Scheduler.start_new
 if !Rails.env.development?
-
   Thread.new do
     loop do
     ::Group.all.each do |group|
