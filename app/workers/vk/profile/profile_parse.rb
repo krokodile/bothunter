@@ -4,8 +4,6 @@ VK_NOPHOTO = "http://vk.com/images/question_c.gif"
 class Vk::ProfileParse
   @queue = "bothunter"
   def self.parse person
-    #puts uid
-    #person = Person.find_or_create_by(uid:uid)
     puts "parsing person #{person}"
     api = ::Vk::API.new
     profile = api.getProfiles({
@@ -14,20 +12,20 @@ class Vk::ProfileParse
     })
     puts profile[0]
     person.write_attributes(profile[0])
-    #page = nil
-    page = ::Vkontakte.http_get("/id#{person.uid}").to_nokogiri_html
-    #rescue Exception => e
-    #  person.state = :robot
-    #  person.save
-    #  return person
-    #end
+    if person.uid.present?
+      page = ::Vkontakte.http_get("/id#{person.uid}").to_nokogiri_html
+    elsif
+      page = ::Vkontakte.http_get("/#{person.domain}").to_nokogiri_html
+    else
+      puts "No domain, no ID.... something wrong"
+    end
     if (page / '.profile_deleted').present?
       person.state = :robot
       r =  /^(.*) (.*)$/.match((page / "#title").first.content)
       person.first_name = r[1]
       person.last_name = r[2]
       person.save
-      return person
+      return Person.where(uid: person.uid).first
     end
     person.save
     WallParse.perform(person.uid)
