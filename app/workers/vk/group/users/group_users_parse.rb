@@ -21,12 +21,15 @@ class Vk::GroupUsersParse
       #TODO: Remove sign out users
 
       persons.each do |person|
-        puts "detecting person: #{person}"
+        #puts "detecting person: #{person}"
         person_link = Vk::arg2uid (Nokogiri::HTML(person) / 'a:first').first['href']
         if person_link.present?
           puts person_link
           #if Vk.uid? person_link
           person = ::Vkontakte.find_person(person_link)
+          if person.state != :pending
+            break
+          end
           if !group.persons.include?(person)
             group.persons << person
           end
