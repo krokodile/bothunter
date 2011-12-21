@@ -8,7 +8,6 @@ class BotFilter
     #gid = group.gid
     ::Vkontakte.parse_each_item({
       method: 'post',
-      gjson: false,
       offset: 25,
       url: 'al_groups.php',
       cookies: cookies,

@@ -56,7 +56,7 @@ class Vkontakte
       ).encode('utf-8', 'windows-1251')
     end
     
-    def parse_each_item options = {}, &block
+ def parse_each_item options = {}, &block
       raise ArgumentError, 'offset must be integer' unless options[:offset].is_a? Integer
       raise ArgumentError, 'method must be GET or POST' unless ['post', 'get'].include? options[:method]
 
@@ -68,26 +68,22 @@ class Vkontakte
       items, threads = [], []
       offset = -options[:offset].to_i
       thread_count = options[:thread_count].to_i > 0 ? options[:thread_count].to_i : 1
-      puts "select threads"
+
       thread_count.times do |id|
         threads << Thread.new(id) do |thread_id|
           _thread_offset = (offset += options[:offset].to_i)
-          _cookie = options[:cookies]
-          #puts "cookies now is: #{_cookie}"
-          while !(_cookie.present?)
-            begin
-              _cookie = AccountQueue.next(:vkontakte, :accounts)['Cookies']
-            rescue Exception => e
-              puts "Can not login"
-            end
+          if options[:cookies]
+            _cookie = options[:cookies]
+          else
+            _cookie = AccountQueue.next(:vkontakte, :accounts)['Cookies']
           end
-          #_cookie = AccountQueue.next(:vkontakte, :accounts)['Cookies']
+
           _sleep_thread = 1
 
           loop do
             begin
               _start = Time.now
-              #puts _thread_offset
+
               data = _proc.call(
                 options[:url],
                 options[:params].merge({
@@ -95,25 +91,17 @@ class Vkontakte
                   cookies: _cookie
                 })
               )
-             # puts "data is: #{data}"
-              #FixMe.. no, seriously, stupid param!
-              #puts (data.force_encoding('utf-8').to_nokogiri_html(true,options[:gjson]) / ".group_p_row").size
-              _items = (data.to_nokogiri_html(true,options[:gjson]) / options[:item_for_parse]).map { |item|
+
+              _items = (data.to_nokogiri_html / options[:item_for_parse]).map { |item|
                 item.inner_html.force_encoding('utf-8')
               }
-              #puts "_items is: #{_items}"
+
               if _items.empty? or _items.nil?
                 if data.to_s =~ /Вы попытались загрузить более одной однотипной страницы в секунду/u
-                  puts "VK says no more!"
                   sleep(_sleep_thread += (1.0 / (rand(10) + 0.1)))
                 else
-                  puts "no items found"
-                  yield items.compact.uniq
                   break
                 end
-              elsif _items.size<options[:offset]
-                puts "it page was last"
-                break
               else
                 if options[:last_date].is_a?(DateTime) and (last_item_date = russian_date_scan(_items.first))
                   stop_date = options[:last_date]
@@ -130,14 +118,13 @@ class Vkontakte
                 _thread_offset = (offset += options[:offset].to_i)
               end
             rescue Exception => e
-              puts "ERROR!!!!!11"
               Rails.logger.warn e, e.message
             ensure
               items += _items.to_a unless _items.nil? or _items.empty?
-          
+
               if thread_id == 1 and items.count > 10_000
                 yield items.compact.uniq
-            
+
                 items.clear
               end
 
