@@ -77,6 +77,7 @@ class WallParse
           person.wall_posts << post
            #post.person = person
           post.save
+          person.save
          #end
 
 
@@ -84,5 +85,6 @@ class WallParse
          #next unless pub_date
        end
      end
+    return person
    end  
 end

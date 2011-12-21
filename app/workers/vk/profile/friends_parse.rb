@@ -15,5 +15,6 @@ class FriendsParse
 	    person.friends_count = friends_count
 	    person.save
     end
+    return person
   end
 end

@@ -26,13 +26,13 @@ class Vk::ProfileParse
       person.first_name = r[1]
       person.last_name = r[2]
       person.save
-      return Person.where(uid: person.uid).first
+      person
     end
     #person.save
-    WallParse.perform(person.uid)
-    FriendsParse.perform(person.uid)
-    puts "Person is #{Person.where(uid: person.uid).first}"
-    return Person.where(uid: person.uid).first
+    person = WallParse.perform(person.uid)
+    person = FriendsParse.perform(person.uid)
+    puts "Person is #{person}"
+    return person
   end
 
   def self.perform person
