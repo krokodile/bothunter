@@ -29,8 +29,8 @@ class Vk::ProfileParse
       person
     end
     #person.save
-    person = WallParse.perform(person.uid)
-    person = FriendsParse.perform(person.uid)
+    person = WallParse.perform(person)
+    person = FriendsParse.perform(person)
     puts "Person is #{person}"
     return person
   end

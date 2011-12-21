@@ -1,7 +1,7 @@
 class FriendsParse
   @queue = "bothunter"
-  def self.perform uid
-    page = ::Vkontakte.http_get("/friends?id=#{uid}&section=all").to_nokogiri_html
+  def self.perform person
+    page = ::Vkontakte.http_get("/friends?id=#{person.uid}&section=all").to_nokogiri_html
     puts (page / '#friends_summary')
     friends_count = 0
     begin
@@ -9,12 +9,8 @@ class FriendsParse
     rescue Exception => e
       friends_count = 0
     end
-    
-    person = Person.where(uid:uid).first
-    if person.present?
-	    person.friends_count = friends_count
-	    person.save
-    end
+    person.friends_count = friends_count
+    person.save
     return person
   end
 end

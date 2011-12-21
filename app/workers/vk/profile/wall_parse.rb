@@ -1,8 +1,8 @@
 #coding = utf-8
 class WallParse
   @queue = "bothunter"
-  def self.perform uid
-     person = Person.where(uid:uid).first
+  def self.perform person
+     #person = Person.where(uid:uid).first
      if !person.present?
        return
      end
@@ -17,7 +17,7 @@ class WallParse
          act: 'get_wall',
          al: 1,
          type: 'all', # own - for group
-         owner_id: "#{uid}", # without minus for person wall
+         owner_id: "#{person.uid}", # without minus for person wall
        },
        item_for_parse: 'div.post',
      }) do |items|
