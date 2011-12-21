@@ -12,6 +12,7 @@ class Vk::ProfileParse
     })
     puts profile[0]
     person.write_attributes(profile[0])
+    person.save
     if person.uid.present?
       page = ::Vkontakte.http_get("/id#{person.uid}").to_nokogiri_html
     elsif
@@ -27,7 +28,7 @@ class Vk::ProfileParse
       person.save
       return Person.where(uid: person.uid).first
     end
-    person.save
+    #person.save
     WallParse.perform(person.uid)
     FriendsParse.perform(person.uid)
     return Person.where(uid: person.uid).first
