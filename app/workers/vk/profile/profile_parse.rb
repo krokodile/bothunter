@@ -4,7 +4,7 @@ VK_NOPHOTO = "http://vk.com/images/question_c.gif"
 class Vk::ProfileParse
   @queue = "bothunter"
   def self.parse person
-    puts "parsing person #{person}"
+    #puts "parsing person #{person}"
     api = ::Vk::API.new
     profile = api.getProfiles({
           uids: person.uid || person.domain,
@@ -31,6 +31,7 @@ class Vk::ProfileParse
     #person.save
     WallParse.perform(person.uid)
     FriendsParse.perform(person.uid)
+    puts "Person is #{Person.where(uid: person.uid).first}"
     return Person.where(uid: person.uid).first
   end
 
