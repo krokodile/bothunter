@@ -23,7 +23,11 @@ class WallParse
      }) do |items|
        items.each do |item|
          item_html = item.to_nokogiri_html(true)
-         post_uid = /wpt(\d*_\d*)/.match((item_html /  'div[id^=wpt]').first['id'])[1]
+         begin
+          post_uid = /wpt(\d*_\d*)/.match((item_html /  'div[id^=wpt]').first['id'])[1]
+         rescue => e
+           break
+         end
          if date_html = (item_html / '.rel_date').presence
            pub_date = russian_date_scan((date_html.first.content))
          end
