@@ -10,7 +10,7 @@ class Vk::ProfileParse
           uids: person.uid || person.domain,
           fields: 'uid, domain, first_name, last_name, photo'
     })
-    puts profile[0]
+    #puts profile[0]
     #person.write_attributes(profile[0])
     person.uid = profile[0]["uid"]
     person.domain = profile[0]["domain"]
@@ -40,9 +40,9 @@ class Vk::ProfileParse
   end
 
   def self.perform person
-    puts "detecting person: #{person.uid || person.domain || "wrong"}"
+    #puts "detecting person: #{person.uid || person.domain || "wrong"}"
     person = self.parse person
-    puts "Person is #{person.uid} #{person.domain}"
+    #puts "Person is #{person.uid} #{person.domain}"
     if !person.present?
       puts "person is null. something wrong"
       return

@@ -45,8 +45,8 @@ class WallParse
          if date_html = (item_html / '.rel_date').presence
            pub_date = russian_date_scan((date_html.first.content))
          end
-         pub_date ||= 1.months.ago-1.days
-         puts pub_date
+         #pub_date ||= 1.months.ago-1.days
+         #puts pub_date
          content = nil
          src = nil
          if content_html = (item_html / 'div.post_media div.audio').presence
@@ -64,8 +64,8 @@ class WallParse
            src = content_html.first['href']
          #else next
          end
-         puts content
-         puts src
+         #puts content
+         #puts src
 
          if count_node = (item_html / '.wrh_text').presence
            comments_count = /.* (\d+) .*/.match(count_node.first.content)[1].to_i
@@ -87,14 +87,14 @@ class WallParse
          if author_attr!=person.uid && author_attr != person.domain
             own_post = false
          end
-         puts "isOwn: #{own_post}"
+         #puts "isOwn: #{own_post}"
          #if (pub_date) > 1.months.ago
          post = WallPost.new(uid: post_uid, pub_date: pub_date, content: content,
                            src: src, comments_count: comments_count,
                            likes_count: likes_count, repost_from: repost_from, own_post: own_post)
           person.wall_posts << post
            #post.person = person
-          post.save
+          post.save!
           person.save!
          #end
 
