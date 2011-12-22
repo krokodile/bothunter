@@ -11,7 +11,11 @@ class Vk::ProfileParse
           fields: 'uid, domain, first_name, last_name, photo'
     })
     puts profile[0]
-    person.write_attributes(profile[0])
+    #person.write_attributes(profile[0])
+    person.uid = profile[0]["uid"]
+    person.domain = profile[0]["domain"]
+    person.first_name = profile[0]["first_name"]
+    person.photo = profile[0]["photo"]
     person.save
     if person.uid.present?
       page = ::Vkontakte.http_get("/id#{person.uid}").to_nokogiri_html
