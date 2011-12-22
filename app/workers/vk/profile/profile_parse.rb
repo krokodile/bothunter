@@ -26,7 +26,7 @@ class Vk::ProfileParse
       person.first_name = r[1]
       person.last_name = r[2]
       person.save
-      person
+      return person
     end
     #person.save
     person = WallParse.perform(person)
@@ -38,6 +38,7 @@ class Vk::ProfileParse
   def self.perform person
     puts "detecting person: #{person.uid || person.domain || "wrong"}"
     person = self.parse person
+    puts "Person is #{person.uid} #{person.domain}"
     if !person.present?
       puts "person is null. something wrong"
       return
