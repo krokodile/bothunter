@@ -16,5 +16,5 @@ class Person
   validates_presence_of :state
   #validates :state, in: [:pending,:robot,:human,:undetected]
   scope :by_state,->(state) { where(state:limit) }
-
+  attr_accessible :uid, :domain, :first_name, :last_mame, :state, :friends_count, :photo, :wall_posts
 end
