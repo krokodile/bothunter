@@ -14,7 +14,7 @@ class Person
   has_many :wall_posts
   #validates_presence_of :uid
   validates_presence_of :state
-  #validates :state, in: [:pending,:robot,:alive,:unknown]
+  #validates :state, in: [:pending,:robot,:human,:undetected]
   scope :by_state,->(state) { where(state:limit) }
 
 end

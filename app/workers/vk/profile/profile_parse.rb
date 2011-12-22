@@ -87,7 +87,7 @@ class Vk::ProfileParse
       person.state= :robot
       person.save!
     end
-    #person.save
+    person.save!
     puts "user #{person.uid} is #{person.state} "
 
   end
