@@ -81,10 +81,10 @@ class Vk::ProfileParse
       bot_points +=3
     end
     puts "bot_points is #{bot_points}"
-    if bot_points <= 8
+    if bot_points <= 14
       person.state = :human
       #person.save!
-    elsif bot_points <= 16
+    elsif bot_points <= 17
       person.state = :undetected
       #person.save!
     else
