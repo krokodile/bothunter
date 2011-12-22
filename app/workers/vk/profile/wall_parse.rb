@@ -2,13 +2,13 @@
 class WallParse
   @queue = "bothunter"
   def self.old? item
-    puts "is to old?"
+    #puts "is to old?"
     if date_html = (item / '.rel_date').presence
       pub_date = russian_date_scan((date_html.first.content))
       if !pub_date.present?
         return false
       end
-      puts "pubdate is: #{pub_date}"
+      #puts "pubdate is: #{pub_date}"
       if pub_date<1.months.ago
         return true
       end
