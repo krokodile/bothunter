@@ -8,16 +8,13 @@ gem 'rack', '1.3.3'
 
 gem 'therubyracer'
 
-gem "mongoid", "2.3.1"
-gem "bson_ext",  "1.5.2"
+gem "mongoid", "~> 2.3"
+gem "bson_ext", "~> 1.4"
 gem "devise"
 gem "slim", "~> 1.0.3"
 gem 'formtastic'
 #gem 'qu-mongo'
 gem 'inherited_resources'
-
-
-gem 'rufus-scheduler'
 gem "rack-pjax"
 gem 'json'
 gem 'nokogiri'

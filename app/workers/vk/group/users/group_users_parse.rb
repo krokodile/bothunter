@@ -33,8 +33,8 @@ class Vk::GroupUsersParse
           if !group.persons.include?(person)
             group.persons << person
           end
-          person.save
-          group.save
+          person.save!
+          group.save!
           #::ProfileParse.perform person
 
           #else
