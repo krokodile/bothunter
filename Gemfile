@@ -8,7 +8,7 @@ gem 'rack', '1.3.3'
 
 gem 'therubyracer'
 
-gem "mongoid", "~> 2.3.1"
+gem "mongoid", "2.3.1"
 gem "bson_ext", "~> 1.4"
 gem "devise"
 gem "slim", "~> 1.0.3"
