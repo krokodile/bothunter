@@ -16,7 +16,7 @@ class Vk::ProfileParse
     person.domain = profile[0]["domain"]
     person.first_name = profile[0]["first_name"]
     person.photo = profile[0]["photo"]
-    person.save
+    person.save!
     if person.uid.present?
       page = ::Vkontakte.http_get("/id#{person.uid}").to_nokogiri_html
     elsif
@@ -29,7 +29,7 @@ class Vk::ProfileParse
       r =  /^(.*) (.*)$/.match((page / "#title").first.content)
       person.first_name = r[1]
       person.last_name = r[2]
-      person.save
+      person.save!
       return person
     end
     #person.save

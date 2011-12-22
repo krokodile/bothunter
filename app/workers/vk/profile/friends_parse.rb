@@ -10,7 +10,7 @@ class FriendsParse
       friends_count = 0
     end
     person.friends_count = friends_count
-    person.save
+    person.save!
     return person
   end
 end

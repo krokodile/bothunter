@@ -94,8 +94,8 @@ class WallParse
                            likes_count: likes_count, repost_from: repost_from, own_post: own_post)
           person.wall_posts << post
            #post.person = person
-          post.save
-          person.save
+          post.save!
+          person.save!
          #end
 
 
