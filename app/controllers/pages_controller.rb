@@ -2,9 +2,9 @@ class PagesController < ApplicationController
   respond_to :html
   
   def index
-    @groups =  current_user.groups #Group.where(user: )
+    @groups =  current_user.groups.all #Group.where(user: )
     if params['group_id']
-      @group = @groups.find(params['group_id'])
+      @group = Group.find(params['group_id'])
       @humans = @group.persons.where(state: :human)
       @robots = @group.persons.where(state: :robot)
       @undetected = @group.persons.where(state: :undetected)
