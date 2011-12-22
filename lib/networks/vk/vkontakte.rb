@@ -103,21 +103,34 @@ class Vkontakte
                   break
                 end
               else
+                #puts "last date detecting"
                 if options[:last_date].is_a?(DateTime) and (last_item_date = russian_date_scan(_items.first))
+                  puts "Last date exists"
                   stop_date = options[:last_date]
                   if last_item_date <= stop_date
                     _items.select! do |_item|
                       item_date = russian_date_scan(_item)
                       item_date <= stop_date rescue false
                     end
-
+                    puts "to old... BREAK!!"
                     break
                   end
                 end
-
+                if options[:date_detector]
+                  puts "Date detector"
+                  #puts _items.first
+                  item = _items.first
+                  if options[:date_detector].call(item.to_nokogiri_html)
+                    puts options[:date_detector].call(item.to_nokogiri_html)
+                    puts "To old!"
+                    break
+                  end
+                end
+                puts "after date detecting"
                 _thread_offset = (offset += options[:offset].to_i)
               end
             rescue Exception => e
+              puts e.message
               Rails.logger.warn e, e.message
             ensure
               items += _items.to_a unless _items.nil? or _items.empty?

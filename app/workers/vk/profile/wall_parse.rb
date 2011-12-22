@@ -1,6 +1,20 @@
 #coding = utf-8
 class WallParse
   @queue = "bothunter"
+  def self.old? item
+    puts "is to old?"
+    if date_html = (item / '.rel_date').presence
+      pub_date = russian_date_scan((date_html.first.content))
+      if !pub_date.present?
+        return false
+      end
+      puts "pubdate is: #{pub_date}"
+      if pub_date<1.months.ago
+        return true
+      end
+    end
+    return false
+  end
   def self.perform person
      #person = Person.where(uid:uid).first
      if !person.present?
@@ -10,7 +24,7 @@ class WallParse
        method: 'post',
        offset: 10,
        url: 'al_wall.php',
-       last_date: 1.months.ago,
+       date_detector: -> item { WallParse.old?(item)},
        #last_date: group.posts.by_date.first.try(:pub_date).try(:to_datetime),
        thread_count: THREAD_COUNT,
        params: {
