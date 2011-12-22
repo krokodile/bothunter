@@ -79,12 +79,15 @@ class Vk::ProfileParse
     puts "bot_points is #{bot_points}"
     if bot_points <= 8
       person.state = :human
+      person.save!
     elsif bot_points <= 16
       person.state = :undetected
+      person.save!
     else
       person.state= :robot
+      person.save!
     end
-    person.save
+    #person.save
     puts "user #{person.uid} is #{person.state} "
 
   end
