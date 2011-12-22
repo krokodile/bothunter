@@ -89,7 +89,7 @@ class Vk::ProfileParse
     end
     person.save!
     puts "user #{person.uid} is #{person.state} "
-
+    return person
   end
 
 end
