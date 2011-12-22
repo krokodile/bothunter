@@ -3,7 +3,8 @@ class ParseGroups
 
   def self.perform
     puts "detecting groups"
-    ::Group.all.each do |group|
+    groups = ::Group.all.to_a
+    groups.each do |group|
       puts "detect group: #{group.title}"
       Vk::GroupUsersParse.perform(group.gid || group.domain  || group.link)
     end
