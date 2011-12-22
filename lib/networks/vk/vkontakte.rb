@@ -121,7 +121,7 @@ class Vkontakte
                   #puts _items.first
                   item = _items.first
                   if options[:date_detector].call(item.to_nokogiri_html)
-                    puts options[:date_detector].call(item.to_nokogiri_html)
+                    #puts options[:date_detector].call(item.to_nokogiri_html)
                     #puts "To old!"
                     break
                   end
