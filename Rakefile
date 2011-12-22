@@ -36,7 +36,12 @@ namespace :bothunter do
   #    system("kill -QUIT #{pids.join(' ')}")
   #  end
   #end
-
+  task :workers => :environment do
+    loop do
+      ParseGroups.perform
+      ParseUsers.perform
+    end
+  end
   desc "Force restart"
   task :force_restart_through_upstart do
     system %Q{

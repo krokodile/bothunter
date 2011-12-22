@@ -1,3 +1,3 @@
-class Workers
-  # To change this template use File | Settings | File Templates.
+Dir.glob(File.expand_path('./app/workers/**/*.rb', Rails.root)).each do |worker|
+  require worker
 end
