@@ -9,12 +9,12 @@ class PagesController < ApplicationController
       @robots = @group.persons.where(state: :robot)
       @undetected = @group.persons.where(state: :undetected)
       if params['human_person_id']
-        @person = @group.persons.find(params['human_person_id'])
-        @person.state = "human"
+        @person = Person.find(params['human_person_id'])
+        @person.state = :human
         @person.save
       elsif params['robot_person_id']
-        @person = @group.persons.find(params['robot_person_id'])
-        @person.state = "robot"
+        @person = Person.persons.find(params['robot_person_id'])
+        @person.state = :robot
         @person.save
       end
     end

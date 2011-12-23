@@ -27,9 +27,6 @@ class Vk::GroupUsersParse
           puts person_link
           #if Vk.uid? person_link
           person = ::Vkontakte.find_person(person_link)
-          if person.state != :pending
-            break
-          end
           if !group.persons.include?(person)
             group.persons << person
           end
