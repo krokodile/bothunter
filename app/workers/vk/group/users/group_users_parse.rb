@@ -5,18 +5,18 @@ class Vk::GroupUsersParse
     group = ::Vkontakte.find_group gid
     puts "detecting users of #{group.gid} #{group.title}"
     gid = group.gid
-    ::Vkontakte.parse_each_item({
+   ::Vkontakte.parse_each_item({
       method: 'post',
-      offset: 96,
-      url: 'al_page.php',
+      offset: 25,
+      url: 'al_groups.php',
       thread_count: THREAD_COUNT,
       params: {
-        act: 'show_members_box',
+        act: 'people_get',
         al: 1,
         tab: 'members',
-        gid: gid,
+        gid: gid
       },
-      item_for_parse: 'div.wide_box_user',
+      item_for_parse: '.group_p_row',
     }) do |persons|
       #TODO: Remove sign out users
 
