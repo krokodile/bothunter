@@ -43,6 +43,9 @@ gem 'unicorn'
 # Deploy with Capistrano
 # 
 gem 'capistrano'
+gem 'capistrano-ext'
+gem 'capistrano-ext-rvm'
+gem 'capistrano-ext-rvm-bundler'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'

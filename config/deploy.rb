@@ -1,6 +1,14 @@
-$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
-require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+#$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+#require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require 'bundler/capistrano'
+
+set :default_environment, {
+  'PATH' => "/usr/local/rvm/bin:/usr/local/rvm/gems/ruby-1.9.3-rc1/bin:/usr/local/rvm/rubies/ruby-1.9.3-rc1/bin:$PATH",
+  'RUBY_VERSION' => 'ruby 1.9.3-rc1',
+  'GEM_HOME'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
+  'GEM_PATH'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
+  'BUNDLE_PATH'  => '/usr/local/rvm/gems/ruby-1.9.3-rc1'  # If you are using bundler.
+}
 
 set :stages, ['production']
 set :default_stage, "production"
@@ -25,7 +33,6 @@ set :resque_pid, "#{deploy_to}/shared/pids/resque.pid"
 set :unicorn_script, "/etc/init.d/bothunter"
 
 set :keep_releases, 5
-
 require 'capistrano/ext/multistage'
 
 default_run_options[:pty] = true
@@ -35,8 +42,13 @@ ssh_options[:forward_agent] = true
 ssh_options[:port] = 2122
 
 namespace :deploy do
+  task :restart do
+    run "/etc/init.d/bothunter restart"
+  end
+
   desc "Force restart"
   task :force_restart_through_upstart do
+=begin
     run %Q{
       sudo stop bothunter;
       rm /etc/init/bothunter*;
@@ -44,6 +56,8 @@ namespace :deploy do
       foreman export upstart /etc/init -a bothunter -u deploy;
       sudo start bothunter;
     }
+=end
+    run "/etc/init.d/bothunter stop && /etc/init.d/bothunter start"
   end
   
   namespace :unicorn do
@@ -53,7 +67,7 @@ namespace :deploy do
     end
   end
 
-  desc "Kill all resque workers"
+  #desc "Kill all resque workers"
 
   desc "Make symlinks"
   task :symlink_configs do
@@ -64,15 +78,14 @@ namespace :deploy do
     run "rm -rf #{release_path}/tmp/pids"
   end
   
+=begin
   namespace :gems do
     desc "Install required gems"
     task :install do
-      run <<-CMD
-        cd #{latest_release};
-        #{sudo} rake gems:install;
-      CMD
+      run "cd #{current_path} && bundle install"
     end
   end
+=end
   
   task :create_shared_dirs do
     run <<-CMD
@@ -100,7 +113,7 @@ after "deploy:update_code", "deploy:symlink_configs"
 after "deploy:setup", "deploy:create_shared_dirs"
 after "deploy:setup", "deploy:create_log_files"
 
-after "deploy:setup", "deploy:stop_resque"
+#after "deploy:setup", "deploy:stop_resque"
 after "deploy:setup", "deploy:force_restart_through_upstart"
 
 after "deploy:setup", "deploy:assets:clean"
