@@ -4,7 +4,7 @@ require 'bundler/capistrano'
 
 set :default_environment, {
   'PATH' => "/usr/local/rvm/bin:/usr/local/rvm/gems/ruby-1.9.3-rc1/bin:/usr/local/rvm/rubies/ruby-1.9.3-rc1/bin:$PATH",
-  'RUBY_VERSION' => 'ruby 1.9.3-rc1',
+  'RUBY_VERSION' => 'ruby 1.9.3',
   'GEM_HOME'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
   'GEM_PATH'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
   'BUNDLE_PATH'  => '/usr/local/rvm/gems/ruby-1.9.3-rc1'  # If you are using bundler.
@@ -16,7 +16,7 @@ set :default_stage, "production"
 set :application, 'scrm.myhotspot.ru:8080'
 set :repository,  "git@github.com:reflow/bothunter.git"
 
-set :rvm_ruby_string, '1.9.3-rc1'
+set :rvm_ruby_string, '1.9.3'
 set :rvm_type, :system
 
 set :deploy_to, "/www/rails/bothunter/"
