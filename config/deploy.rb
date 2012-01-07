@@ -1,8 +1,8 @@
 #$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 #require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require 'bundler/capistrano'
-require 'flowdock'
-
+require 'flowdock/capistrano'
+  
 set :default_environment, {
   'PATH' => "/usr/local/rvm/bin:/usr/local/rvm/gems/ruby-1.9.3-rc1/bin:/usr/local/rvm/rubies/ruby-1.9.3-rc1/bin:$PATH",
   'RUBY_VERSION' => 'ruby 1.9.3-rc1',
@@ -10,6 +10,10 @@ set :default_environment, {
   'GEM_PATH'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
   'BUNDLE_PATH'  => '/usr/local/rvm/gems/ruby-1.9.3-rc1'  # If you are using bundler.
 }
+
+set :flowdock_project_name, "sCRM"
+set :flowdock_deploy_tags, ["unicorn", "loop-do rake"] 
+set :flowdock_api_token, "9b4cbe213a88a3cc8cb5585a7dc3b8bf"
 
 set :stages, ['production']
 set :default_stage, "production"
@@ -99,18 +103,6 @@ namespace :deploy do
   task :create_log_files do
     run "touch #{shared_path}/log/development.log #{shared_path}/log/production.log #{shared_path}/log/test.log"
   end
-
-  desc "Notify flow about deployment using email"
-  task :notify_flow do
-    # create a new Flow object with target flow's api token and sender information
-    flow = Flowdock::Flow.new(:api_token => "_YOUR_API_TOKEN_HERE_", 
-      :source => "Capistrano deployment", :project => "My project",
-      :from => {:name => "John Doe", :address => "john.doe@yourdomain.com"})
-
-    # send message to the flow
-    flow.send_message(:format => "html", :subject => "Application deployed #deploy", 
-      :content => "Application deployed successfully!", :tags => ["deploy", "frontend"])
-  end
 end
 
 
@@ -122,7 +114,7 @@ namespace :logs do
 end
 
 
-after :deploy, "deploy:notify_flow"
+
 
 after "deploy:update_code", "deploy:symlink_configs"
 

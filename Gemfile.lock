@@ -71,6 +71,9 @@ GEM
       httparty (~> 0.7)
     formtastic (2.0.2)
       rails (~> 3.0)
+    grit (2.4.1)
+      diff-lcs (~> 1.1)
+      mime-types (~> 1.15)
     has_scope (0.5.1)
     highline (1.6.9)
     hike (1.2.1)
@@ -220,6 +223,7 @@ DEPENDENCIES
   devise
   flowdock
   formtastic
+  grit
   inherited_resources
   jquery-rails
   json
