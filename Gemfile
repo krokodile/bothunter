@@ -21,6 +21,7 @@ gem 'nokogiri'
 gem 'mechanize'
 gem 'rest-client'
 gem 'redis'
+gem 'flowdock'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
