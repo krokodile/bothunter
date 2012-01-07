@@ -2,13 +2,13 @@
 #require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require 'bundler/capistrano'
 
-set :default_environment, {
-  'PATH' => "/usr/local/rvm/bin:/usr/local/rvm/gems/ruby-1.9.3-rc1/bin:/usr/local/rvm/rubies/ruby-1.9.3-rc1/bin:$PATH",
-  'RUBY_VERSION' => 'ruby 1.9.3',
-  'GEM_HOME'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
-  'GEM_PATH'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
-  'BUNDLE_PATH'  => '/usr/local/rvm/gems/ruby-1.9.3-rc1'  # If you are using bundler.
-}
+#set :default_environment, {
+#  'PATH' => "/usr/local/rvm/bin:/usr/local/rvm/gems/ruby-1.9.3-rc1/bin:/usr/local/rvm/rubies/ruby-1.9.3-rc1/bin:$PATH",
+#  'RUBY_VERSION' => 'ruby 1.9.3',
+#  'GEM_HOME'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
+#  'GEM_PATH'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
+#  'BUNDLE_PATH'  => '/usr/local/rvm/gems/ruby-1.9.3-rc1'  # If you are using bundler.
+#}
 
 set :stages, ['production']
 set :default_stage, "production"
