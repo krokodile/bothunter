@@ -9,11 +9,11 @@ set :flowdock_deploy_tags, ["unicorn", "rvm system-wide"]
 set :flowdock_api_token, "9b4cbe213a88a3cc8cb5585a7dc3b8bf"
 
 set :default_environment, {
-  'PATH' => "/usr/local/rvm/bin:/usr/local/rvm/gems/ruby-1.9.3-rc1/bin:/usr/local/rvm/rubies/ruby-1.9.3-rc1/bin:$PATH",
-  'RUBY_VERSION' => 'ruby 1.9.3-rc1',
-  'GEM_HOME'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
-  'GEM_PATH'     => '/usr/local/rvm/gems/ruby-1.9.3-rc1',
-  'BUNDLE_PATH'  => '/usr/local/rvm/gems/ruby-1.9.3-rc1'  # If you are using bundler.
+  'PATH' => "/usr/local/rvm/bin:/usr/local/rvm/gems/ruby-1.9.3-p0/bin:/usr/local/rvm/rubies/ruby-1.9.3-p0/bin:$PATH",
+  'RUBY_VERSION' => 'ruby 1.9.3-p0',
+  'GEM_HOME'     => '/usr/local/rvm/gems/ruby-1.9.3-p0',
+  'GEM_PATH'     => '/usr/local/rvm/gems/ruby-1.9.3-p0',
+  'BUNDLE_PATH'  => '/usr/local/rvm/gems/ruby-1.9.3-p0'  # If you are using bundler.
 }
 
 set :stages, ['production']
@@ -22,7 +22,7 @@ set :default_stage, "production"
 set :application, 'scrm.myhotspot.ru:8080'
 set :repository,  "git@github.com:reflow/bothunter.git"
 
-set :rvm_ruby_string, '1.9.3-rc1'
+set :rvm_ruby_string, '1.9.3-p0'
 set :rvm_type, :system
 
 set :deploy_to, "/www/rails/bothunter/"
