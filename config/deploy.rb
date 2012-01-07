@@ -1,7 +1,12 @@
 #$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 #require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require 'bundler/capistrano'
-require 'flowdock'
+require 'flowdock/capistrano'
+
+# for Flowdock Gem notifications
+set :flowdock_project_name, "sCRM"
+set :flowdock_deploy_tags, ["unicorn", "rvm system-wide"]
+set :flowdock_api_token, "9b4cbe213a88a3cc8cb5585a7dc3b8bf"
 
 set :default_environment, {
   'PATH' => "/usr/local/rvm/bin:/usr/local/rvm/gems/ruby-1.9.3-rc1/bin:/usr/local/rvm/rubies/ruby-1.9.3-rc1/bin:$PATH",
@@ -120,9 +125,6 @@ namespace :logs do
     stream("tail -f #{shared_path}/log/production.log")
   end
 end
-
-
-after :deploy, "deploy:notify_flow"
 
 after "deploy:update_code", "deploy:symlink_configs"
 
