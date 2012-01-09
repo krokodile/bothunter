@@ -3,9 +3,8 @@ VK_NOPHOTO = "http://vk.com/images/question_c.gif"
 
 class Vk::ProfileParse
   @queue = "bothunter"
-  def self.parse person
+  def self.parse person,client
     #puts "parsing person #{person}"
-    client = ::Vk::Client.new
     profile = client.api.getProfiles({
           uids: person.uid || person.domain,
           fields: 'uid, domain, first_name, last_name, photo'
@@ -18,9 +17,9 @@ class Vk::ProfileParse
     person.photo = profile[0]["photo"]
     person.save!
     if person.uid.present?
-      page = ::Vkontakte.http_get("/id#{person.uid}").to_nokogiri_html
+      page = ::Vkontakte.http_get("/id#{person.uid}",{},false).to_nokogiri_html
     elsif
-      page = ::Vkontakte.http_get("/#{person.domain}").to_nokogiri_html
+      page = ::Vkontakte.http_get("/#{person.domain}",{},false).to_nokogiri_html
     else
       puts "No domain, no ID.... something wrong"
     end
@@ -39,9 +38,9 @@ class Vk::ProfileParse
     return person
   end
 
-  def self.perform person
+  def self.perform (person, client)
     #puts "detecting person: #{person.uid || person.domain || "wrong"}"
-    person = self.parse person
+    person = self.parse person,client
     #puts "Person is #{person.uid} #{person.domain}"
     if !person.present?
       puts "person is null. something wrong"

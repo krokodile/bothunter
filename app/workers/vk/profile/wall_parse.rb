@@ -93,7 +93,7 @@ class WallParse
     #noauth: true
     }
      while parse_next do
-      data = Vkontakte.http_post('al_wall.php',options.merge({offset: offset}))
+      data = Vkontakte.http_post('al_wall.php',options.merge({offset: offset}),false)
       #puts data
       _items = (data.to_nokogiri_html / "div.post").map { |item|
         item.inner_html.force_encoding('utf-8')
