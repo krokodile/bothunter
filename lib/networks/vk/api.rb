@@ -1,77 +1,132 @@
 # encoding: utf-8
 
 module Vk
-  class API
-    attr_reader :app_id, :app_secret
 
-    def initialize
-      credentials = AccountQueue.next :vkontakte, :apps
-      @app_id = credentials[:id]
-      @app_secret = credentials[:secret]
-    end
+require 'oauth2'
+require 'mechanize'
 
-    def sig params
-      params = {
-        api_id: @app_id,
-        format: 'json',
-        rnd: rand(1000),
-        timestamp: Time.now.to_i,
-        v: '3.0',
-      }.merge params
+# = Synopsis
+# The library is used
+#
+# == Example
+#   require 'vkontakte'
+#   vk = Client.new(CLIENT_ID, CLIENT_SECRET)
+#   vk.login!(email, pass)
+#   friends = vk.api.friends_get(:fields => 'online')
+class Client
+  attr_reader :api
 
-      _sig = Digest::MD5.hexdigest params.keys.sort.map { |key|
-        "#{key}=#{params[key]}"
-      }.join + @app_secret
+  ##
+  # The version of <> you are using
+  VERSION = '3.0'
 
-      params[:sig] = _sig
-
-      params
-    end
-
-    def method_missing method, *args, &block
-      call method, args.first.is_a?(Hash) ? args.first : {}, &block
-    end
-
-    def call method, options = {}, &block
-      params = { method: camelize(method.to_s).gsub(/^(.?)/) { $1.downcase } }
-      params.merge! options
-
-      response = ::JSON::parse(
-        RestClient.post(
-          'http://api.vk.com/api.php',
-          sig(params)
-        )
-      )
-      if response['error']
-        if response['error']['error_code'] == 6
-           sleep(_sleep_thread += (1.0 / (rand(10) + 0.1)))
-           response = ::JSON::parse(
-           RestClient.post(
-            'http://api.vk.com/api.php',
-            sig(params)
-            )
-          )
-        else
-          raise ServerError, response if response['error']
-        end
-      end
-
-
-      if block
-        yield response['response']
-      else
-        response['response']
-      end
-    end
-
-    private
-
-    def camelize lower_case_and_underscored_word, first_letter_in_uppercase = true
-      if first_letter_in_uppercase
-        lower_case_and_underscored_word.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
-      else
-        lower_case_and_underscored_word.to_s[0].chr.downcase + camelize(lower_case_and_underscored_word)[1..-1]
-      end
-    end
+  class Error < RuntimeError
   end
+
+  def initialize
+    credentials = AccountQueue.next :vkontakte, :apps
+    client_id     = credentials[:id]
+    client_secret = credentials[:secret]
+    @authorize     = false
+    @api           = nil
+
+    # http://vkontakte.ru/developers.php?o=-1&p=%C0%E2%F2%EE%F0%E8%E7%E0%F6%E8%FF
+    @client = OAuth2::Client.new(
+      client_id,
+      client_secret,
+      :site          => 'https://api.vk.com/',
+      :token_url     => '/oauth/token',
+      :authorize_url => '/oauth/authorize'
+    )
+    user_creds = AccountQueue.next :vkontakte, :accounts
+    login!(user_creds[:username],user_creds[:password])
+
+  end
+
+  # http://vkontakte.ru/developers.php?o=-1&p=%CF%F0%E0%E2%E0%20%E4%EE%F1%F2%F3%EF%E0%20%EF%F0%E8%EB%EE%E6%E5%ED%E8%E9
+  #
+  def login!(email, pass, scope = 'friends')
+    # Create a new mechanize object
+    agent = Mechanize.new{|agent| agent.user_agent_alias = 'Linux Konqueror'}
+
+    auth_url = @client.auth_code.authorize_url(
+      :redirect_uri => 'http://api.vk.com/blank.html',
+      :scope        => scope,
+      :display      => 'wap'
+    )
+    puts auth_url
+
+    # Get the Vkontakte sing in page
+    login_page = agent.get(auth_url)
+
+    # Fill out the login form
+    login_form       = login_page.forms.first
+    login_form.email = email
+    login_form.pass  = pass
+
+    verify_page = login_form.submit
+
+    if verify_page.uri.path == '/oauth/authorize'
+      if /m=4/.match(verify_page.uri.query)
+        raise Error, "Incorrect login or password"
+      elsif /s=1/.match(verify_page.uri.query)
+        grant_access_page = verify_page.forms.first.submit
+      end
+    else
+      grant_access_page = verify_page
+    end
+
+    code = /code=(?<code>.*)/.match(grant_access_page.uri.fragment)['code']
+
+    @access_token = @client.auth_code.get_token(code)
+    @access_token.options[:param_name] = 'access_token'
+    @access_token.options[:mode] = :query
+
+    @api = API.new(@access_token)
+    @authorize = true
+  end
+
+  def authorized?
+    @authorize ? true : false
+  end
+
+end
+
+class API
+  def initialize(access_token)
+    @access_token = access_token
+  end
+
+  def method_missing(method, *args)
+    vk_method = method.to_s.split('_').join('.')
+    response = execute(vk_method, *args).parsed
+    if response['error']
+      error_code = response['error']['error_code']
+      error_msg  = response['error']['error_msg']
+      raise VkException.new(vk_method, error_code, error_msg), "Error in `#{vk_method}': #{error_code}: #{error_msg}"
+    end
+
+    return response['response']
+  end
+
+  private
+
+  # http://vkontakte.ru/developers.php?o=-1&p=%C2%FB%EF%EE%EB%ED%E5%ED%E8%E5%20%E7%E0%EF%F0%EE%F1%EE%E2%20%EA%20API
+  def execute(method, params = {})
+    method = "/method/#{method}"
+
+    @access_token.get(method, :params => params, :parce => :json)
+  end
+
+end
+
+class VkException < Exception
+  attr_reader :vk_method, :error_code, :error_msg
+
+  def initialize(vk_method, error_code, error_msg)
+    @vk_method  = vk_method
+    @error_code = error_code.to_i
+    @error_msg  = error_msg
+  end
+end
 end

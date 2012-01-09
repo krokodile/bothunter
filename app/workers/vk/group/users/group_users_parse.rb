@@ -1,31 +1,23 @@
 class Vk::GroupUsersParse
   @queue = "bothunter"
 
+
   def self.perform gid
     group = ::Vkontakte.find_group gid
-    puts "detecting users of #{group.gid} #{group.title}"
+    #puts "detecting users of #{group.gid} #{group.title}"
     gid = group.gid
-   ::Vkontakte.parse_each_item({
-      method: 'post',
-      offset: 25,
-      url: 'al_groups.php',
-      thread_count: THREAD_COUNT,
-      params: {
-        act: 'people_get',
-        al: 1,
-        tab: 'members',
-        gid: gid
-      },
-      item_for_parse: '.group_p_row',
-    }) do |persons|
-      #TODO: Remove sign out users
-
-      persons.each do |person|
+    client = ::Vk::Client.new
+    offset = 0
+    count = 0
+    do_next = true
+    while (offset<=count) do
+      puts "count: #{count} offset: #{offset}"
+      results = client.api.groups_getMembers(:gid=> gid, :offset => offset)
+      count = results['count']
+      persons = results['users']
+      offset +=1000
+      persons.each do |person_link|
         #puts "detecting person: #{person}"
-        person_link = Vk::arg2uid (Nokogiri::HTML(person) / 'a:first').first['href']
-        if person_link.present?
-          puts person_link
-          #if Vk.uid? person_link
           person = ::Vkontakte.find_person(person_link)
           if !group.persons.include?(person)
             group.persons << person
@@ -41,5 +33,4 @@ class Vk::GroupUsersParse
 
       end
     end
-  end
 end

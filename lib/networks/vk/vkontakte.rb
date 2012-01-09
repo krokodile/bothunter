@@ -21,12 +21,12 @@ class Vkontakte
       end
     end
 
-    def http_post url, options = {}
+    def http_post url, options = {}, auth = true
       uri = URI.parse 'http://vkontakte.ru'
 
       if options[:cookies]
         cookies = options[:cookies]
-      else
+      elsif auth
         cookies = AccountQueue.next(:vkontakte, :accounts)['Cookies']
       end
 
@@ -39,12 +39,11 @@ class Vkontakte
       ).encode('utf-8', 'windows-1251')
     end
     
-    def http_get url, options = {}
+    def http_get url, options = {}, auth = true
       uri = URI.parse 'http://vkontakte.ru'
-
       if options[:cookies]
         cookies = options[:cookies]
-      else
+      elsif auth
         cookies = AccountQueue.next(:vkontakte, :accounts)['Cookies']
       end
 

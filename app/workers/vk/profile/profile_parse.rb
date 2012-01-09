@@ -5,8 +5,8 @@ class Vk::ProfileParse
   @queue = "bothunter"
   def self.parse person
     #puts "parsing person #{person}"
-    api = ::Vk::API.new
-    profile = api.getProfiles({
+    client = ::Vk::Client.new
+    profile = client.api.getProfiles({
           uids: person.uid || person.domain,
           fields: 'uid, domain, first_name, last_name, photo'
     })
