@@ -21,6 +21,8 @@ gem 'nokogiri'
 gem 'mechanize'
 gem 'rest-client'
 gem 'redis'
+gem 'flowdock'
+gem 'grit'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -43,6 +45,9 @@ gem 'unicorn'
 # Deploy with Capistrano
 # 
 gem 'capistrano'
+gem 'capistrano-ext'
+gem 'capistrano-ext-rvm'
+gem 'capistrano-ext-rvm-bundler'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
