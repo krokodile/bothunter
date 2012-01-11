@@ -3,9 +3,11 @@ VK_NOPHOTO = "http://vk.com/images/question_c.gif"
 
 class Vk::ProfileParse
   @queue = "bothunter"
-  def self.parse person,client
-    #puts "parsing person #{person}"
-    profile = client.api.getProfiles({
+  def self.parse person
+    puts "parsing person #{person}"
+    puts "token is: #{::AccountStore.next(:vkontakte, :accounts)['token']}"
+    api = ::Vk::API.new(::AccountStore.next(:vkontakte, :accounts)['token'])
+    profile = api.getProfiles({
           uids: person.uid || person.domain,
           fields: 'uid, domain, first_name, last_name, photo'
     })
@@ -38,9 +40,9 @@ class Vk::ProfileParse
     return person
   end
 
-  def self.perform (person, client)
-    #puts "detecting person: #{person.uid || person.domain || "wrong"}"
-    person = self.parse person,client
+  def self.perform (person)
+    puts "detecting person: #{person.uid || person.domain || "wrong"}"
+    person = self.parse person
     #puts "Person is #{person.uid} #{person.domain}"
     if !person.present?
       puts "person is null. something wrong"

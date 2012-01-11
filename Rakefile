@@ -42,6 +42,10 @@ namespace :bothunter do
       ParseUsers.perform
     end
   end
+  task :profiles => :environment do
+    Vk::AllProfilesParse.perform
+  end
+
   desc "Force restart"
   task :force_restart_through_upstart do
     system %Q{

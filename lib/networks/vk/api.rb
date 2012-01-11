@@ -14,7 +14,7 @@ require 'mechanize'
 #   vk.login!(email, pass)
 #   friends = vk.api.friends_get(:fields => 'online')
 class Client
-  attr_reader :api
+  attr_reader :api, :access_token
 
   ##
   # The version of <> you are using
@@ -24,9 +24,9 @@ class Client
   end
 
   def initialize
-    credentials = AccountQueue.next :vkontakte, :apps
-    client_id     = credentials[:id]
-    client_secret = credentials[:secret]
+    #credentials = AccountQueue.next :vkontakte, :apps
+    client_id     = '2738601' #credentials[:id]
+    client_secret = 'frN0VGgc6iXa0I9Ls55X'#credentials[:secret]
     @authorize     = false
     @api           = nil
 
@@ -34,12 +34,10 @@ class Client
     @client = OAuth2::Client.new(
       client_id,
       client_secret,
-      :site          => 'https://api.vk.com/',
+      :site          => 'https://api.vkontakte.ru/',
       :token_url     => '/oauth/token',
       :authorize_url => '/oauth/authorize'
     )
-    user_creds = AccountQueue.next :vkontakte, :accounts
-    login!(user_creds[:username],user_creds[:password])
 
   end
 
@@ -50,7 +48,7 @@ class Client
     agent = Mechanize.new{|agent| agent.user_agent_alias = 'Linux Konqueror'}
 
     auth_url = @client.auth_code.authorize_url(
-      :redirect_uri => 'http://api.vk.com/blank.html',
+      :redirect_uri => 'http://api.vkontakte.ru/blank.html',
       :scope        => scope,
       :display      => 'wap'
     )

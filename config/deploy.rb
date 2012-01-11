@@ -27,7 +27,7 @@ set :rvm_type, :system
 
 set :deploy_to, "/www/rails/bothunter/"
 set :deploy_via, :remote_cache
-set :branch, 'feature/api'
+set :branch, 'master'
 set :scm, :git
 set :scm_verbose, true
 set :use_sudo, false

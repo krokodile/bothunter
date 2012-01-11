@@ -3,8 +3,7 @@ class ParseUsers
   def self.perform
     puts "Parsing users"
     persons = ::Person.where(state: :pending).all
-    threads_count = 50
-    client = ::Vk::Client.new
+    threads_count = 1
     threads = []
     persons.each do |person|
       threads = threads.find_all {|thr| thr["state"]==:work}
@@ -15,7 +14,7 @@ class ParseUsers
       threads << Thread.new do
         Thread.current["state"] = :work
         begin
-          Vk::ProfileParse.perform(person,client)
+          Vk::ProfileParse.perform(person)
         rescue Exception=>e
           Thread.current["state"] = :error
         else

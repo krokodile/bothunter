@@ -6,13 +6,13 @@ class Vk::GroupUsersParse
     group = ::Vkontakte.find_group gid
     #puts "detecting users of #{group.gid} #{group.title}"
     gid = group.gid
-    client = ::Vk::Client.new
+    api = ::Vk::API.new(AccountStore.next(:vkontakte, :accounts)['token'])
     offset = 0
     count = 0
     do_next = true
     while (offset<=count) do
       puts "count: #{count} offset: #{offset}"
-      results = client.api.groups_getMembers(:gid=> gid, :offset => offset)
+      results = api.groups_getMembers(:gid=> gid, :offset => offset)
       count = results['count']
       persons = results['users']
       offset +=1000
