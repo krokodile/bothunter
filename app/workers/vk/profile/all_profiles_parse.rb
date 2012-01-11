@@ -3,7 +3,7 @@ module Vk::AllProfilesParse
     persons = []
     api = ::Vk::API.new(::AccountStore.next(:vkontakte, :accounts)['token'])
 
-    Person.limit(10).all.to_a.each do  |person|
+    Person.all.to_a.each do  |person|
       puts person.uid || person.domain
       begin
         profile = api.getProfiles({
