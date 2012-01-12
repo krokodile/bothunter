@@ -1,11 +1,10 @@
 module Vk::AllProfilesParse
   def self.perform
-    persons = []
+    api = ::Vk::API.new(::AccountStore.next(:vkontakte, :accounts)['token'])
     count = Person.count
     offset = 0
     while offset<count do
-      api = ::Vk::API.new(::AccountStore.next(:vkontakte, :accounts)['token'])
-
+      persons = []
       Person.limit(500).skip(offset).all.to_a.each do  |person|
         puts person.uid || person.domain
         begin
@@ -17,9 +16,9 @@ module Vk::AllProfilesParse
         rescue
           puts "user #{person.uid || person.domain} fails"
         end
-        offset+=500
       end
-      File.open("profiles.json_#{offset}", 'w') {|f| f.puts persons.to_json }
+      File.open("profiles_#{offset}.json", 'w') {|f| f.puts persons.to_json }
+      offset+=500
     end
   end
 end
