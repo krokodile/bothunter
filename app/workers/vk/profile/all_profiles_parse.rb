@@ -13,6 +13,8 @@ module Vk::AllProfilesParse
             fields: 'uid, first_name, last_name, nickname, screen_name, sex, bdate, city, country, timezone, photo, photo_medium, photo_big, has_mobile, rate, contacts, education, online, counters'
           })
           persons << profile[0]
+        rescue Timeout::Error
+          puts "timeout"
         rescue
           puts "user #{person.uid || person.domain} fails"
         end
