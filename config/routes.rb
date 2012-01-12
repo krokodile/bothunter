@@ -4,7 +4,11 @@ BotHunter::Application.routes.draw do
 
   resources :profiles
 
-  resources :groups
+  resources :groups do
+    member do
+      post :delete_robots
+    end
+  end
 
   resources :campaigns
 

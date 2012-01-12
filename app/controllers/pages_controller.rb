@@ -31,8 +31,4 @@ class PagesController < ApplicationController
 #      Vk::GroupUsersParse.perform(group.gid)
 #    end
   end
-
-  def delete_robots
-
-  end
 end
