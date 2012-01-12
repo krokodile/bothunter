@@ -5,9 +5,9 @@ class Vkontakte
     def find_group group
       group = ::Vk.arg2gid group
       if ::Vk.gid? group
-        Group.find_or_create_by(gid: group)
+        Group.unsafely.find_or_create_by(gid: group)
       else
-        Group.find_or_create_by(domain: group)
+        Group.unsafely.find_or_create_by(domain: group)
       end
     end
 
@@ -15,9 +15,9 @@ class Vkontakte
       person = ::Vk.arg2uid person
 
       if ::Vk.uid? person
-        Person.find_or_create_by(uid: person)
+        Person.unsafely.find_or_create_by(uid: person)
       else
-        Person.find_or_create_by(domain: person)
+        Person.unsafely.find_or_create_by(domain: person)
       end
     end
 
