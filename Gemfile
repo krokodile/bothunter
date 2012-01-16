@@ -23,6 +23,9 @@ gem 'rest-client'
 gem 'redis'
 gem 'flowdock'
 gem 'grit'
+
+gem 'socksify'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
