@@ -6,7 +6,7 @@ class ParseUsers
     threads_count = 1
     threads = []
     persons.each do |person|
-      threads = threads.find_all {|thr| thr["state"]==:work}
+      #threads = threads.find_all {|thr| thr["state"]==:work}
       if threads.size>=threads_count
         threads.each {|thr| thr.join }
         threads = []

@@ -1,4 +1,7 @@
 # Mechanize: call @agent.set_socks(addr, port) before using
+require "socksify"
+require 'socksify/http'
+
 class Mechanize::HTTP::Agent
 public
   def set_socks addr, port

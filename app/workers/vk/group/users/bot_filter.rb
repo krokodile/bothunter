@@ -3,8 +3,8 @@ class BotFilter
     #gid - group id, string
     cookies = VkontakteHeaders.user_sign_in(login, password)
     group = ::Vkontakte.find_group gid
-    puts cookies
-    puts "detecting users of #{group.title}"
+    #puts cookies
+    #puts "detecting users of #{group.title}"
     #gid = group.gid
     ::Vkontakte.parse_each_item({
       method: 'post',

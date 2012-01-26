@@ -10,4 +10,6 @@ class Group
   
   has_and_belongs_to_many :persons #, unique: true
   has_and_belongs_to_many :users   #, unique: true
+  index :gid, background: true
+  index :domain, background: true
 end

@@ -36,7 +36,8 @@ class Client
       client_secret,
       :site          => 'https://api.vkontakte.ru/',
       :token_url     => '/oauth/token',
-      :authorize_url => '/oauth/authorize'
+      :authorize_url => '/oauth/authorize',
+      connection_opts: { proxy: 'socks://127.0.0.1:9050' }
     )
 
   end

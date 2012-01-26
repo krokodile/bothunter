@@ -35,7 +35,8 @@ class Vk::ProfileParse
     end
     #person.save
     person = WallParse.perform(person)
-    person = FriendsParse.perform(person)
+    person.friends_count = api.friends_get({:uid => person.uid}).size
+    person.save!
     puts "Person is #{person}"
     return person
   end

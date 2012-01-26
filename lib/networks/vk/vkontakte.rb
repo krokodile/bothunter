@@ -43,16 +43,19 @@ class Vkontakte
       uri = URI.parse 'http://vkontakte.ru'
       if options[:cookies]
         cookies = options[:cookies]
-      elsif auth
-        cookies = AccountQueue.next(:vkontakte, :accounts)['Cookies']
+        RestClient.get(
+            uri.merge(url).to_s,
+            {
+                cookies: cookies
+            }.merge(options)
+        ).encode('utf-8', 'windows-1251')
+      else
+        agent = Mechanize.new
+        agent.get(uri).to_s.encode('utf-8', 'windows-1251')
+
       end
 
-      RestClient.get(
-        uri.merge(url).to_s,
-        {
-          cookies: cookies
-        }.merge(options)
-      ).encode('utf-8', 'windows-1251')
+
     end
     
  def parse_each_item options = {}, &block

@@ -9,10 +9,10 @@ class VkontakteHeaders < ServiceHeaders
 
     def accounts item
       puts "try to get accounts"
-      cookies = self.user_sign_in item[:username], item[:password]
+      #cookies = self.user_sign_in item[:username], item[:password]
       token = self.get_user_token item[:username], item[:password]
       #puts "token is: #{token}"
-      { 'Cookies' => cookies, 'token' => token }
+      {'token' => token }
     end
     
     def user_sign_in username, password

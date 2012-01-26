@@ -24,7 +24,7 @@ module AccountStore
     #AccountStore.initialize_store! unless self.queue
     if self.queue[service.to_sym][kind.to_sym]
       _next = self.queue[service.to_sym][kind.to_sym].shuffle.first
-      if !(_next['Cookies'].present? & _next["token"].present?)
+      if !(_next["token"].present?)
         _next = self.login( service,kind,_next)
       end
     _next
