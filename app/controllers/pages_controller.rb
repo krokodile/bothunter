@@ -8,15 +8,6 @@ class PagesController < ApplicationController
       @humans = @group.persons.where(state: :human)
       @robots = @group.persons.where(state: :robot)
       @undetected = @group.persons.where(state: :undetected)
-      if params['human_person_id']
-        @person = Person.find(params['human_person_id'])
-        @person.state = :human
-        @person.save
-      elsif params['robot_person_id']
-        @person = Person.persons.find(params['robot_person_id'])
-        @person.state = :robot
-        @person.save
-      end
     end
   end
 
