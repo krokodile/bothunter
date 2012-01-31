@@ -2,7 +2,7 @@
 class WallParse
   @queue = "bothunter"
   def self.perform person
-    api = ::Vk::API.new(::AccountStore.next(:vkontakte, :accounts)['token'])
+    api = ::Vk::API.new()
     posts = api.wall_get(:owner_id => person.uid)[1..-1]
     posts.each do |post|
       id = post["id"]

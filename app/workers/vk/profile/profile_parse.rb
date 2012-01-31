@@ -5,27 +5,40 @@ class Vk::ProfileParse
   @queue = "bothunter"
   def self.parse person
     puts "parsing person #{person}"
-    puts "token is: #{::AccountStore.next(:vkontakte, :accounts)['token']}"
-    api = ::Vk::API.new(::AccountStore.next(:vkontakte, :accounts)['token'])
+    #puts "token is: #{::AccountStore.next(:vkontakte, :accounts)['token']}"
+    api = ::Vk::API.new()
     profile = api.getProfiles({
           uids: person.uid || person.domain,
           fields: 'uid, domain, first_name, last_name, photo'
     })
     #puts profile[0]
     #person.write_attributes(profile[0])
-    person.uid = profile[0]["uid"]
-    person.domain = profile[0]["domain"]
+    person.uid = person.uid || profile[0]["uid"]
+    person.domain = person.uid || profile[0]["domain"]
     person.first_name = profile[0]["first_name"]
     person.photo = profile[0]["photo"]
     person.save!
+    puts "scrapping person #{person.uid} #{person.domain}"
+    web_client = Mechanize.new
+    socks = AccountStore.next_socks
+    web_client.agent.set_socks(socks[:host],socks[:port])
     if person.uid.present?
-      page = ::Vkontakte.http_get("/id#{person.uid}",{},false).to_nokogiri_html
+      page = web_client.get("http://vk.com/id#{person.uid}",{},false)
     elsif
-      page = ::Vkontakte.http_get("/#{person.domain}",{},false).to_nokogiri_html
+      page = web_client.get("http://vk.com/#{person.domain}",{},false)
     else
       puts "No domain, no ID.... something wrong"
     end
-    if (page / '.profile_deleted').present?
+    #puts page.to_s
+    banned = false
+    if  (page.search '.profile_blocked').present?
+      puts "person #{person.uid || person.domain} blocked"
+      banned = true
+    elsif (page.search '.profile_deleted').present?
+      puts "person #{person.uid || person.domain} banned"
+      banned = true
+    end
+    if banned
       person.state = :robot
       r =  /^(.*) (.*)$/.match((page / "#title").first.content)
       person.first_name = r[1]

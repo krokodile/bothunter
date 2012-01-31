@@ -2,6 +2,8 @@
 require "socksify"
 require 'socksify/http'
 
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
 class Mechanize::HTTP::Agent
 public
   def set_socks addr, port

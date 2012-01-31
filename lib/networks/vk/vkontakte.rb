@@ -22,7 +22,7 @@ class Vkontakte
     end
 
     def http_post url, options = {}, auth = true
-      uri = URI.parse 'http://vkontakte.ru'
+      uri = URI.parse 'https://vk.com'
 
       if options[:cookies]
         cookies = options[:cookies]
@@ -38,9 +38,9 @@ class Vkontakte
         }
       ).encode('utf-8', 'windows-1251')
     end
-    
+
     def http_get url, options = {}, auth = true
-      uri = URI.parse 'http://vkontakte.ru'
+      uri = URI.parse 'https://vk.com'
       if options[:cookies]
         cookies = options[:cookies]
         RestClient.get(
@@ -50,14 +50,16 @@ class Vkontakte
             }.merge(options)
         ).encode('utf-8', 'windows-1251')
       else
-        agent = Mechanize.new
-        agent.get(uri).to_s.encode('utf-8', 'windows-1251')
+        socks = AccountStore.next_socks
+        web_agent = Mechanize.new
+        web_agent.agent.set_socks(socks[:host],socks[:port])
+        web_agent.get(uri)
 
       end
 
 
     end
-    
+
  def parse_each_item options = {}, &block
       raise ArgumentError, 'offset must be integer' unless options[:offset].is_a? Integer
       raise ArgumentError, 'method must be GET or POST' unless ['post', 'get'].include? options[:method]

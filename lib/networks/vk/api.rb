@@ -25,8 +25,10 @@ class Client
 
   def initialize
     #credentials = AccountQueue.next :vkontakte, :apps
-    client_id     = '2738601' #credentials[:id]
-    client_secret = 'frN0VGgc6iXa0I9Ls55X'#credentials[:secret]
+    app = AccountStore.next_app
+    @socks = AccountStore.next_socks
+    client_id     =  app[:id]
+    client_secret = app[:secret]
     @authorize     = false
     @api           = nil
 
@@ -34,10 +36,10 @@ class Client
     @client = OAuth2::Client.new(
       client_id,
       client_secret,
-      :site          => 'https://api.vkontakte.ru/',
+      :site          => 'https://api.vk.com/',
       :token_url     => '/oauth/token',
       :authorize_url => '/oauth/authorize',
-      connection_opts: { proxy: 'socks://127.0.0.1:9050' }
+      connection_opts: { proxy: "socks://#{@socks[:host]}:#{@socks[:port]}" }
     )
 
   end
@@ -46,10 +48,11 @@ class Client
   #
   def login!(email, pass, scope = 'friends')
     # Create a new mechanize object
-    agent = Mechanize.new{|agent| agent.user_agent_alias = 'Linux Konqueror'}
-
+    agent = Mechanize.new{|agent| agent.user_agent = 'Opera/9.80 (J2ME/MIDP; Opera Mini/9.80 (S60; SymbOS; Opera Mobi/23.348; U; en) Presto/2.5.25 Version/10.54'}
+    #agent.read_timeout=15
+    agent.agent.set_socks(@socks[:host],@socks[:port])
     auth_url = @client.auth_code.authorize_url(
-      :redirect_uri => 'http://api.vkontakte.ru/blank.html',
+      :redirect_uri => 'https://api.vk.com/blank.html',
       :scope        => scope,
       :display      => 'wap'
     )
@@ -92,8 +95,18 @@ class Client
 end
 
 class API
-  def initialize(access_token)
-    @access_token = access_token
+  def initialize(access_token=nil)
+    if access_token.present?
+      @access_token = access_token
+    else
+      reset_token!
+    end
+
+
+  end
+
+  def reset_token!
+    @access_token = ::AccountStore.next(:vkontakte, :accounts)['token']
   end
 
   def method_missing(method, *args)
@@ -102,7 +115,15 @@ class API
     if response['error']
       error_code = response['error']['error_code']
       error_msg  = response['error']['error_msg']
-      raise VkException.new(vk_method, error_code, error_msg), "Error in `#{vk_method}': #{error_code}: #{error_msg}"
+      if [1,6].include? error_code
+        sleep 2
+        method_missing(method, *args)
+      elsif [4,5].include? error_code
+        AccountStore.drop_token!(:vkontakte, :accounts, @access_token)
+        reset_token!
+      else
+        raise VkException.new(vk_method, error_code, error_msg), "Error in `#{vk_method}': #{error_code}: #{error_msg}"
+      end
     end
 
     return response['response']

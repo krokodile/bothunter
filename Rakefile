@@ -38,8 +38,14 @@ namespace :bothunter do
   #end
   task :workers => :environment do
     loop do
-      ParseGroups.perform
-      ParseUsers.perform
+      t1 = Thread.new do
+        ParseGroups.perform
+      end
+      t2 = Thread.new do
+        ParseUsers.perform
+      end
+      t1.join
+      t2.join
     end
   end
   task :profiles => :environment do
