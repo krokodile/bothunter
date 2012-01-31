@@ -24,11 +24,11 @@ div class="span4"
       a href="http://vkontakte.ru/id#{profile.uid}"
         img width="16" height="16" src="#{profile.photo}"
         | "#{profile.first_name} #{profile.last_name}"
-  a href="#" class="btn danger" data-controls-modal="robots-destroy-modal" data-keyboard="true" data-backdrop="true"
+  a href="#" class="btn danger" data-controls-modal="robots-destroy-modal" data-keyboard="true" data-backdrop="true" data-gid-to-delete="#{@group.gid}"
     | Сжечь!
 
 div id="robots-destroy-modal" class="modal hide fade alert-message warning"
-  form method="post" action="#"
+  form method="post" action="#" data-remote="true"
     a class="close" href="#"
       | x
     h2
@@ -43,4 +43,4 @@ div id="robots-destroy-modal" class="modal hide fade alert-message warning"
     div class="clearfix"
       = password_field_tag 'password', '', :placeholder => 'пароль'
     div class="clearfix"
-      = submit_tag 'Выполнить', class: 'btn danger'
+      = submit_tag 'Выполнить', class: 'btn danger', onclick: %<$('#robots-destroy-modal').modal('hide'); $('a[data-gid-to-delete="#{@group.gid}"]').removeClass('danger').text('Выполняется...')>

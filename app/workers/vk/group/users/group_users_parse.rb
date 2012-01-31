@@ -6,7 +6,7 @@ class Vk::GroupUsersParse
     group = ::Vkontakte.find_group gid
     #puts "detecting users of #{group.gid} #{group.title}"
     gid = group.gid
-    api = ::Vk::API.new(AccountStore.next(:vkontakte, :accounts)['token'])
+    api = ::Vk::API.new()
     offset = 0
     count = 0
     do_next = true
@@ -17,7 +17,7 @@ class Vk::GroupUsersParse
       persons = results['users']
       offset +=1000
       persons.each do |person_link|
-        #puts "detecting person: #{person}"
+        puts "detecting person: #{person_link}"
           person = ::Vkontakte.find_person(person_link)
           if !group.persons.include?(person)
             group.persons << person

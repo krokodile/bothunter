@@ -5,9 +5,9 @@ class Vkontakte
     def find_group group
       group = ::Vk.arg2gid group
       if ::Vk.gid? group
-        Group.find_or_create_by(gid: group)
+        Group.unsafely.find_or_create_by(gid: group)
       else
-        Group.find_or_create_by(domain: group)
+        Group.unsafely.find_or_create_by(domain: group)
       end
     end
 
@@ -15,14 +15,14 @@ class Vkontakte
       person = ::Vk.arg2uid person
 
       if ::Vk.uid? person
-        Person.find_or_create_by(uid: person)
+        Person.unsafely.find_or_create_by(uid: person)
       else
-        Person.find_or_create_by(domain: person)
+        Person.unsafely.find_or_create_by(domain: person)
       end
     end
 
     def http_post url, options = {}, auth = true
-      uri = URI.parse 'http://vkontakte.ru'
+      uri = URI.parse 'https://vk.com'
 
       if options[:cookies]
         cookies = options[:cookies]
@@ -38,23 +38,28 @@ class Vkontakte
         }
       ).encode('utf-8', 'windows-1251')
     end
-    
+
     def http_get url, options = {}, auth = true
-      uri = URI.parse 'http://vkontakte.ru'
+      uri = URI.parse 'https://vk.com'
       if options[:cookies]
         cookies = options[:cookies]
-      elsif auth
-        cookies = AccountQueue.next(:vkontakte, :accounts)['Cookies']
+        RestClient.get(
+            uri.merge(url).to_s,
+            {
+                cookies: cookies
+            }.merge(options)
+        ).encode('utf-8', 'windows-1251')
+      else
+        socks = AccountStore.next_socks
+        web_agent = Mechanize.new
+        web_agent.agent.set_socks(socks[:host],socks[:port])
+        web_agent.get(uri)
+
       end
 
-      RestClient.get(
-        uri.merge(url).to_s,
-        {
-          cookies: cookies
-        }.merge(options)
-      ).encode('utf-8', 'windows-1251')
+
     end
-    
+
  def parse_each_item options = {}, &block
       raise ArgumentError, 'offset must be integer' unless options[:offset].is_a? Integer
       raise ArgumentError, 'method must be GET or POST' unless ['post', 'get'].include? options[:method]

@@ -4,7 +4,17 @@ BotHunter::Application.routes.draw do
 
   resources :profiles
 
-  resources :groups
+  resources :people, :only => [] do
+    member do
+      get :humanize
+      delete :humanize
+    end
+  end
+  resources :groups do
+    member do
+      post :delete_robots
+    end
+  end
 
   resources :campaigns
 
