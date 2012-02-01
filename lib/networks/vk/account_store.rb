@@ -10,8 +10,11 @@ module AccountStore
     credentials.keys.each do |site|
       @@queue[site] = {}
       credentials[site].keys.each do |kind|
-        items = credentials[site][kind]
-        @@queue[site][kind] = items
+        if kind==:accounts
+          items = credentials[site][kind]
+          @@queue[site][kind] = items
+          @@queue[site][kind].each {|item| self.login site, kind, item}
+        end
       end
     end
   end
@@ -19,14 +22,14 @@ module AccountStore
  def self.credentials
    @@credentials
    rescue Exception => e
-    AccountStore.initialize_store!
+    #AccountStore.initialize_store!
    @@queue
  end
 
  def self.queue
     @@queue
   rescue Exception => e
-    AccountStore.initialize_store!
+    #AccountStore.initialize_store!
     @@queue
   end
 

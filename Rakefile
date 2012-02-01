@@ -40,18 +40,16 @@ namespace :bothunter do
     loop do
       t1 = Thread.new do
         ParseGroups.perform
+        sleep 60
       end
       t2 = Thread.new do
         ParseUsers.perform
+        sleep 60
       end
       t1.join
       t2.join
     end
   end
-  task :profiles => :environment do
-    Vk::AllProfilesParse.perform
-  end
-
   desc "Force restart"
   task :force_restart_through_upstart do
     system %Q{
