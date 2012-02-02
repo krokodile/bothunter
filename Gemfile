@@ -23,7 +23,7 @@ gem 'rest-client'
 gem 'redis'
 gem 'flowdock'
 gem 'grit'
-
+gem "foreman"
 gem 'socksify'
 
 # Gems used only for assets and not required

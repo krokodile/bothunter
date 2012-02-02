@@ -64,6 +64,7 @@ namespace :deploy do
     }
 =end
     run "/etc/init.d/bothunter stop && /etc/init.d/bothunter start"
+    #run "service bothunter-workers stop && service bothunter-workers start"
   end
   
   namespace :unicorn do
@@ -137,3 +138,4 @@ after "deploy:setup", "deploy:force_restart_through_upstart"
 after "deploy:setup", "deploy:assets:clean"
 after "deploy:setup", "deploy:assets:precompile"
 after "deploy:setup", "deploy:assets:symlink"
+#after "deploy:setup", "bothunter:workers"
