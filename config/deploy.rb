@@ -80,6 +80,7 @@ namespace :deploy do
   task :symlink_configs do
     run "ln -nfs #{shared_path}/config/mongoid.yml #{release_path}/config/mongoid.yml"
     run "ln -nfs #{shared_path}/config/unicorn.rb #{release_path}/config/unicorn.rb"
+    run "ln -nfs #{shared_path}/config/credentials.yml #{release_path}/config/credentials.yml"
     run "ln -nfs #{shared_path}/uploads #{release_path}/public/uploads"
     run "ln -nfs #{shared_path}/private #{release_path}/public/private"
     run "rm -rf #{release_path}/tmp/pids"
