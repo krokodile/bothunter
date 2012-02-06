@@ -48,9 +48,9 @@ ssh_options[:forward_agent] = true
 ssh_options[:port] = 2122
 
 namespace :deploy do
-  task :restart do
-    run "/etc/init.d/bothunter restart"
-  end
+  #task :restart do
+  #  run "/etc/init.d/bothunter restart"
+  #end
 
   desc "Force restart"
   task :force_restart_through_upstart do
