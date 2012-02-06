@@ -4,9 +4,9 @@ require 'bundler/capistrano'
 #require 'flowdock/capistrano'
 
 # for Flowdock Gem notifications
-set :flowdock_project_name, "sCRM"
-set :flowdock_deploy_tags, ["unicorn", "rvm system-wide"]
-set :flowdock_api_token, "9b4cbe213a88a3cc8cb5585a7dc3b8bf"
+#set :flowdock_project_name, "sCRM"
+#set :flowdock_deploy_tags, ["unicorn", "rvm system-wide"]
+#set :flowdock_api_token, "9b4cbe213a88a3cc8cb5585a7dc3b8bf"
 
 set :default_environment, {
   'PATH' => "/usr/local/rvm/bin:/usr/local/rvm/gems/ruby-1.9.3-p0/bin:/usr/local/rvm/rubies/ruby-1.9.3-p0/bin:$PATH",
@@ -130,7 +130,7 @@ end
 
 after "deploy:update_code", "deploy:symlink_configs"
 
-after "deploy:setup", "deploy:create_shared_dirs"
+#after "deploy:setup", "deploy:create_shared_dirs"
 after "deploy:setup", "deploy:create_log_files"
 
 #after "deploy:setup", "deploy:stop_resque"
