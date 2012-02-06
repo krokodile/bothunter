@@ -63,7 +63,7 @@ namespace :deploy do
       sudo start bothunter;
     }
 =end
-    run "/etc/init.d/bothunter stop && /etc/init.d/bothunter start"
+    run "sudo stop bothunter && sudo start bothunter"
     #run "service bothunter-workers stop && service bothunter-workers start"
   end
   
