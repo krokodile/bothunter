@@ -22,7 +22,7 @@ set :default_stage, "production"
 set :application, 'scrm.myhotspot.ru:8080'
 set :repository,  "git@github.com:reflow/bothunter.git"
 
-set :rvm_ruby_string, '1.9.3-p0'
+#set :rvm_ruby_string, '1.9.3-p0'
 set :rvm_type, :system
 
 set :deploy_to, "/www/rails/bothunter/"
