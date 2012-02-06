@@ -1,7 +1,7 @@
 #$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 #require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require 'bundler/capistrano'
-require 'flowdock/capistrano'
+#require 'flowdock/capistrano'
 
 # for Flowdock Gem notifications
 set :flowdock_project_name, "sCRM"

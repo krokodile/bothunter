@@ -21,7 +21,7 @@ gem 'nokogiri'
 gem 'mechanize'
 gem 'rest-client'
 gem 'redis'
-gem 'flowdock'
+#gem 'flowdock'
 gem 'grit'
 gem "foreman"
 gem 'socksify'
