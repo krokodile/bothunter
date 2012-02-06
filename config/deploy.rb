@@ -107,17 +107,17 @@ namespace :deploy do
     run "touch #{shared_path}/log/development.log #{shared_path}/log/production.log #{shared_path}/log/test.log"
   end
 
-  desc "Notify flow about deployment using email"
-  task :notify_flow do
-    # create a new Flow object with target flow's api token and sender information
-    flow = Flowdock::Flow.new(:api_token => "_YOUR_API_TOKEN_HERE_", 
-      :source => "Capistrano deployment", :project => "My project",
-      :from => {:name => "John Doe", :address => "john.doe@yourdomain.com"})
-
-    # send message to the flow
-    flow.send_message(:format => "html", :subject => "Application deployed #deploy", 
-      :content => "Application deployed successfully!", :tags => ["deploy", "frontend"])
-  end
+#  desc "Notify flow about deployment using email"
+##  task :notify_flow do
+#    # create a new Flow object with target flow's api token and sender information
+#    flow = Flowdock::Flow.new(:api_token => "_YOUR_API_TOKEN_HERE_",
+#      :source => "Capistrano deployment", :project => "My project",
+#      :from => {:name => "John Doe", :address => "john.doe@yourdomain.com"})
+#
+#    # send message to the flow
+#    flow.send_message(:format => "html", :subject => "Application deployed #deploy",
+#      :content => "Application deployed successfully!", :tags => ["deploy", "frontend"])
+#  end
 end
 
 
