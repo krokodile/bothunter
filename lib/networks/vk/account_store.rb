@@ -3,8 +3,8 @@ module AccountStore
   def self.initialize_store!
     credentials_filename = File.expand_path './config/credentials.yml', Rails.root
     credentials = @@credentials =  YAML.load_file credentials_filename
-    puts self.credentials
-    puts self.credentials[:apps]
+   # puts self.credentials
+   # puts self.credentials[:apps]
     @@queue = {}
 
     credentials.keys.each do |site|
@@ -58,7 +58,7 @@ module AccountStore
         begin
           _next = self.login( service,kind,_next)
         rescue
-          puts "incorrect login for #{_next}"
+          Rails.logger.error("incorrect login for #{_next}")
           self.next(service,kind)
         end
       end
@@ -74,11 +74,13 @@ module AccountStore
   end
 
   def self.login service, kind, item
+    Rails.logger.debug("try to log in by #{item['username']}")
     index = self.queue[service.to_sym][kind.to_sym].index(item)
     _headers = ::ServiceHeaders.for service, kind, item
-    puts _headers
+    #puts _headers
     item.merge! _headers
     self.queue[service.to_sym][kind.to_sym][index] = item
+    Rails.logger.debug("succesfully logged in by #{item['username']}")
     item
   end
 end

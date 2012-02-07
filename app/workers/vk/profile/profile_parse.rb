@@ -4,7 +4,6 @@ VK_NOPHOTO = "http://vk.com/images/question_c.gif"
 class Vk::ProfileParse
   @queue = "bothunter"
   def self.parse person
-    puts "parsing person #{person}"
     #puts "token is: #{::AccountStore.next(:vkontakte, :accounts)['token']}"
     api = ::Vk::API.new()
     profile = api.getProfiles({
@@ -18,7 +17,7 @@ class Vk::ProfileParse
     person.first_name = profile[0]["first_name"]
     person.photo = profile[0]["photo"]
     person.save!
-    puts "scrapping person #{person.uid} #{person.domain}"
+    #puts "scrapping person #{person.uid} #{person.domain}"
     web_client = Mechanize.new
     socks = AccountStore.next_socks
     web_client.agent.set_socks(socks[:host],socks[:port])
@@ -50,12 +49,13 @@ class Vk::ProfileParse
     person = WallParse.perform(person)
     person.friends_count = api.friends_get({:uid => person.uid}).size
     person.save!
-    puts "Person is #{person}"
+    #puts "Person is #{person}"
     return person
   end
 
   def self.perform (person)
-    puts "detecting person: #{person.uid || person.domain || "wrong"}"
+    Rails.logger.debug("start to detect person #{person.uid || person.domain}")
+    #puts "detecting person: #{person.uid || person.domain || "wrong"}"
     person = self.parse person
     #puts "Person is #{person.uid} #{person.domain}"
     if !person.present?
@@ -68,9 +68,10 @@ class Vk::ProfileParse
     end
     #person = Person.where(uid:uid).first
     if person.state!= :pending
-      puts "person: #{person.uid} already detected"
+      #puts "person: #{person.uid} already detected"
       return
     end
+    Rails.logger.debug("person #{person.uid || person.domain} parsed. detecting")
     bot_points = 0
     if person.wall_posts.count==0
       bot_points += 10
@@ -95,7 +96,7 @@ class Vk::ProfileParse
     if person.wall_posts.where(:comments_count.gte => 1).count == 0
       bot_points +=3
     end
-    puts "bot_points is #{bot_points}"
+    #puts "bot_points is #{bot_points}"
     if bot_points <= 14
       person.state = :human
       #person.save!
@@ -107,7 +108,7 @@ class Vk::ProfileParse
       #person.save!
     end
     person.save!
-    puts "user #{person.uid} is #{person.state} "
+    Rails.logger.info("user #{person.uid} is #{person.state}")
     return person
   end
 

@@ -56,7 +56,7 @@ class Client
       :scope        => scope,
       :display      => 'wap'
     )
-    puts auth_url
+    #puts auth_url
 
     # Get the Vkontakte sing in page
     login_page = agent.get(auth_url)

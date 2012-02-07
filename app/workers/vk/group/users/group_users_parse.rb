@@ -11,19 +11,20 @@ class Vk::GroupUsersParse
     count = 0
     do_next = true
     while (offset<=count) do
-      puts "count: #{count} offset: #{offset}"
+      Rails.logger.debug ("count: #{count} offset: #{offset}")
       results = api.groups_getMembers(:gid=> gid, :offset => offset)
       count = results['count']
       persons = results['users']
       offset +=1000
       persons.each do |person_link|
-        puts "detecting person: #{person_link}"
+        Rails.logger.debug  ("detecting person: #{person_link}")
           person = ::Vkontakte.find_person(person_link)
           if !group.persons.include?(person)
             group.persons << person
           end
           person.save!
           group.save!
+        Rails.logger.debug  ("detected person: #{person_link}")
           #::ProfileParse.perform person
 
           #else

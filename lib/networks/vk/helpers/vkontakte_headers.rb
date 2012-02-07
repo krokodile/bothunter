@@ -8,7 +8,7 @@ class VkontakteHeaders < ServiceHeaders
     end
 
     def accounts item
-      puts "try to get accounts"
+      #puts "try to get accounts"
       #cookies = self.user_sign_in item[:username], item[:password]
       token = self.get_user_token item[:username], item[:password]
       #puts "token is: #{token}"
@@ -43,7 +43,7 @@ class VkontakteHeaders < ServiceHeaders
     def get_user_token username,password
       client = ::Vk::Client.new
       client.login! username,password
-      puts "token is #{client.access_token}"
+      #puts "token is #{client.access_token}"
       client.access_token
     end
   end

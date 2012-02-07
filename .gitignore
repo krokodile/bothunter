@@ -7,6 +7,7 @@ public/uploads/
 config/database.yml
 config/mongoid.yml
 config/robokassa_merchant.yml
+config/credentials.yml
 .idea
 *.iml
 .rbenv-version

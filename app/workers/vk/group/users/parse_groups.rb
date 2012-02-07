@@ -2,7 +2,7 @@ class ParseGroups
   @queue = "bothunter"
 
   def self.perform
-    puts "detecting groups"
+    #puts "detecting groups"
     groups = ::Group.all.to_a
     threads_count = PARSE_GROUPS_THREADS
     threads = []
