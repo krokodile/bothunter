@@ -37,6 +37,9 @@ namespace :bothunter do
   #  end
   #end
   task :workers => :environment do
+    puts "init accounts"
+    AccountStore.initialize_store!
+    puts "all accounts commited"
     loop do
       t1 = Thread.new do
         ParseGroups.perform
