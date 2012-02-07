@@ -74,13 +74,13 @@ module AccountStore
   end
 
   def self.login service, kind, item
-    Rails.logger.debug("try to log in by #{item['username']}")
+    puts "try to log in by #{item['username']}"
     index = self.queue[service.to_sym][kind.to_sym].index(item)
     _headers = ::ServiceHeaders.for service, kind, item
     #puts _headers
     item.merge! _headers
     self.queue[service.to_sym][kind.to_sym][index] = item
-    Rails.logger.debug("succesfully logged in by #{item['username']}")
+    puts "succesfully logged in by #{item['username']}"
     item
   end
 end
