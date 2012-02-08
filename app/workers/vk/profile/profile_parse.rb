@@ -33,9 +33,10 @@ class Vk::ProfileParse
     if  (page.search '.profile_blocked').present?
       puts "person #{person.uid || person.domain} blocked"
       banned = true
-    elsif (page.search '.profile_deleted').present?
-      puts "person #{person.uid || person.domain} banned"
-      banned = true
+
+    #elsif (page.search '.profile_deleted').present?
+    #  puts "person #{person.uid || person.domain} banned"
+    #  banned = true
     end
     if banned
       person.state = :robot
