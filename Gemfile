@@ -18,7 +18,7 @@ gem 'inherited_resources'
 gem "rack-pjax"
 gem 'json'
 gem 'nokogiri'
-gem 'mechanize', "~> 2.0.1"
+gem 'mechanize', "2.0.1"
 gem 'rest-client'
 gem 'redis'
 #gem 'flowdock'
