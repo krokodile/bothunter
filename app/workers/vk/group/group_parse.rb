@@ -12,15 +12,16 @@ module Vk
       elsif group_url =~ /^.*\/club([0-9]+)$/
         gid = $1
       elsif group_url =~ /^.*\/([^\/]+)$/ or group_url =~ /^\/?([a-zA-Z\_0-9]+)$/
-        _page = ::Vkontakte.http_get("http://vkontakte.ru/#{$1}")
+        agent = Mechanize.new
+        _page = agent.get("http://vk.com/#{$1}").body
         domain = $1
         gid = _page[/Groups\.init\(\{"group_id":\"?(\d+)\"?/, 1]
       else
         raise ArgumentError
       end
 
-      _page = ::Vkontakte.http_get("club#{gid.to_i}").to_nokogiri_html
-      title = (_page / 'div.top_header').first.content
+      _page = agent.get("http://vk.com/club#{gid.to_i}")
+      title = (_page.search 'div.top_header').first.content
     
       group = ::Group.find_or_create_by(gid: gid)
       group.update_attributes!({

@@ -40,7 +40,7 @@ class Vk::ProfileParse
     end
     if banned
       person.state = :robot
-      r =  /^(.*) (.*)$/.match((page / "#title").first.content)
+      r =  /^(.*) (.*)$/.match((page.search "#title").first.content)
       person.first_name = r[1]
       person.last_name = r[2]
       person.save!
