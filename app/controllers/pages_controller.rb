@@ -16,6 +16,8 @@ class PagesController < ApplicationController
     group = Vk::GroupParse.parse params['group_url']
     #group.save
     group.users << current_user
+    current_user.groups << group
+    user.save
     group.save
     redirect_to :action=>'index'
 #    Thread.new do
