@@ -227,7 +227,7 @@ DEPENDENCIES
   inherited_resources
   jquery-rails
   json
-  mechanize (~> 2.0.1)
+  mechanize (= 2.0.1)
   mongoid (~> 2.3)
   nokogiri
   oauth2
