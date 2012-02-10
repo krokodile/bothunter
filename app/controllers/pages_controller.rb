@@ -17,7 +17,7 @@ class PagesController < ApplicationController
     #group.save
     group.users << current_user
     current_user.groups << group
-    user.save
+    current_user.save!
     group.save
     redirect_to :action=>'index'
 #    Thread.new do
