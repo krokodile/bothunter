@@ -70,7 +70,7 @@ module AccountStore
 
   def self.drop_token! service, kind,token
     item = self.queue[service.to_sym][kind.to_sym].index{|item| item['token']==token}
-    item.token = nil
+    item["token"] = nil
   end
 
   def self.login service, kind, item
