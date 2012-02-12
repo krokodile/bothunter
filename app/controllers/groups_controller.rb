@@ -2,9 +2,10 @@
 class GroupsController < ApplicationController
 
   def delete_robots
-    @group = Group.find params[:group_id]
-    raise 'Это не ваша группа' unless @group.user_id == current_user.id
-    BotFilter.delete_robots @group.gid, params[:login], params[:password]
+    @group = Group.find params[:id]
+    # FIXME: доступ!
+    #raise 'Это не ваша группа' unless @group.user_id == current_user.id
+    Resque.enqueue BotFilter, @group.gid, params[:login], params[:password]
     render :js => %<$('a[data-gid-to-delete="#{@group.gid}"]').removeClass('danger').addClass('info').text('OK!')>
   rescue
     render :js => %<$('a[data-gid-to-delete="#{@group.gid}"]').removeClass('danger').text(#{$!.to_s.inspect})>

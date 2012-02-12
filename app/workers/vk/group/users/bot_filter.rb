@@ -1,5 +1,10 @@
 class BotFilter
-  def self.delete_robots (gid, login, password)
+  @queue = :bot_filter
+
+  def self.perform(gid, login, password)
+    # FIXME: TODO: it's a stub!
+    raise "#{[gid, login, password].inspect}, FFFFFFFFFFFFFFFFUUUUUUU"
+
     #gid - group id, string
     cookies = VkontakteHeaders.user_sign_in(login, password)
     group = ::Vkontakte.find_group gid

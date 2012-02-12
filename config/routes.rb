@@ -10,7 +10,7 @@ BotHunter::Application.routes.draw do
       delete :humanize
     end
   end
-  resources :groups do
+  resources :groups, :only => [] do
     member do
       post :delete_robots
     end

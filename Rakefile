@@ -3,13 +3,17 @@
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
 require File.expand_path('../config/application', __FILE__)
-#require 'resque/tasks'
+
+require 'resque/tasks'
 #require 'resque_scheduler/tasks'
 
 BotHunter::Application.load_tasks
 
 
-#task "resque:setup" => :environment
+task "resque:setup" => :environment do
+  ENV['QUEUE'] = 'bot_filter'
+end
+
 #task "resque:scheduler_setup" => :environment
 
 desc "Start a parse workers"
