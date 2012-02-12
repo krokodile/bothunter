@@ -15,6 +15,7 @@ class Vk::ProfileParse
     person.uid = person.uid || profile[0]["uid"]
     person.domain = person.uid || profile[0]["domain"]
     person.first_name = profile[0]["first_name"]
+    person.last_name = profile[0]["last_name"]
     person.photo = profile[0]["photo"]
     person.save!
     #puts "scrapping person #{person.uid} #{person.domain}"
@@ -33,7 +34,9 @@ class Vk::ProfileParse
     if  (page.search '.profile_blocked').present?
       puts "person #{person.uid || person.domain} blocked"
       banned = true
-
+    if (page.search "img[src='/images/deactivated_tir.png']").present?
+      banned = true
+    end
     #elsif (page.search '.profile_deleted').present?
     #  puts "person #{person.uid || person.domain} banned"
     #  banned = true
