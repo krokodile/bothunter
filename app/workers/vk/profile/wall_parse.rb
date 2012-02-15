@@ -23,7 +23,7 @@ class WallParse
       #post.person = person
       wallpost.save!
       person.save!
-      return person
     end
+    return person
   end
 end

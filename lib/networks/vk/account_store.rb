@@ -1,17 +1,15 @@
 module AccountStore
 
   def self.initialize_store!
-    credentials_filename = File.expand_path './config/credentials.yml', Rails.root
-    credentials = @@credentials =  YAML.load_file credentials_filename
    # puts self.credentials
    # puts self.credentials[:apps]
     @@queue = {}
 
-    credentials.keys.each do |site|
+    self.credentials.keys.each do |site|
       @@queue[site] = {}
-      credentials[site].keys.each do |kind|
+      self.credentials[site].keys.each do |kind|
         if kind==:accounts
-          items = credentials[site][kind]
+          items = self.credentials[site][kind]
           @@queue[site][kind] = items
           @@queue[site][kind].each {|item| self.login site, kind, item}
         end
@@ -20,10 +18,13 @@ module AccountStore
   end
 
  def self.credentials
+  begin
    @@credentials
-   rescue Exception => e
-    #AccountStore.initialize_store!
-   @@queue
+  rescue Exception => e
+   credentials_filename = File.expand_path './config/credentials.yml', Rails.root
+   credentials = @@credentials =  YAML.load_file credentials_filename
+   @@credentials
+   end
  end
 
  def self.queue

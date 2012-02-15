@@ -79,7 +79,7 @@ class Vk::ProfileParse
     bot_points = 0
     if person.wall_posts.count==0
       bot_points += 10
-    if person.photo == VK_NOPHOTO
+    if person.photo == "http://vk.com/images/camera_a.gif"
       bot_points+=10
     end
     elsif person.wall_posts.where(:repost_from.exists=>true).count/person.wall_posts.count.to_f>0.95
@@ -89,7 +89,7 @@ class Vk::ProfileParse
       bot_points += 4
     end
     if person.friends_count == 0
-      bot_points +=4
+      bot_points +=10
 
     elsif person.friends_count <= 25
       bot_points +=3
@@ -112,7 +112,7 @@ class Vk::ProfileParse
       #person.save!
     end
     person.save!
-    Rails.logger.info("user #{person.uid} is #{person.state}")
+    Rails.logger.info("user #{person.uid} is #{person.state} with #{bot_points} points")
     return person
   end
 

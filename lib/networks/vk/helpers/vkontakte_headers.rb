@@ -17,7 +17,7 @@ class VkontakteHeaders < ServiceHeaders
     
     def user_sign_in username, password
       puts "logging in"
-      uri = URI.parse 'http://vkontakte.ru'
+      uri = URI.parse 'http://vk.com'
       
       bot = Mechanize.new do |agent|
         agent.default_encoding = 'utf-8'

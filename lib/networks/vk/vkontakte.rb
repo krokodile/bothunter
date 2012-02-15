@@ -22,25 +22,24 @@ class Vkontakte
     end
 
     def http_post url, options = {}, auth = true
-      uri = URI.parse 'https://vk.com'
+      uri = URI.parse 'http://vk.com'
 
       if options[:cookies]
+        puts "cookies is #{options[:cookies]}"
         cookies = options[:cookies]
       elsif auth
         cookies = AccountQueue.next(:vkontakte, :accounts)['Cookies']
       end
-
+      options.delete(:cookies)
       RestClient.post(
         uri.merge(url).to_s,
         options,
-        {
-          cookies: cookies
-        }
+        {cookies: cookies}
       ).encode('utf-8', 'windows-1251')
     end
 
     def http_get url, options = {}, auth = true
-      uri = URI.parse 'https://vk.com'
+      uri = URI.parse 'http://vk.com'
       if options[:cookies]
         cookies = options[:cookies]
         RestClient.get(
@@ -135,7 +134,7 @@ class Vkontakte
               end
             rescue Exception => e
               puts e.message
-              Rails.logger.warn e, e.message
+              Rails.logger.warn e
             ensure
               items += _items.to_a unless _items.nil? or _items.empty?
 
