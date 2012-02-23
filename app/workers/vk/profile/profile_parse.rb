@@ -8,7 +8,7 @@ class Vk::ProfileParse
     api = ::Vk::API.new()
     profile = api.getProfiles({
           uids: person.uid || person.domain,
-          fields: 'uid, domain, first_name, last_name, photo'
+          fields: 'uid, domain, first_name, last_name, photo, bdate'
     })
     #puts profile[0]
     #person.write_attributes(profile[0])
@@ -17,6 +17,13 @@ class Vk::ProfileParse
     person.first_name = profile[0]["first_name"]
     person.last_name = profile[0]["last_name"]
     person.photo = profile[0]["photo"]
+    bdate = nil
+    begin
+      bdate = Datetime.parse profile[0]["bdate"]
+    rescue
+      bdate = nil
+    end
+    person.bdate = bdate
     person.save!
     #puts "scrapping person #{person.uid} #{person.domain}"
     web_client = Mechanize.new

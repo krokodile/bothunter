@@ -19,4 +19,21 @@ class GroupsController < ApplicationController
   #  @undetected = @group.persons.where(state: :undetected)
   #end
 
+  def report_persons
+    @group = Group.find params[:id]
+    blob = StringIO.new('')
+    workbook = WriteExcel.new(blob)
+    def make_sheet sheet,sym
+      sheet.write("Ссылка", "Имя", "Фамилия")
+      @group.persons.where(state: :human).each do |person|
+        sheet.write(["http://vk.com/id#{person.uid}",person.first_name,person.last_name])
+      end
+    end
+    humans = workbook.add_worksheet("Живые")
+    make_sheet()
+    workbook.close
+    send_data blob, :type => "application/ms-excel"
+
+  end
+
 end
