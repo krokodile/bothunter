@@ -2,7 +2,7 @@ class ParseUsers
   @queue = "bothunter"
   def self.perform
     puts "Parsing users"
-    persons = ::Person.where(state: :pending).limit(100).all
+    persons = ::Person.where(state: :pending).all
     threads_count = PARSE_USERS_THREADS
     threads = []
     persons.each do |person|
