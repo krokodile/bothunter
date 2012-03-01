@@ -19,7 +19,7 @@ class Vk::ProfileParse
     person.photo = profile[0]["photo"]
     bdate = nil
     begin
-      bdate = Datetime.parse profile[0]["bdate"]
+      bdate = DateTime.parse profile[0]["bdate"]
     rescue
       bdate = nil
     end
