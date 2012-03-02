@@ -8,4 +8,10 @@ class UsersController < ApplicationController
     resource.set :_type, (manager ? 'Manager' : 'User')
     render :js => %<$('a[data-manager-id="#{resource.id.to_s}"]')['#{manager ? 'addClass' : 'removeClass'}']('success').text('#{manager ? 'Y' : 'N'}')>
   end
+
+  def approved
+    approved = !resource.approved?
+    resource.set :approved, approved
+    render :js => %<$('a[data-approved-id="#{resource.id.to_s}"]')['#{approved ? 'addClass' : 'removeClass'}']('success').text('#{approved ? 'Y' : 'N'}')>
+  end
 end

@@ -27,6 +27,7 @@ BotHunter::Application.routes.draw do
 
     member do
       post 'manager'
+      post 'approved'
     end
   end
   
