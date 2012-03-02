@@ -5,9 +5,9 @@ class PagesController < ApplicationController
     @groups =  current_user.groups.all #Group.where(user: )
     if params['group_id']
       @group = Group.find(params['group_id'])
-      @humans = @group.persons.where(state: :human)
-      @robots = @group.persons.where(state: :robot)
-      @undetected = @group.persons.where(state: :undetected)
+      @humans = @group.persons.where(state: :human).count
+      @robots = @group.persons.where(state: :robot).count
+      @undetected = @group.persons.where(state: :undetected).count
     end
   end
 

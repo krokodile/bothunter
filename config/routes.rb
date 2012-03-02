@@ -13,6 +13,7 @@ BotHunter::Application.routes.draw do
   resources :groups, :only => [] do
     member do
       post :delete_robots
+      get :report_persons
     end
   end
 

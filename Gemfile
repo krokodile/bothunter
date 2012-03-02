@@ -22,6 +22,7 @@ gem 'mechanize'
 gem 'rest-client'
 gem 'redis'
 #gem 'flowdock'
+gem "writeexcel"
 gem 'grit'
 gem "foreman"
 gem 'socksify'

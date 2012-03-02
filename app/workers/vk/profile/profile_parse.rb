@@ -8,7 +8,7 @@ class Vk::ProfileParse
     api = ::Vk::API.new()
     profile = api.getProfiles({
           uids: person.uid || person.domain,
-          fields: 'uid, domain, first_name, last_name, photo'
+          fields: 'uid, domain, first_name, last_name, photo, bdate'
     })
     #puts profile[0]
     #person.write_attributes(profile[0])
@@ -17,6 +17,13 @@ class Vk::ProfileParse
     person.first_name = profile[0]["first_name"]
     person.last_name = profile[0]["last_name"]
     person.photo = profile[0]["photo"]
+    bdate = nil
+    begin
+      bdate = DateTime.parse profile[0]["bdate"]
+    rescue
+      bdate = nil
+    end
+    person.bdate = bdate
     person.save!
     #puts "scrapping person #{person.uid} #{person.domain}"
     web_client = Mechanize.new
@@ -79,7 +86,7 @@ class Vk::ProfileParse
     bot_points = 0
     if person.wall_posts.count==0
       bot_points += 10
-    if person.photo == VK_NOPHOTO
+    if person.photo == "http://vk.com/images/camera_a.gif"
       bot_points+=10
     end
     elsif person.wall_posts.where(:repost_from.exists=>true).count/person.wall_posts.count.to_f>0.95
@@ -89,7 +96,7 @@ class Vk::ProfileParse
       bot_points += 4
     end
     if person.friends_count == 0
-      bot_points +=4
+      bot_points +=10
 
     elsif person.friends_count <= 25
       bot_points +=3
@@ -112,7 +119,7 @@ class Vk::ProfileParse
       #person.save!
     end
     person.save!
-    Rails.logger.info("user #{person.uid} is #{person.state}")
+    Rails.logger.info("user #{person.uid} is #{person.state} with #{bot_points} points")
     return person
   end
 

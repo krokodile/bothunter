@@ -6,7 +6,7 @@ class Person
   field :last_name, type:String
   #TODO make validation, for only :robot, :human and :undetected state avaible
   field :state, type:Symbol,  default: :pending
-
+  field :bdate, type: DateTime
   field :friends_count, type:Integer
   field :photo, type:String
   has_and_belongs_to_many :groups
