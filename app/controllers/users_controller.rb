@@ -14,4 +14,13 @@ class UsersController < ApplicationController
     resource.set :approved, approved
     render :js => %<$('a[data-approved-id="#{resource.id.to_s}"]')['#{approved ? 'addClass' : 'removeClass'}']('success').text('#{approved ? 'Y' : 'N'}')>
   end
+
+protected
+  def collection
+    @users ||= if params[:show].nil?
+                 end_of_association_chain.all
+               elsif params[:show] == 'inactive'
+                 end_of_association_chain.where(:approved.ne => true)
+               end
+  end
 end

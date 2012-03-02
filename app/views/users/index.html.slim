@@ -1,5 +1,13 @@
 h2
   | Пользователи
+div.tabbable.row
+  ul.nav.nav-tabs
+    li class="#{params[:show].nil? ? 'active' : ''}"
+      a href="#{users_path}"
+        | Все
+    li class="#{params[:show] == 'inactive' ? 'active' : ''}"
+      a href="#{users_path show: 'inactive'}"
+        | Неактивные
 div class="row"
   div class="span1"
     h4

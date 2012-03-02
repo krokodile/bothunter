@@ -11,6 +11,7 @@ class User
          field :company
 
          field :approved, type: Boolean, default: false
+         index :approved
        
          validates_presence_of :full_name, :company, :phone_number
          
