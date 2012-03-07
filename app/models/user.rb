@@ -10,6 +10,8 @@ class User
          field :phone_number
          field :company
 
+         field :message
+
          field :approved, type: Boolean, default: false
          index :approved
        
@@ -40,7 +42,7 @@ class User
     recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
 
     if !recoverable.approved?
-      recoverable.errors[:base] << I18n.t("devise.failure.not_approved")
+      recoverable.errors[:base] << I18n.t("devise.registrations.signed_up_but_inactive")
     elsif recoverable.persisted?
       recoverable.send_reset_password_instructions
     end
@@ -53,7 +55,7 @@ class User
   end
 
   def inactive_message
-    approved? ? super : :not_approved
+    approved? ? super : I18n.t("devise.registrations.signed_up_but_inactive")
   end
 
 end
