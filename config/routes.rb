@@ -31,6 +31,8 @@ BotHunter::Application.routes.draw do
       post 'approved'
     end
   end
+
+  resources :promocodes
   
   root :to => "pages#index"
 
