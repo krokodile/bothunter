@@ -32,6 +32,9 @@ class User
 
   references_many :invoices
 
+  field :groups_limit, type: Integer, default: 0
+  field :people_limit, type: Integer, default: 0
+
   def manager?
     kind_of? Manager
   end
