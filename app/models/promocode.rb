@@ -8,10 +8,10 @@ class Promocode
 
   #attr_accessor :promocodes_count # reader needed for form generation
 
-  has_one :user
+  references_one :user
 
   field :code, type: String, default: nil
-  index :code
+  index :code, unique: true
 
 #protected
 #  def multiply

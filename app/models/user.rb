@@ -25,18 +25,27 @@ class User
            self.update_without_password(params)
          end
 
-  field :objects_amount, :type => Integer, :default => 0 # amount is in cents!
+  field :objects_amount, :type => Integer, :default => 0
   attr_protected :objects_amount
   
   attr_protected :_type
 
   references_many :invoices
 
-  field :groups_limit, type: Integer, default: 0
   field :people_limit, type: Integer, default: 0
+  attr_protected :people_limit
+
+  referenced_in :promocode
+
+  attr_writer :promocode
+  before_create :verify_promocode
 
   def manager?
     kind_of? Manager
+  end
+
+  def promocode
+    Promocode.find(promocode_id).code rescue '' 
   end
 
   # devise h4xz
@@ -61,4 +70,22 @@ class User
     approved? ? super : I18n.t("devise.registrations.signed_up_but_inactive")
   end
 
+protected
+  def verify_promocode
+    code = @promocode.to_s.strip
+
+    unless code.empty?
+      promocode = Promocode.where(code: code).first rescue nil
+
+      if promocode
+        promocode.user = self
+        promocode.save
+
+        write_attribute :objects_amount, promocode.groups_limit
+        write_attribute :people_limit, promocode.people_limit
+
+        write_attribute :approved, true
+      end
+    end
+  end
 end
