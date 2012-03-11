@@ -6,7 +6,7 @@ class Promocode
   field :groups_limit, type: Integer, default: 0
   field :people_limit, type: Integer, default: 0
 
-  attr_writer :promocodes_count
+  attr_accessor :promocodes_count # reader needed for form generation
 
   has_one :user
 
