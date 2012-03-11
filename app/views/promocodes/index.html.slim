@@ -12,13 +12,13 @@ div class="row"
   div class="span1"
     h4
       | №
-  div class="span4"
-    h4
-      | Код
   div class="span3"
     h4
+      | Код
+  div class="span2"
+    h4
       | Группы, шт.
-  div class="span3" 
+  div class="span2" 
     h4 
       | Пользователи, шт.
   div class="span3"
@@ -29,11 +29,11 @@ div class="row"
   div class="row"
     div class="span1"
       = (i = i.next).to_s
-    div class="span4"
-      = promocode.id
     div class="span3"
+      = promocode.code
+    div class="span2"
       = promocode.groups_limit
-    div class="span3"
+    div class="span2"
       = promocode.people_limit
     div class="span3"
       - if promocode.user.nil?

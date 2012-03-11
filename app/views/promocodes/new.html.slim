@@ -19,11 +19,15 @@
     = f.label :people_limit, 'Количество страниц'
     div class="input"
       = f.text_field :people_limit, :placeholder => '0.00'
-  div class="clearfix"
-    | Также необходимо указать количество создаваемых промо-кодов с такими свойствами.
-  div class="clearfix"
-    = f.label :promocodes_count, 'Сколько?'
-    div class="input"
-      = f.text_field :promocodes_count, :placeholder => '1'
+  /div class="clearfix"
+  /  | Также необходимо указать количество создаваемых промо-кодов с такими свойствами.
+  /div class="clearfix"
+  /  = f.label :promocodes_count, 'Сколько?'
+  /  div class="input"
+  /    = f.text_field :promocodes_count, :placeholder => '1'
+  div.clearfix
+    = f.label :code, 'Сам код'
+    div.input
+      = f.text_field :code
   div class="clearfix"
     = f.submit 'Выполнить', class: 'btn danger'
