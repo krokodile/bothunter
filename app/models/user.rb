@@ -6,11 +6,10 @@ class User
          :recoverable, :rememberable, :trackable, :validatable
          
          field :full_name
-         #field :admin, type: Boolean, default: false
          field :phone_number
          field :company
 
-         field :message
+         #field :message
 
          field :approved, type: Boolean, default: false
          index :approved
@@ -36,8 +35,9 @@ class User
   attr_protected :people_limit
 
   referenced_in :promocode
+  attr_protected :promocode_id
+  index :promocode_id, unique: true
 
-  attr_writer :promocode
   before_create :verify_promocode
 
   def manager?
@@ -45,7 +45,11 @@ class User
   end
 
   def promocode
-    Promocode.find(promocode_id).code rescue '' 
+    @promocode || Promocode.find(promocode_id).code rescue '' 
+  end
+
+  def promocode= code
+    @promocode = code
   end
 
   # devise h4xz
@@ -75,14 +79,13 @@ protected
     code = @promocode.to_s.strip
 
     unless code.empty?
-      promocode = Promocode.where(code: code).first rescue nil
+      code = Promocode.where(code: code).first rescue nil
 
-      if promocode
-        promocode.user = self
-        promocode.save
+      if code
+        write_attribute :promocode_id, code.id
 
-        write_attribute :objects_amount, promocode.groups_limit
-        write_attribute :people_limit, promocode.people_limit
+        write_attribute :objects_amount, code.groups_limit
+        write_attribute :people_limit, code.people_limit
 
         write_attribute :approved, true
       end
