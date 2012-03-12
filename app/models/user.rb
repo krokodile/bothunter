@@ -81,7 +81,7 @@ protected
     unless code.empty?
       code = Promocode.where(code: code).first rescue nil
 
-      if code
+      if code and code.user.nil?
         write_attribute :promocode_id, code.id
 
         write_attribute :objects_amount, code.groups_limit
