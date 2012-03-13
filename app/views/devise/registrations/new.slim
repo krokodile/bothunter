@@ -1,39 +1,48 @@
+- promocode = params[:promocode].present?
+
 div class="row show-grid"
   div class="span4 columns" &#8201
   div class="span4 columns"
-    h2 Sign up
+    h2
+      = promocode ? 'Регистрация по промо-коду' : 'Запрос приглашения'
     = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html=> {:class=>"form-stacked"}) do |f|
       = devise_error_messages!
       div class="clearfix"
-        = f.label :full_name
+        = f.label :full_name, "Полное имя"
         div class="input"
           = f.text_field :full_name
       div class="clearfix"
-        = f.label :email
+        = f.label :email, "E-Mail"
         div class="input"
           = f.email_field :email
       div class="clearfix"
-        = f.label :phone_number
+        = f.label :phone_number, "Номер телефона"
         div class="input"
           = f.text_field :phone_number
       div class="clearfix"
-        = f.label :company
+        = f.label :company, "Название компании"
         div class="input"
           = f.text_field :company
       div class="clearfix"
-        = f.label :password
+        = f.label :password, "Пароль"
         div class="input"
           = f.password_field :password
       div class="clearfix"
-        = f.label :password_confirmation
+        = f.label :password_confirmation, "Повтор пароля"
         div class="input"
           = f.password_field :password_confirmation
-      div.clearfix
-        = f.label :promocode
-        div.input
-          = f.text_field :promocode
+      - if promocode
+        div.clearfix
+          = f.label :promocode, "Промо-код (будьте внимательны!)"
+          div.input
+            = f.text_field :promocode
+      - else
+        div.clearfix
+          = f.label :message, "Какую задачу Вы хотели бы решить?"
+          div.input
+            = f.text_area :message
       div class="clearfix"
-        = f.submit "Sign up", :class => "btn primary"
+        = f.submit (promocode ? "Зарегистрироваться" : "Отправить запрос"), :class => "btn primary"
   div class="span4 columns"
-    = link_to "Sign in", new_session_path(resource_name), :class => 'btn info second'
+    = link_to "Войти", new_session_path(resource_name), :class => 'btn info second'
   div class="span4 columns" &#8201

@@ -1,11 +1,14 @@
 div class="row"
-  div class="span16"
+  div class="span14"
     div class="page-header"
       h1
         ' Добро пожаловать на страницу сервиса BotHunter!
         br
         small
           ' Мы находим ботов в сообществах социальных сетей VK.com, Facebook и Twitter.
+  div.span1
+    a.btn href="#" data-controls-modal="sign-in-modal"
+      | Войти
 div.row
   img.span6 src="/bandit.png"
   div.span6
@@ -70,28 +73,31 @@ div.row
       ' Все вопросы, пожелания и предложения принимаются по адресу&nbsp;
       a href="mailto:bothunter@myhotspot.ru"
         | bothunter@myhotspot.ru
-
 div.row
-  div class="row"
-    div class="span4 columns" &#8201
-    div class="span4 columns"
-      h2 Sign in
-      = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html=> {:class=>"form-stacked"}) do |f|
-        = devise_error_messages!
-        div class="clearfix"
-          = f.label :email
-          div class="input"
-            = f.email_field :email
-        div class="clearfix"
-          = f.label :password
-          div class="input"
-            = f.password_field :password
-        div class="clearfix"
-          - if devise_mapping.rememberable?
-              = f.label :remember_me  
-              = f.check_box :remember_me
-        div class="clearfix"
-          = f.submit "Sign in", :class => "btn primary"
-    div class="span4 columns"
-      = link_to "Sign up", new_registration_path(resource_name), :class => 'btn info second'
-    div class="span4 columns" &#8201
+  div.span4
+    ' &nbsp;
+  div.span2
+    = link_to 'Хочу инвайт!', new_user_registration_path, class: 'btn large'
+  div.span3
+    ' &nbsp;
+  div.span2
+    = link_to 'Есть промокод', new_user_registration_path(promocode: 1), class: 'btn large'
+
+div#sign-in-modal.modal.hide.fade.alert-message
+  h2 Войти
+  = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html=> {:class=>"form-stacked"}) do |f|
+    = devise_error_messages!
+    div class="clearfix"
+      = f.label :email
+      div class="input"
+        = f.email_field :email
+    div class="clearfix"
+      = f.label :password, "Пароль"
+      div class="input"
+        = f.password_field :password
+    div class="clearfix"
+      - if devise_mapping.rememberable?
+          = f.label :remember_me, "Запомнить меня"
+          = f.check_box :remember_me
+    div class="clearfix"
+      = f.submit "Войти", :class => "btn primary"

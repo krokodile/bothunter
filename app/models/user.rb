@@ -9,7 +9,7 @@ class User
          field :phone_number
          field :company
 
-         #field :message
+         field :message
 
          field :approved, type: Boolean, default: false
          index :approved
