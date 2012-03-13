@@ -5,8 +5,11 @@ div class="row"
     = form_for add_group_path, :method => :post do
       div class="clearfix"
         = text_field_tag 'group_url', params['group_url'], :class => 'span5', :placeholder => 'http://vk...'
-        = submit_tag 'Добавить', :class => 'btn primary small', :style => 'margin-left:5px;'
-div class="row"
+        -if @disabled
+          = submit_tag 'Добавить', :class => 'btn primary small', :style => 'margin-left:5px;', :disabled => "disabled"
+        -else
+          = submit_tag 'Добавить', :class => 'btn primary small', :style => 'margin-left:5px;'
+div class="row" style="position: relative;"
   div class="span16"
     div class="row"
       div class="span4"

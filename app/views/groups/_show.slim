@@ -47,11 +47,15 @@
 	      = password_field_tag 'password', '', :placeholder => 'пароль'
 	    div class="clearfix"
 	      = submit_tag 'Выполнить', class: 'btn danger', onclick: %<$('#robots-destroy-modal').modal('hide'); $('a[data-gid-to-delete="#{@group.gid}"]').removeClass('danger').text('Выполняется...')>
-div class="span4"
-  h4 Живые #{@humans}
-div class="span4"
-  h4 Сомнительные #{@undetected}
-div class="span4"
-  h4 Боты #{@robots}
+div
+  div class="span4"
+    h4 Живые #{@humans}
+  div class="span4"
+    h4 Сомнительные #{@undetected}
+  div class="span4"
+    h4 Боты #{@robots}
+  div class="span4" style="position: absolute; right: 0; bottom: 0;"
+    a href="/groups/#{@group._id}/report_persons"
+      h4 Загрузить отчет
 
 

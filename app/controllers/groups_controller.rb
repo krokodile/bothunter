@@ -20,27 +20,34 @@ class GroupsController < ApplicationController
   #end
 
   def report_persons
+    require "simple_xlsx"
     @group = Group.find params[:id]
     blob = StringIO.new('')
-    workbook = WriteExcel.new(blob)
+    #workbook = WriteExcel.new(blob)
     def make_sheet sheet,sym
-      sheet.write_row("A1",["Ссылка", "Имя", "Фамилия"])
+      sheet.add_row(["Ссылка", "Имя", "Фамилия"])
       i = 2
       @group.persons.where(state: sym).each do |person|
-        sheet.write_row("A#{i}",["http://vk.com/id#{person.uid}",person.first_name,person.last_name])
+        sheet.add_row(["http://vk.com/id#{person.uid}",person.first_name.encode("utf-8"),person.last_name.encode("utf-8")])
         i+=1
       end
     end
-    humans = workbook.add_worksheet("Живые")
-    humans.write_row("A1",["Ссылка", "Имя", "Фамилия"])
-    make_sheet(humans,:human)
-    undetected = workbook.add_worksheet("Сомнительные")
-    make_sheet(undetected,:undetected)
-    robots = workbook.add_worksheet("Боты")
-    make_sheet(robots,:robot)
-    workbook.close
-    send_data  blob.string, :type => "application/ms-excel"
-
+    file_name = "persons-report#{Time.now}"
+    serializer = SimpleXlsx::Serializer.new(file_name) do |workbook|
+      workbook.add_sheet("Живые") do |humans|
+        make_sheet(humans,:human)
+      end
+      workbook.add_sheet("Сомнительные") do |undetected|
+        make_sheet(undetected,:undetected)
+      end
+      workbook.add_sheet("Боты") do |robots|
+        make_sheet(robots,:robot)
+      end
+    end
+    send_file file_name, :disposition => 'attachment', :type => "application/ms-excel",
+              :filename => "bothunter.xlsx", :x_sendfile=>true
+    #workbook.close
+    #t.close
   end
 
 end

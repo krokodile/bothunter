@@ -25,14 +25,14 @@ class User
          end
 
   field :objects_amount, :type => Integer, :default => 0
-  attr_protected :objects_amount
+  #attr_protected :objects_amount
   
   attr_protected :_type
 
   references_many :invoices
 
-  field :people_limit, type: Integer, default: 0
-  attr_protected :people_limit
+  field :people_limit, type: Integer, default: 1000
+  #attr_protected :people_limit
 
   referenced_in :promocode
   attr_protected :promocode_id

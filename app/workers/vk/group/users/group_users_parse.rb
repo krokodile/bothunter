@@ -1,7 +1,6 @@
 class Vk::GroupUsersParse
   @queue = "bothunter"
 
-
   def self.perform gid
     group = ::Vkontakte.find_group gid
     #puts "detecting users of #{group.gid} #{group.title}"
@@ -9,8 +8,15 @@ class Vk::GroupUsersParse
     api = ::Vk::API.new()
     offset = 0
     count = 0
+    people_limit = group.users.max(:people_limit).to_i
+    if (group.persons.count >= people_limit) && (people_limit > 0)
+      return
+    end
     do_next = true
     while (offset<=count) do
+      if (group.persons.count >= people_limit) && (people_limit > 0)
+        return
+      end
       Rails.logger.debug ("count: #{count} offset: #{offset}")
       results = api.groups_getMembers(:gid=> gid, :offset => offset)
       count = results['count']
