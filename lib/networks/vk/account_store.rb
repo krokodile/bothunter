@@ -1,5 +1,19 @@
 module AccountStore
 
+  def self.little_store!
+    @@queue = {}
+    self.credentials.keys.each do |site|
+      @@queue[site] = {}
+      self.credentials[site].keys.each do |kind|
+        if kind==:accounts
+          items = self.credentials[site][kind]
+          @@queue[site][kind] = [items[0]]
+          @@queue[site][kind].each {|item| self.login site, kind, item}
+        end
+      end
+    end
+  end
+
   def self.initialize_store!
    # puts self.credentials
    # puts self.credentials[:apps]
