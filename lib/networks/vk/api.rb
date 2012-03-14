@@ -39,7 +39,7 @@ class Client
       :site          => 'https://api.vk.com/',
       :token_url     => '/oauth/token',
       :authorize_url => '/oauth/authorize',
-      connection_opts: { proxy: "socks://#{@socks[:host]}:#{@socks[:port]}" }
+      #connection_opts: { proxy: "socks://#{@socks[:host]}:#{@socks[:port]}" }
     )
 
   end
@@ -50,7 +50,7 @@ class Client
     # Create a new mechanize object
     agent = Mechanize.new{|agent| agent.user_agent = 'Opera/9.80 (J2ME/MIDP; Opera Mini/9.80 (S60; SymbOS; Opera Mobi/23.348; U; en) Presto/2.5.25 Version/10.54'}
     #agent.read_timeout=15
-    agent.agent.set_socks(@socks[:host],@socks[:port])
+    #agent.agent.set_socks(@socks[:host],@socks[:port])
     auth_url = @client.auth_code.authorize_url(
       :redirect_uri => 'https://api.vk.com/blank.html',
       :scope        => scope,

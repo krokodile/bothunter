@@ -20,7 +20,7 @@ class ParseUsers
             puts e
           end
         end
-      end
+     end
     end
   end
 end
