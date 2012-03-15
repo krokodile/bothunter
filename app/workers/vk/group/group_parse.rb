@@ -21,9 +21,16 @@ module Vk
       #puts "group id is #{gid}"
       ##_page = agent.get("http://vk.com/club#{gid.to_i}")
       #title = (_page.search 'div.top_header').first.content
+      if group_url =~ /.*\/?.*([0-9]+)$/
+        gid = $1
+      elsif group_url =~ /.*\/(.*)/
+        gid = $1
+      else
+        gid = group_url
+      end
       api = ::Vk::API.new()
-
-      group_info = api.groups_getById(:gid=> group_url)[0]
+      puts gid
+      group_info = api.groups_getById(:gid=> gid)[0]
       group = ::Group.find_or_create_by(gid: group_info["gid"])
       group.update_attributes!({
         title: group_info["name"],
