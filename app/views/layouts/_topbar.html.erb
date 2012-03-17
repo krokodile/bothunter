@@ -23,7 +23,7 @@
             <!--<li><%#= link_to "10 групп, 17.50 денег", "/robokassa/start?#{RobokassaMerchant.signed_start_params(10, 17.5, current_user)}" %></li>-->
           <!--</ul>-->
         <!--</li>-->
-        <li><%= link_to "Выйти", destroy_user_session_path %></li>
+        <li><%= link_to "Выйти", destroy_user_session_path, method: 'delete' %></li>
       </ul>
     </div>
   </div>
