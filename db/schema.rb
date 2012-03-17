@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120317073808) do
+ActiveRecord::Schema.define(:version => 20120317134911) do
 
   create_table "groups", :force => true do |t|
     t.string "link"
@@ -31,6 +31,17 @@ ActiveRecord::Schema.define(:version => 20120317073808) do
     t.string  "token"
     t.string  "provider"
     t.string  "domain"
+  end
+
+  create_table "people", :force => true do |t|
+    t.datetime "bdate"
+    t.string   "uid"
+    t.string   "domain"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "state"
+    t.string   "photo"
+    t.integer  "friends_count"
   end
 
   create_table "promocodes", :force => true do |t|

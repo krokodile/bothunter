@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class PagesController < ApplicationController
   before_filter :authenticate_user!
 
@@ -23,11 +25,14 @@ class PagesController < ApplicationController
       #group.save
       group.users << current_user
       current_user.groups << group
-      current_user.objects_amount -=1
+      current_user.objects_amount -= 1
       current_user.save!
-      group.save
+      group.save!
+    else
+      flash[:notice] = 'Вы не можете добавить группу из-за ограничений вашего аккаунта. Пожалуйста, свяжитесь с менеджером.'
     end
-    redirect_to :action=>'index'
+
+    redirect_to action: 'index'
 #    Thread.new do
 #      Vk::GroupUsersParse.perform(group.gid)
   end

@@ -30,13 +30,13 @@ module Vk
       end
       api = ::Vk::API.new()
       puts gid
-      group_info = api.groups_getById(:gid=> gid)[0]
-      group = ::Group.find_or_create_by(gid: group_info["gid"])
+      group_info = api.groups_getById(gid: gid).first
+      group = ::Group.find_or_create_by_gid group_info["gid"]
       group.update_attributes!({
         title: group_info["name"],
         domain: group_info["screen_name"]
       })
-      return group
+      group
     end
   end
 end

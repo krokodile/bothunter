@@ -12,7 +12,15 @@
       <%= render "layouts/topbar" %>
     <% end %>
 
-    <div class="messages"></div>
+    <div class="messages">
+      <% flash.each do |type, message| %>
+        <%= content_tag :div, class: "alert alert-#{type}" do %>
+          <%= link_to 'x', '#', class: 'close', 'data-dismiss' => 'alert' %>
+          <p><%= message %></p>
+        <% end %>
+      <% end %>
+    </div>
+
     <div class="container">
       <div class="toolbar-free-space"></div>
       <div class="content">
