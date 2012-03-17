@@ -3,9 +3,10 @@ class CreateGroups < ActiveRecord::Migration
     create_table :groups do |t|
       t.string :link
       t.string :name
-      t.string :gid
       t.string :domain
       t.string :title
+
+      t.integer :gid
     end
   end
 

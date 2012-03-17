@@ -1,0 +1,53 @@
+<%= form_for @manual_invoice, url: user_manual_invoices_path(@user.id), remote: true do |f| %>
+  <a class="close" href="#">x</a>
+  <h2>Пополнение баланса пользователя</h2>
+  <div class="clearfix">Необходимо указать поступившую сумму, количество групп, доступных для проверки, а также номер документа, на основании которого производится зачисление.</div>
+  <div class="clearfix">
+    <label>Ваше имя</label>
+    <div class="input">
+      <span class="uneditable-input">
+        <%= current_user.full_name %>
+      </span>
+    </div>
+  </div>
+  <div class="clearfix">
+    <label>Имя пользователя</label>
+    <div class="input">
+      <span class="uneditable-input">
+        <%= @user.full_name %>
+      </span>
+    </div>
+  </div>
+  <div class="clearfix">
+    <label>Компания пользователя</label>
+    <div class="input">
+      <span class="uneditable-input">
+        <%= @user.company %>
+      </span>
+    </div>
+  </div>
+  <div class="clearfix">
+    <strong>Действие необратимо!</strong>
+  </div>
+  <div class="clearfix">
+    <%= f.label :objects_amount, 'Количество групп' %>
+    <div class="input">
+      <%= f.text_field :objects_amount, placeholder: '0' %>
+    </div>
+  </div>
+  <div class="clearfix">
+    <%= f.label :money_amount, 'Принятая сумма' %>
+    <div class="input">
+      <%= f.text_field :money_amount, placeholder: '0.00' %>
+    </div>
+  </div>
+  <div class="clearfix">
+    <%= f.label :money_amount, 'Номер документа' %>
+    <div class="input">
+      <%= f.text_field :agreement_number, placeholder: '...' %>
+    </div>
+  </div>
+  <div class="clearfix">
+    <%= f.submit 'Выполнить', class: 'btn danger' %>
+  </div>
+<% end %>

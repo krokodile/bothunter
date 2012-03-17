@@ -1,0 +1,65 @@
+<!--//div-->
+	<!--div class="span4"-->
+	  <!--h4-->
+	    <!--' Реальные-->
+	  <!--- @humans.each do |profile|-->
+	    <!--div-->
+	      <!--a href="http://vkontakte.ru/id#{profile.uid}"-->
+		<!--img width="16" height="16" src="#{profile.photo}"-->
+		<!--| "#{profile.first_name} #{profile.last_name}"-->
+	<!--div class="span4"-->
+	  <!--h4-->
+	    <!--' Неопределенные-->
+	  <!--- @undetected.each do |profile|-->
+	    <!--div-->
+	      <!--= link_to "◀", {:human_person_id => profile, :group_id => @group}, {:class => "label success real", :id => "pjax", :rel => "twipsy", :title => "Реальный пользователь", :"data-placement" => "left"}-->
+	      <!--a href="http://vkontakte.ru/id#{profile.uid}"-->
+		<!--img width="16" height="16" src="#{profile.photo}"-->
+		<!--| "#{profile.first_name} #{profile.last_name}"-->
+	      <!--= link_to "▶", {:robot_person_id => profile, :group_id => @group}, {:class => "label important bot", :id => "pjax", :rel => 'twipsy', :title => "Бот", :"data-placement" => "right"} -->
+	<!--div class="span4"-->
+	  <!--h4-->
+	    <!--' Боты-->
+	  <!--- @robots.each do |profile|-->
+	    <!--div-->
+	      <!--a href="http://vkontakte.ru/id#{profile.uid}"-->
+		<!--img width="16" height="16" src="#{profile.photo}"-->
+		<!--| "#{profile.first_name} #{profile.last_name}"-->
+	  <!--a href="#" class="btn danger" data-controls-modal="robots-destroy-modal" data-keyboard="true" data-backdrop="true" data-gid-to-delete="#{@group.gid}"-->
+	    <!--| Сжечь!-->
+
+	<!--div id="robots-destroy-modal" class="modal hide fade alert-message warning"-->
+	  <!--div class="clearfix"-->
+	    <!--| Извините, в бета-версии этот функционал пока недоступен.-->
+	  <!--/form method="post" action="#{delete_robots_group_path @group}" data-remote="true"-->
+	    <!--a class="close" href="#"-->
+	      <!--| x-->
+	    <!--h2-->
+	      <!--| Удаление роботов из группы-->
+	    <!--div class="clearfix"-->
+	      <!--| Необходимы логин и пароль от аккаунта администратора этой группы.-->
+	    <!--div class="clearfix"-->
+	      <!--strong-->
+		<!--| Действие необратимо!-->
+	    <!--div class="clearfix"-->
+	      <!--= text_field_tag 'login', '', :placeholder => 'логин'-->
+	    <!--div class="clearfix"-->
+	      <!--= password_field_tag 'password', '', :placeholder => 'пароль'-->
+	    <!--div class="clearfix"-->
+	      <!--= submit_tag 'Выполнить', class: 'btn danger', onclick: %<$('#robots-destroy-modal').modal('hide'); $('a[data-gid-to-delete="#{@group.gid}"]').removeClass('danger').text('Выполняется...')>-->
+<div>
+  <div class="span4">
+    <h4>Живые <%= @humans %></h4>
+  </div>
+  <div class="span4">
+    <h4>Сомнительные <%= @undetected %></h4>
+  </div>
+  <div class="span4">
+    <h4>Боты <%= @robots %></h4>
+  </div>
+  <div class="span4" style="position: absolute; right: 0; bottom: 0;">
+    <a href="/groups/<%= @group.id %>/report_persons">
+      <h4>Загрузить отчет</h4>
+    </a>
+  </div>
+</div>
