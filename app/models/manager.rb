@@ -1,3 +1,3 @@
-class Manager < User
-  references_many :manual_invoices
+class Manager < ActiveRecord::Base #< User
+  #references_many :manual_invoices
 end

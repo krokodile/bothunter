@@ -1,0 +1,30 @@
+<div class="topbar">
+  <div class="topbar-inner fill">
+    <div class="container">
+      <h3><%= link_to "Бот-хантер", :root %></h3>
+
+      <ul class="nav">
+        <li><%= link_to "FAQ", "#" %></li>
+        <li><%= link_to "Профиль", edit_user_registration_path %></li>
+
+        <% if can? :manage, Manager %>
+          <li><%= link_to "Пользователи", users_path %></li>
+          <li><%= link_to "Промо-коды", promocodes_path %></li>
+        <% end %>
+      </ul>
+
+      <ul class="nav secondary-nav">
+        <li><%= link_to "Групп: #{current_user.objects_amount}", root_path %>
+        <!--<li class="menu" data-dropdown="dropdown">-->
+          <!--<a href="#" class="dropdown-toggle">Групп: <%#= current_user.objects_amount %></a>-->
+
+          <!--<ul class="menu-dropdown">-->
+            <!--<li><%#= link_to "5 групп, 10.00 денег", "/robokassa/start?#{RobokassaMerchant.signed_start_params(5, 10, current_user)}" %></li>-->
+            <!--<li><%#= link_to "10 групп, 17.50 денег", "/robokassa/start?#{RobokassaMerchant.signed_start_params(10, 17.5, current_user)}" %></li>-->
+          <!--</ul>-->
+        <!--</li>-->
+        <li><%= link_to "Выйти", destroy_user_session_path %></li>
+      </ul>
+    </div>
+  </div>
+</div>

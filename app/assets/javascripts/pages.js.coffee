@@ -4,4 +4,4 @@
 
 jQuery ->
   $('#pjax a').pjax('[data-pjax-container]')
-  $('a[rel=twipsy]').twipsy({live: true})
+#  $('a[rel=twipsy]').twipsy({live: true})

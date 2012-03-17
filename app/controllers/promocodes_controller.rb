@@ -1,4 +1,5 @@
 class PromocodesController < ApplicationController
+  before_filter :authenticate_user!
   before_filter :authenticate_manager!
 
   inherit_resources

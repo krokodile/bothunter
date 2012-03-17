@@ -1,5 +1,6 @@
 # encoding: utf-8
 class GroupsController < ApplicationController
+  before_filter :authenticate_user!
 
   def delete_robots
     @group = Group.find params[:id]

@@ -1,18 +1,10 @@
-#coding=utf-8
-class Group
-  include Mongoid::Document
-  
-  field :link, type: String
-  field :name, type: String
-  field :gid,  type: String
-  field :domain, type: String
-  field :title, type: String
+# encoding: utf-8
+
+class Group < ActiveRecord::Base
   validates_presence_of :gid
   
-  has_and_belongs_to_many :persons #, unique: true
-  has_and_belongs_to_many :users   #, unique: true
-  index :gid, background: true
-  index :domain, background: true
+  has_and_belongs_to_many :persons, uniq: true
+  has_and_belongs_to_many :users, uniq: true
 
   def self.report_persons gid
     #workbook = RubyXL::Workbook.new

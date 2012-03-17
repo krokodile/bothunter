@@ -1,4 +1,6 @@
 class PeopleController < ApplicationController
+  before_filter :authenticate_user!
+
   def humanize
     @person = Person.find(params[:id])
     # FIXME: access control!

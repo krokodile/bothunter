@@ -1,5 +1,5 @@
-class ManualInvoice < Invoice
-  referenced_in :manager
+class ManualInvoice < ActiveRecord::Base #< Invoice
+  #referenced_in :manager
 
-  field :agreement_number, type: String
+  #field :agreement_number, type: String
 end

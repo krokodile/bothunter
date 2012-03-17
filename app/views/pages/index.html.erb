@@ -1,0 +1,42 @@
+<%= link_to 'Добавить ваш аккаунт Вконтакте', '/auth/vkontakte' %>
+
+<div class="row">
+  <div class="span8">
+    <h4>Добавить группу</h4>
+    <%= form_for add_group_path, method: :post do %>
+      <div class="clearfix">
+        <%= text_field_tag 'group_url', params['group_url'], class: 'span5', placeholder: 'http://vk...' %>
+        <% if @disabled %>
+          <%= submit_tag 'Добавить', class: 'btn primary small', style: 'margin-left:5px;', disabled: "disabled" %>
+        <% else %>
+          <%= submit_tag 'Добавить', class: 'btn primary small', style: 'margin-left:5px;' %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="row" style="position: relative;">
+  <div class="span16">
+    <div class="row">
+      <div class="span4">
+        <h4>Ваши группы</h4>
+
+        <ul>
+          <% @groups.each do |group| %>          
+            <li id="pjax"><%= link_to "#{group.title}", group_id: group %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div data-pjax-container>
+        <% if @group %>
+          <%= render "groups/show" %>
+        <% else %>
+          <div class="span12">
+            <h6>Выберите группу для просмотра юзеров</h6>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

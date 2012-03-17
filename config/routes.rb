@@ -1,16 +1,15 @@
 BotHunter::Application.routes.draw do
-
   post "pages/create", as: 'add_group'
 
   resources :profiles
 
-  resources :people, :only => [] do
+  resources :people, only: [] do
     member do
       get :humanize
       delete :humanize
     end
   end
-  resources :groups, :only => [] do
+  resources :groups, only: [] do
     member do
       post :delete_robots
       get :report_persons
@@ -33,7 +32,10 @@ BotHunter::Application.routes.draw do
   end
 
   resources :promocodes
-  
-  root :to => "pages#index"
 
+  resources :authorizations
+  match '/auth/:provider/callback', to: 'authorizations#create'
+  match '/auth/failure', to: 'authorizations#failure'
+
+  root to: 'pages#index'
 end

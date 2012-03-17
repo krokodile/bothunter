@@ -1,3 +1,3 @@
-class Page
-  include Mongoid::Document
+class Page < ActiveRecord::Base
+  #include Mongoid::Document
 end

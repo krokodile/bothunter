@@ -1,17 +1,8 @@
-class Promocode
-  include Mongoid::Document
-
-  #before_create :multiply
-
-  field :groups_limit, type: Integer, default: 0
-  field :people_limit, type: Integer, default: 0
-
-  #attr_accessor :promocodes_count # reader needed for form generation
-
-  references_one :user
-
-  field :code, type: String, default: nil
-  index :code, unique: true
+class Promocode < ActiveRecord::Base
+  ##before_create :multiply
+  #
+  #
+  ##attr_accessor :promocodes_count # reader needed for form generation
 
 #protected
 #  def multiply

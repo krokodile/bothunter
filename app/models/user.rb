@@ -1,47 +1,31 @@
-class User
-  include Mongoid::Document
+class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :company, :full_name, :phone_number, :message
          
-         field :full_name
-         field :phone_number
-         field :company
+  has_many :campaigns
+  has_many :oauth_tokens, uniq: true
+  has_and_belongs_to_many :groups, uniq: true
 
-         field :message
-
-         field :approved, type: Boolean, default: false
-         index :approved
-       
-         validates_presence_of :full_name, :company, :phone_number
+  validates_presence_of :full_name, :company, :phone_number
          
-         has_many :campaigns
-         has_and_belongs_to_many :groups
-         
-         def update_with_password(params={})
-           params.delete(:current_password)
-           self.update_without_password(params)
-         end
+  def update_with_password(params={})
+    params.delete(:current_password)
+    self.update_without_password(params)
+  end
 
-  field :objects_amount, :type => Integer, :default => 0
-  #attr_protected :objects_amount
-  
-  attr_protected :_type
+  #references_many :invoices
 
-  references_many :invoices
+  #referenced_in :promocode
+  #index :promocode_id, unique: true
 
-  field :people_limit, type: Integer, default: 1000
-  #attr_protected :people_limit
-
-  referenced_in :promocode
-  attr_protected :promocode_id
-  index :promocode_id, unique: true
-
-  before_create :verify_promocode
+  #before_create :verify_promocode
 
   def manager?
-    kind_of? Manager
+    true #kind_of? Manager
   end
 
   def promocode
@@ -74,7 +58,8 @@ class User
     approved? ? super : I18n.t("devise.registrations.signed_up_but_inactive")
   end
 
-protected
+  protected
+
   def verify_promocode
     code = @promocode.to_s.strip
 
