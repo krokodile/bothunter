@@ -1,4 +1,6 @@
 class Promocode < ActiveRecord::Base
+  belongs_to :user
+
   ##before_create :multiply
   #
   #

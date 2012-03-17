@@ -1,0 +1,67 @@
+<h2>Промо-коды</h2>
+<!--/div.tabbable.row-->
+<!--/  ul.nav.nav-tabs-->
+<!--/    li class="#{params[:show].nil? ? 'active' : ''}"-->
+<!--/      a href="#{users_path}"-->
+<!--/        | Все-->
+<!--/    li class="#{params[:show] == 'inactive' ? 'active' : ''}"-->
+<!--/      a href="#{users_path show: 'inactive'}"-->
+<!--/        | Неактивные-->
+
+<div class="row">
+  <div class="span1">
+    <h4>№</h4>
+  </div>
+  <div class="span3">
+    <h4>Код</h4>
+  </div>
+  <div class="span2">
+    <h4>Группы, шт.</h4>
+  </div>
+  <div class="span2">
+    <h4>Пользователи, шт.</h4>
+  </div>
+  <div class="span3">
+    <h4>Используется</h4>
+  </div>
+</div>
+
+<% i = 0; @promocodes.each do |promocode| %>
+  <div class="row">
+    <div class="span1">
+      <%= (i = i.next).to_s %>
+    </div>
+    <div class="span3">
+      <%= promocode.code %>
+    </div>
+    <div class="span2">
+      <%= promocode.groups_limit %>
+    </div>
+    <div class="span2">
+      <%= promocode.people_limit %>
+    </div>
+    <div class="span3">
+      <% if promocode.user.nil? %>
+        <span class="label">нет</span>
+      <% else %>
+        <a href="<%= user_path promocode.user %>"></a>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<h3>Создать промо-коды</h3>
+
+<div class="row">
+  <a href="<%= new_promocode_path %>" data-controls-modal="create-promocode-modal" class="btn btn-primary btn-large">Создать</a>
+</div>
+
+<div id="create-promocode-modal" class="modal hide fade alert-message in"></div>
+
+<script>
+  $('a[data-controls-modal="create-promocode-modal"]').click(function() {
+    $('#create-promocode-modal').load("<%= raw new_promocode_path %>")
+  })
+//  $('a[data-manager-id]').click(function(){ $(this).text('...') })
+//  $('a[data-approved-id]').click(function(){ $(this).text('...') })
+</script>
