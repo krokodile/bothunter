@@ -1,6 +1,4 @@
 #!/usr/bin/env rake
-# Add your own tasks in files placed in lib/tasks ending in .rake,
-# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
 require File.expand_path('../config/application', __FILE__)
 
@@ -18,7 +16,7 @@ end
 
 #task "resque:scheduler_setup" => :environment
 
-desc "Start a parse workers"
+#desc "Start a parse workers"
 #task 'bothunter:workers' => :environment do
 #  Rake::Task["resque:setup"].reenable
 #  Rake::Task["resque:setup"].invoke
@@ -59,6 +57,7 @@ namespace :bothunter do
       t2.join
     end
   end
+
   desc "Force restart"
   task :force_restart_through_upstart do
     system %Q{

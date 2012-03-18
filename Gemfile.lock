@@ -241,6 +241,7 @@ GEM
     warden (1.1.1)
       rack (>= 1.0)
     webrobots (0.0.13)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -250,6 +251,7 @@ DEPENDENCIES
   coffee-rails
   database_cleaner
   devise
+  faraday
   foreman
   formtastic
   formtastic-bootstrap
@@ -277,3 +279,4 @@ DEPENDENCIES
   twitter-bootstrap-rails
   uglifier
   unicorn
+  yajl-ruby

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AuthorizationsController < ApplicationController
   before_filter :authenticate_user!
 
@@ -6,7 +8,9 @@ class AuthorizationsController < ApplicationController
       provider: request.env['omniauth.auth'][:provider],
       domain: request.env['omniauth.auth'][:extra][:raw_info][:domain]
     )
-    token.update_attributes token: request.env['omniauth.auth'][:credentials][:token]
+    token.update_attributes! token: request.env['omniauth.auth'][:credentials][:token]
+
+    redirect_to root_path, notice: 'Ваша авторизация Вконтакте добавлена.'
 
     #omniauth = request.env['omniauth.auth']
     #@auth = Authorization.find_from_hash omniauth
@@ -25,7 +29,7 @@ class AuthorizationsController < ApplicationController
 
   def failure
     #redirect_to root_url, notice: t('not_authorize')
-    render text: 'Failure!'
+    redirect_to root_path, error: 'Произошла ошибка при добавлении авторизации Вконтакте!'
   end
 
   def destroy

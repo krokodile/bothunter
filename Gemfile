@@ -3,6 +3,9 @@ source 'http://rubygems.org'
 gem 'rails', '~> 3.2.0'
 gem 'pg'
 
+gem 'yajl-ruby', require: 'yajl'
+gem 'faraday'
+
 gem 'therubyracer'
 gem 'oauth2'
 gem 'devise'

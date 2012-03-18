@@ -21,12 +21,12 @@ ActiveRecord::Schema.define(:version => 20120317152358) do
     t.integer "gid"
   end
 
-  create_table "groups_people", :force => true do |t|
+  create_table "groups_people", :id => false, :force => true do |t|
     t.integer "group_id"
     t.integer "person_id"
   end
 
-  create_table "groups_users", :force => true do |t|
+  create_table "groups_users", :id => false, :force => true do |t|
     t.integer "user_id"
     t.integer "group_id"
   end

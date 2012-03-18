@@ -8,6 +8,8 @@ if defined?(Bundler)
   Bundler.require *Rails.groups(:assets => %w(development test))
 end
 
+require 'vkontakte/all'
+
 require 'robokassa_merchant'
 
 module BotHunter
