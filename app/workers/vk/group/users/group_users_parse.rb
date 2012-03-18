@@ -2,10 +2,10 @@ class Vk::GroupUsersParse
   @queue = "bothunter"
 
   def self.perform gid
-    group  = Group.find_by_vkontakte_gid gid
+    group  = Group.find_by_gid gid
     offset = 0
     count  = 0
-    token = User.last.token_for('vkontakte')
+    token  = group.users.shuffle.first.token_for('vkontakte')
 
     people_limit = group.users.map(&:people_limit).max
 

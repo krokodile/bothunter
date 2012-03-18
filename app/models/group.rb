@@ -8,18 +8,6 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :gid
   validates_numericality_of :gid, greater_than: 0
 
-  def self.find_by_vkontakte_gid gid
-    gid = gid.to_s
-    #group = ::Vk::Helpers.parse_gid url
-    #puts "parse is #{group} on url #{url}"
-
-    if ::Vk::Helpers.is_gid? gid
-      Group.find_by_gid gid
-    else
-      Group.find_by_domain gid
-    end
-  end
-
   def self.report_persons gid
     #workbook = RubyXL::Workbook.new
     #serializer = ::SimpleXlsx::Serializer.new("/home/boris/me.xls") do |doc|
