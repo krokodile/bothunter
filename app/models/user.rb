@@ -58,6 +58,10 @@ class User < ActiveRecord::Base
     approved? ? super : I18n.t("devise.registrations.signed_up_but_inactive")
   end
 
+  def token_for provider
+    self.oauth_tokens.find_by_provider(provider).token rescue nil
+  end
+
   protected
 
   def verify_promocode
