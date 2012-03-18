@@ -8,6 +8,8 @@ class CreateGroups < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :groups, :gid
   end
 
   def down

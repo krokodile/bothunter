@@ -14,6 +14,8 @@ class CreatePeople < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :people, :uid
   end
 
   def down
