@@ -11,13 +11,6 @@ class PagesController < ApplicationController
     if current_user.objects_amount <= 0
       @disabled = true
     end
-
-    if params['group_id']
-      @group = Group.find(params['group_id'])
-      @humans = @group.persons.where(state: :human)#.count
-      @robots = @group.persons.where(state: :robot)#.count
-      @undetected = @group.persons.where(state: :undetected)#.count
-    end
   end
 
   def create

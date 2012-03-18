@@ -1,6 +1,20 @@
 # encoding: utf-8
+
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
+
+  def show
+    @groups =  current_user.groups.scoped
+
+    if current_user.objects_amount <= 0
+      @disabled = true
+    end
+
+    @group = @groups.find params[:id]
+    @humans = @group.persons.where(state: :human)
+    @robots = @group.persons.where(state: :robot)
+    @undetected = @group.persons.where(state: :undetected)
+  end
 
   def delete_robots
     @group = Group.find params[:id]

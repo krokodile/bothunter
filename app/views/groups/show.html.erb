@@ -1,5 +1,3 @@
-<%= link_to 'Добавить ваш аккаунт Вконтакте', '/auth/vkontakte' %>
-
 <div class="row">
   <div class="span8">
     <h4>Добавить группу</h4>
@@ -20,22 +18,13 @@
   <div class="span16">
     <div class="row">
       <div class="span4">
-        <h4>Ваши группы</h4>
-
-        <ul>
-          <% @groups.each do |group| %>          
-            <li><%= link_to "#{group.title}", group %></li>
-          <% end %>
-        </ul>
+        <h2>Группа: <%= @group.title %></h2>
       </div>
-      <div data-pjax-container>
-        <% if @group %>
-          <%= render "groups/show" %>
-        <% else %>
-          <div class="span12">
-            <h6>Выберите группу для просмотра юзеров</h6>
-          </div>
-        <% end %>
+
+      <div class="clearfix"></div>
+
+      <div class="span12">
+        <%= render 'show' %>
       </div>
     </div>
   </div>
