@@ -14,31 +14,33 @@ class Vk::GroupUsersParse
     while offset <= count do
       return if (group.people.count >= people_limit) && (people_limit > 0)
 
-      results = Vk::API.call_method token, 'groups.getMembers', gid: gid, offset: offset
-      count   = results['count']
-      uids    = results['users'].map(&:to_i)
-      offset += 1000
+      results     = Vk::API.call_method token, 'groups.getMembers', gid: gid, offset: offset
+      count       = results['count']
+      result_uids = results['users'].map(&:to_i)
+      offset      += 1000
 
-      uids.uniq!
+      result_uids.uniq!
 
-      exists_uids = Person.select(:uid).where(['uid IN (?)', uids.map(&:to_s)]).map(&:uid).map(&:to_i)
-      uids -= exists_uids
+      exists_uids = Person.select(:uid).where(['uid IN (?)', result_uids.map(&:to_s)]).
+                    map(&:uid).map(&:to_i)
+      result_uids -= exists_uids
 
-      next if uids.empty?
+      next if result_uids.empty?
 
       now = Time.now
 
-      new_uids = uids.map do |id|
+      new_uids = result_uids.map do |id|
         "('#{id}', '#{now}', '#{now}')"
       end
 
       new_ids = []
       ActiveRecord::Base.transaction do
-        _res = Person.connection.execute("INSERT INTO \"people\" (uid, created_at, updated_at) VALUES #{new_uids.join(',')} RETURNING id;")
+        _res = Person.connection.execute("INSERT INTO \"people\" (uid, created_at, updated_at)
+                                          VALUES #{new_uids.join(',')} RETURNING id;")
         new_ids = _res.entries.map(&:values).flatten
       end
 
-      #TODO: Assign persons(new and old) with current group
+      #TODO: Assign persons(newer and older) with current group
     end
   end
 end
