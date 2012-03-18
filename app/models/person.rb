@@ -1,4 +1,21 @@
 class Person < ActiveRecord::Base
+  has_and_belongs_to_many :groups, uniq: true
+
+  validates_presence_of :uid
+  validates_uniqueness_of :uid
+  validates_numericality_of :uid, greater_than: 0
+
+  def self.find_by_vkontakte_uid uid
+    uid = uid.to_s
+    #person = ::Vk::Helpers.parse_uid url
+
+    if ::Vk::Helpers.is_uid? uid
+      Person.find_or_create_by_uid uid #TODO DIRTY
+    else
+      Person.find_or_create_by_domain uid #TODO DIRTY
+    end
+  end
+
   #include Mongoid::Document
   #field :uid, type:String
   #field :domain, type:String

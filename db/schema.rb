@@ -14,28 +14,30 @@
 ActiveRecord::Schema.define(:version => 20120317152358) do
 
   create_table "groups", :force => true do |t|
-    t.string  "link"
-    t.string  "name"
-    t.string  "domain"
-    t.string  "title"
-    t.integer "gid"
+    t.string   "domain"
+    t.string   "title"
+    t.string   "gid",        :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "groups_people", :id => false, :force => true do |t|
+  create_table "groups_people", :force => true do |t|
     t.integer "group_id"
     t.integer "person_id"
   end
 
-  create_table "groups_users", :id => false, :force => true do |t|
+  create_table "groups_users", :force => true do |t|
     t.integer "user_id"
     t.integer "group_id"
   end
 
   create_table "oauth_tokens", :force => true do |t|
-    t.integer "user_id"
-    t.string  "token"
-    t.string  "provider"
-    t.string  "domain"
+    t.integer  "user_id"
+    t.string   "token"
+    t.string   "provider"
+    t.string   "domain"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "people", :force => true do |t|
@@ -47,13 +49,17 @@ ActiveRecord::Schema.define(:version => 20120317152358) do
     t.string   "state"
     t.string   "photo"
     t.integer  "friends_count"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "promocodes", :force => true do |t|
-    t.integer "user_id"
-    t.integer "groups_limit"
-    t.integer "people_limit"
-    t.string  "code"
+    t.integer  "user_id"
+    t.integer  "groups_limit"
+    t.integer  "people_limit"
+    t.string   "code"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   add_index "promocodes", ["code"], :name => "index_promocodes_on_code"
@@ -66,6 +72,8 @@ ActiveRecord::Schema.define(:version => 20120317152358) do
     t.string   "message"
     t.integer  "objects_amount",         :default => 0
     t.integer  "people_limit",           :default => 100
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.string   "email",                  :default => "",  :null => false
     t.string   "encrypted_password",     :default => "",  :null => false
     t.string   "reset_password_token"

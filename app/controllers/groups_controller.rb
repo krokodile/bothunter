@@ -11,9 +11,9 @@ class GroupsController < ApplicationController
     end
 
     @group = @groups.find params[:id]
-    @humans = @group.persons.where(state: :human)
-    @robots = @group.persons.where(state: :robot)
-    @undetected = @group.persons.where(state: :undetected)
+    @humans = @group.people.where(state: :human)
+    @robots = @group.people.where(state: :robot)
+    @undetected = @group.people.where(state: :undetected)
   end
 
   def delete_robots
@@ -42,7 +42,7 @@ class GroupsController < ApplicationController
     def make_sheet sheet,sym
       sheet.add_row(["Ссылка", "Имя", "Фамилия"])
       i = 2
-      @group.persons.where(state: sym).each do |person|
+      @group.people.where(state: sym).each do |person|
         sheet.add_row(["http://vk.com/id#{person.uid}",person.first_name.encode("utf-8"),person.last_name.encode("utf-8")])
         i+=1
       end

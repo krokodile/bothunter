@@ -2,42 +2,36 @@ class Vk::GroupUsersParse
   @queue = "bothunter"
 
   def self.perform gid
-    group = ::Vkontakte.find_group gid
-    #puts "detecting users of #{group.gid} #{group.title}"
-    gid = group.gid
-    api = ::Vk::API.new()
+    group  = Group.find_by_vkontakte_gid gid
     offset = 0
-    count = 0
-    people_limit = group.users.max(:people_limit).to_i
-    if (group.persons.count >= people_limit) && (people_limit > 0)
-      return
-    end
-    do_next = true
-    while (offset<=count) do
-      if (group.persons.count >= people_limit) && (people_limit > 0)
-        return
+    count  = 0
+    token = User.last.token_for('vkontakte')
+
+    people_limit = group.users.map(&:people_limit).max
+
+    return if (group.people.count >= people_limit) && (people_limit > 0)
+
+    while offset <= count do
+      return if (group.people.count >= people_limit) && (people_limit > 0)
+
+      results = Vk::API.call_method token, 'groups.getMembers', gid: gid, offset: offset
+      count   = results['count']
+      uids    = results['users']
+      offset += 1000
+
+      uids.uniq!
+
+      exists_uids = Person.select(:uid).where(['uid IN (?)', uids.map(&:to_s)]).map(&:uid)
+      uids -= exists_uids
+      now = Time.now
+
+      new_uids = uids.map do |id|
+        "('#{id}', '#{now}', '#{now}')"
       end
-      Rails.logger.debug ("count: #{count} offset: #{offset}")
-      results = api.groups_getMembers(:gid=> gid, :offset => offset)
-      count = results['count']
-      persons = results['users']
-      offset +=1000
-      persons.each do |person_link|
-        Rails.logger.debug  ("detecting person: #{person_link}")
-          person = ::Vkontakte.find_person(person_link)
-          if !group.persons.include?(person)
-            group.persons << person
-          end
-          person.save!
-          group.save!
-        Rails.logger.debug  ("detected person: #{person_link}")
-          #::ProfileParse.perform person
 
-          #else
-          #group.people << Vk::Person.find_or_create_by(domain:person_link)
-          #end
-        end
-
+      ActiveRecord::Base.transaction do
+        Person.connection.execute("INSERT INTO \"people\" (uid, created_at, updated_at) VALUES #{new_uids.join(',')};")
       end
     end
+  end
 end

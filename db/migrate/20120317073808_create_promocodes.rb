@@ -2,9 +2,13 @@ class CreatePromocodes < ActiveRecord::Migration
   def up
     create_table :promocodes do |t|
       t.references :user
+
       t.integer :groups_limit
       t.integer :people_limit
+
       t.string :code, default: nil, uniq: true
+
+      t.timestamps
     end
 
     add_index :promocodes, :code

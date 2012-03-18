@@ -10,6 +10,8 @@ class CreateUsers < ActiveRecord::Migration
 
       t.integer :objects_amount, default: 0
       t.integer :people_limit, default: 100
+
+      t.timestamps
     end
   end
 

@@ -21,8 +21,8 @@ class PagesController < ApplicationController
         gid = Vk::Helpers.parse_gid params['group_url']
         api_result = Vk::API.call_method token, 'groups.getById', gid: gid
 
-        if api_result.present?
-          group = ::Group.find_or_create_by_gid api_result["gid"]
+        if api_result.present? && api_result["gid"].to_i > 0
+          group = ::Group.find_or_create_by_gid api_result["gid"].to_s
           group.update_attributes!({
             title: api_result["name"],
             domain: api_result["screen_name"]

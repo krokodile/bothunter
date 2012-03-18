@@ -6,6 +6,8 @@ class CreateOauthTokens < ActiveRecord::Migration
       t.string :token
       t.string :provider
       t.string :domain
+
+      t.timestamps
     end
   end
 

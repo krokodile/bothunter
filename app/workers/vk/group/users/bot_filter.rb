@@ -35,7 +35,7 @@ class BotFilter
         rescue => e
           puts "Raised error on #{uid}, analitycs nead"
         end
-        group.persons.where(uid: uid).delete
+        group.people.where(uid: uid).delete
       end
     end
   end

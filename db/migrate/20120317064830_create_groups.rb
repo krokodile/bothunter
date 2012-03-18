@@ -1,12 +1,12 @@
 class CreateGroups < ActiveRecord::Migration
   def up
     create_table :groups do |t|
-      t.string :link
-      t.string :name
       t.string :domain
       t.string :title
 
-      t.integer :gid
+      t.string :gid, null: false
+
+      t.timestamps
     end
   end
 
