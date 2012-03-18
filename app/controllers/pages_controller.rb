@@ -12,9 +12,9 @@ class PagesController < ApplicationController
     end
     if params['group_id']
       @group = Group.find(params['group_id'])
-      @humans = @group.persons.where(state: :human).count
-      @robots = @group.persons.where(state: :robot).count
-      @undetected = @group.persons.where(state: :undetected).count
+      @humans = @group.persons.where(state: :human)#.count
+      @robots = @group.persons.where(state: :robot)#.count
+      @undetected = @group.persons.where(state: :undetected)#.count
     end
   end
 
