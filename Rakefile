@@ -41,20 +41,22 @@ namespace :bothunter do
   #  end
   #end
   task :workers => :environment do
-    loop do
-      t1 = Thread.new do
+    parse_groups_thread = Thread.new do
+      loop do
         ParseGroups.perform
         sleep 60
       end
+    end
 
-      t2 = Thread.new do
+    parse_users_thread = Thread.new do
+      loop do
         ParseUsers.perform
         sleep 60
       end
-
-      t1.join
-      t2.join
     end
+
+    parse_groups_thread.join
+    parse_users_thread.join
   end
 
   desc "Force restart"
