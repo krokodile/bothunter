@@ -17,13 +17,15 @@ class Vk::GroupUsersParse
       results     = Vk::API.call_method token, 'groups.getMembers', gid: gid, offset: offset
       count       = results['count']
       result_uids = results['users'].map(&:to_i)
-      offset      += 1000
+      offset     += 1000
 
       result_uids.uniq!
 
-      exists_uids = Person.select(:uid).where(['uid IN (?)', result_uids.map(&:to_s)]).
-                    map(&:uid).map(&:to_i)
-      result_uids -= exists_uids
+      exists_people = Person.select(['people.id', 'people.uid']).
+                      where(['uid IN (?)', result_uids.map(&:to_s)])
+      old_ids       = exists_people.map(&:id).map(&:to_i)
+      exists_uids   = exists_people.map(&:uid).map(&:to_i)
+      result_uids  -= exists_uids
 
       next if result_uids.empty?
 
@@ -37,10 +39,25 @@ class Vk::GroupUsersParse
       ActiveRecord::Base.transaction do
         _res = Person.connection.execute("INSERT INTO \"people\" (uid, created_at, updated_at)
                                           VALUES #{new_uids.join(',')} RETURNING id;")
-        new_ids = _res.entries.map(&:values).flatten
+        new_ids = _res.entries.map(&:values).flatten.map(&:to_i)
       end
 
-      #TODO: Assign persons(newer and older) with current group
+      ids_for_group     = (old_ids + new_ids).uniq
+      exists_group_ids  = group.people.select('people.id').
+                          where(['people.id IN (?)', ids_for_group]).
+                          map(&:id).map(&:to_i)
+      ids_for_group    -= exists_group_ids
+
+      next if ids_for_group.empty?
+
+      ids_for_group.map! do |id|
+        "('#{id}', '#{gid}')"
+      end
+
+      ActiveRecord::Base.transaction do
+        Person.connection.execute("INSERT INTO \"groups_people\" (person_id, group_id)
+                                   VALUES #{ids_for_group.join(',')}")
+      end
     end
   end
 end
