@@ -15,13 +15,13 @@ class Vk::GroupUsersParse
       return if (group.people.count >= people_limit) && (people_limit > 0)
 
       results     = Vk::API.call_method token, 'groups.getMembers', gid: gid, offset: offset
-      count       = results['count']
+      count       = results['count'].to_i
       result_uids = results['users'].map(&:to_i)
       offset     += 1000
 
       result_uids.uniq!
 
-      exists_people = Person.select(['people.id', 'people.uid']).
+      exists_people = Person.select([:id, :uid]).
                       where(['uid IN (?)', result_uids.map(&:to_s)])
       old_ids       = exists_people.map(&:id).map(&:to_i)
       exists_uids   = exists_people.map(&:uid).map(&:to_i)
