@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(:version => 20120317152358) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "groups", ["gid"], :name => "index_groups_on_gid"
+
   create_table "groups_people", :force => true do |t|
     t.integer "group_id"
     t.integer "person_id"
@@ -52,6 +54,8 @@ ActiveRecord::Schema.define(:version => 20120317152358) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
+
+  add_index "people", ["uid"], :name => "index_people_on_uid"
 
   create_table "promocodes", :force => true do |t|
     t.integer  "user_id"

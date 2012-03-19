@@ -60,5 +60,7 @@ class Vk::GroupUsersParse
                                    VALUES #{ids_for_group.join(',')}")
       end
     end
+
+    group.touch
   end
 end
