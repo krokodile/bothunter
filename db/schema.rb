@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120317152358) do
+ActiveRecord::Schema.define(:version => 20120319074751) do
 
   create_table "groups", :force => true do |t|
     t.string   "domain"
@@ -92,5 +92,17 @@ ActiveRecord::Schema.define(:version => 20120317152358) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "wall_posts", :force => true do |t|
+    t.integer  "person_id"
+    t.boolean  "own_post",       :default => false
+    t.string   "post_id",                           :null => false
+    t.string   "src"
+    t.string   "copy_post_id"
+    t.integer  "comments_count"
+    t.integer  "likes_count"
+    t.datetime "pub_date"
+    t.text     "text"
+  end
 
 end

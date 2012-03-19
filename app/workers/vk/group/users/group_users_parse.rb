@@ -33,12 +33,12 @@ class Vk::GroupUsersParse
       now = Time.now
 
       new_uids = result_uids.map do |id|
-        "('#{id}','#{now}','#{now}')"
+        "('#{id}','#{now}','#{now}', 'pending')"
       end
 
       new_ids = []
       ActiveRecord::Base.transaction do
-        _res = Person.connection.execute("INSERT INTO \"people\" (uid, created_at, updated_at)
+        _res = Person.connection.execute("INSERT INTO \"people\" (uid, created_at, updated_at, state)
                                           VALUES #{new_uids.join(',')} RETURNING id;")
         new_ids = _res.entries.map(&:values).flatten.map(&:to_i)
       end

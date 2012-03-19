@@ -2,7 +2,7 @@ class ParseUsers
   @queue = "bothunter"
 
   def self.perform
-    token  = group.users.shuffle.first.token_for('vkontakte')
+    token  = User.order('RANDOM()').first.token_for('vkontakte')
     persons = Person.where(state: :pending)
 
     persons.each do |person|

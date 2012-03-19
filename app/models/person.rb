@@ -1,11 +1,11 @@
 class Person < ActiveRecord::Base
+  has_many :wall_posts, uniq: true
   has_and_belongs_to_many :groups, uniq: true
 
   validates_presence_of :uid
   validates_uniqueness_of :uid
   validates_numericality_of :uid, greater_than: 0
 
-  #include Mongoid::Document
   #field :uid, type:String
   #field :domain, type:String
   #field :first_name, type:String
@@ -16,7 +16,6 @@ class Person < ActiveRecord::Base
   #field :friends_count, type:Integer
   #field :photo, type:String
 
-  #has_and_belongs_to_many :groups
   ##has_many :wall_posts, as: :posted
   #has_many :wall_posts
   ##validates_presence_of :uid

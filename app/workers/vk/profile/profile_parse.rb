@@ -9,18 +9,18 @@ class Vk::ProfileParse
       fields: 'uid,domain,first_name,last_name,photo,bdate'
     }
 
-    person.uid      ||= profile[0]["uid"]
-    person.domain   ||= profile[0]["domain"]
-    person.first_name = profile[0]["first_name"]
-    person.last_name  = profile[0]["last_name"]
-    person.photo      = profile[0]["photo"]
-    person.bdate      = DateTime.parse profile[0]["bdate"] rescue nil
+    person.uid      ||= profile["uid"]
+    person.domain   ||= profile["domain"]
+    person.first_name = profile["first_name"]
+    person.last_name  = profile["last_name"]
+    person.photo      = profile["photo"]
+    person.bdate      = DateTime.parse profile["bdate"] rescue nil
 
     person.save!
 
     web_client = Mechanize.new
-    socks = AccountStore.next_socks
-    web_client.agent.set_socks(socks[:host], socks[:port])
+    #socks = AccountStore.next_socks
+    #web_client.agent.set_socks(socks[:host], socks[:port])
 
     if person.uid.present?
       page = web_client.get("http://vk.com/id#{person.uid}", {}, false)
@@ -31,20 +31,19 @@ class Vk::ProfileParse
     end
 
     banned = false
-    if  (page.search '.profile_blocked').present?
+    if (page.search '.profile_blocked').present?
       puts "person #{person.uid || person.domain} blocked"
       banned = true
-    if (page.search "img[src='/images/deactivated_tir.png']").present?
+    elsif (page.search "img[src='/images/deactivated_tir.png']").present?
       banned = true
     end
     #elsif (page.search '.profile_deleted').present?
     #  puts "person #{person.uid || person.domain} banned"
     #  banned = true
-    end
 
     if banned
       person.state = :robot
-      r =  /^(.*) (.*)$/.match((page.search "#title").first.content)
+      r = /^(.*) (.*)$/.match((page.search "#title").first.content)
       person.first_name = r[1]
       person.last_name = r[2]
       person.save!
@@ -52,8 +51,8 @@ class Vk::ProfileParse
       return person
     end
 
-    person = WallParse.perform(person)
-    person.friends_count = VK::API.call_method(token, 'friends.get', uid: person.uid).size
+    person = WallParse.perform token, person
+    person.friends_count = ::Vk::API.call_method(token, 'friends.get', uid: person.uid).size
     person.save!
 
     person
