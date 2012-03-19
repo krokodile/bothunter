@@ -10,3 +10,4 @@ config/credentials.yml
 .idea
 *.iml
 .rbenv-version
+.DS_Store
