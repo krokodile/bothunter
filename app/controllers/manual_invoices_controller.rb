@@ -2,6 +2,8 @@ class ManualInvoicesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :authenticate_manager!
 
+  authorize_resource
+
   def new
     @user = User.find params[:user_id]
     @manual_invoice = current_user.manual_invoices.new(:user => @user)

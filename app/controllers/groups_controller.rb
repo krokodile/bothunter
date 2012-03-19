@@ -3,6 +3,8 @@
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
 
+  authorize_resource
+
   def show
     @groups =  current_user.groups.scoped
 
