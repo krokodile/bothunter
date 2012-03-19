@@ -8,7 +8,6 @@ class Ability
       can :manage, :all
     else
       can :read, Group
-      can :manage, :pages
     end
   end
 end

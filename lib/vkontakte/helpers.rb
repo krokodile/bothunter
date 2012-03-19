@@ -3,7 +3,7 @@ module Vk
     def self.parse_gid url
       return url if url.is_a?(Fixnum)
 
-      url = url.to_s
+      url = url.to_s.gsub(/\?.*$/, '')
 
       if url =~ /^([0-9]+)$/
         $1
