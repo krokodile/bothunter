@@ -52,7 +52,7 @@ class Vk::ProfileParse
     end
 
     person = WallParse.perform token, person
-    person.friends_count = ::Vk::API.call_method(token, 'friends.get', uid: person.uid).size
+    person.friends_count = ::Vk::API.call_method(token, 'friends.get', uid: person.uid).size rescue 0
     person.save!
 
     person
