@@ -24,8 +24,12 @@ class User < ActiveRecord::Base
 
   #before_create :verify_promocode
 
+  def admin?
+    self.rights.to_s == 'admin'
+  end
+
   def manager?
-    true #kind_of? Manager
+    self.rights.to_s == 'manager'
   end
 
   def promocode

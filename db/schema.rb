@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20120319074751) do
     t.string   "phone_number"
     t.string   "company"
     t.string   "message"
+    t.string   "rights"
     t.integer  "objects_amount",         :default => 0
     t.integer  "people_limit",           :default => 100
     t.datetime "created_at",                              :null => false

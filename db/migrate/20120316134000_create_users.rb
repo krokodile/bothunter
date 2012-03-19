@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :phone_number
       t.string :company
       t.string :message
+      t.string :rights
 
       t.integer :objects_amount, default: 0
       t.integer :people_limit, default: 100
