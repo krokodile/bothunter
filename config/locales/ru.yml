@@ -1,0 +1,11 @@
+ru:
+  formtastic:
+    labels:
+      full_name: 'Полное имя'
+      email: 'Email'
+      phone_number: 'Номер телефона'
+      company: 'Название компании'
+      password: 'Пароль'
+      password_confirmation: 'Повтор пароля'
+      promocode_value: 'Промо-код (будьте внимательны!)'
+      message: 'Какую проблему Вы хотели бы решить?'

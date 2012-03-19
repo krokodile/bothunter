@@ -11,6 +11,10 @@ gem 'oauth2'
 gem 'devise'
 gem 'formtastic'
 
+gem 'devise-russian'
+gem 'russian'
+gem 'unicode_utils'
+
 gem 'inherited_resources'
 gem 'rack-pjax'
 gem 'json'

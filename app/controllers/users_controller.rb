@@ -5,8 +5,6 @@ class UsersController < ApplicationController
 
   inherit_resources
 
-  before_filter :authenticate_manager!
-
   def manager
     manager = !resource.manager?
     resource.set :_type, (manager ? 'Manager' : 'User')
@@ -19,12 +17,13 @@ class UsersController < ApplicationController
     render :js => %<$('a[data-approved-id="#{resource.id.to_s}"]')['#{approved ? 'addClass' : 'removeClass'}']('success').text('#{approved ? 'Y' : 'N'}')>
   end
 
-protected
+  protected
+
   def collection
     @users ||= if params[:show].nil?
                  end_of_association_chain.all
                elsif params[:show] == 'inactive'
-                 end_of_association_chain.where(:approved.ne => true)
+                 end_of_association_chain.where(['approved != ?', true])
                end
   end
 end

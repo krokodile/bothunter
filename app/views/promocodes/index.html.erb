@@ -1,54 +1,34 @@
 <h2>Промо-коды</h2>
-<!--/div.tabbable.row-->
-<!--/  ul.nav.nav-tabs-->
-<!--/    li class="#{params[:show].nil? ? 'active' : ''}"-->
-<!--/      a href="#{users_path}"-->
-<!--/        | Все-->
-<!--/    li class="#{params[:show] == 'inactive' ? 'active' : ''}"-->
-<!--/      a href="#{users_path show: 'inactive'}"-->
-<!--/        | Неактивные-->
 
-<div class="row">
-  <div class="span1">
-    <h4>№</h4>
-  </div>
-  <div class="span3">
-    <h4>Код</h4>
-  </div>
-  <div class="span2">
-    <h4>Группы, шт.</h4>
-  </div>
-  <div class="span2">
-    <h4>Пользователи, шт.</h4>
-  </div>
-  <div class="span3">
-    <h4>Используется</h4>
-  </div>
-</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>№</th>
+      <th>Код</th>
+      <th>Группы, шт.</th>
+      <th>Пользователи, шт.</th>
+      <th>Используется</th>
+    </tr>
+  </thead>
 
-<% i = 0; @promocodes.each do |promocode| %>
-  <div class="row">
-    <div class="span1">
-      <%= (i = i.next).to_s %>
-    </div>
-    <div class="span3">
-      <%= promocode.code %>
-    </div>
-    <div class="span2">
-      <%= promocode.groups_limit %>
-    </div>
-    <div class="span2">
-      <%= promocode.people_limit %>
-    </div>
-    <div class="span3">
-      <% if promocode.user.nil? %>
-        <span class="label">нет</span>
-      <% else %>
-        <a href="<%= user_path promocode.user %>"></a>
-      <% end %>
-    </div>
-  </div>
-<% end %>
+  <tbody>
+    <% @promocodes.each_with_index do |promocode, index| %>
+      <tr>
+        <th><%= index + 1 %></th>
+        <th><%= promocode.code %></th>
+        <th><%= promocode.groups_limit %></th>
+        <th><%= promocode.people_limit %></th>
+        <th>
+          <% if promocode.user.nil? %>
+            <span class="label">нет</span>
+          <% else %>
+            <a href="<%= user_path promocode.user %>"></a>
+          <% end %>
+        </th>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <h3>Создать промо-коды</h3>
 

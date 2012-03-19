@@ -6,66 +6,27 @@
     <h2>
       <%= promocode ? 'Регистрация по промо-коду' : 'Запрос приглашения' %>
     </h2>
-    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html=> {:class=>"form-stacked"}) do |f| %>
-      <%= devise_error_messages! %>
-      <div class="clearfix">
-        <%= f.label :full_name, "Полное имя" %>
-        <div class="input">
-          <%= f.text_field :full_name %>
-        </div>
-      </div>
-      <div class="clearfix">
-        <%= f.label :email, "E-Mail" %>
-        <div class="input">
-          <%= f.email_field :email %>
-        </div>
-      </div>
-      <div class="clearfix">
-        <%= f.label :phone_number, "Номер телефона" %>
-        <div class="input">
-          <%= f.text_field :phone_number %>
-        </div>
-      </div>
-      <div class="clearfix">
-        <%= f.label :company, "Название компании" %>
-        <div class="input">
-          <%= f.text_field :company %>
-        </div>
-      </div>
-      <div class="clearfix">
-        <%= f.label :password, "Пароль" %>
-        <div class="input">
-          <%= f.password_field :password %>
-        </div>
-      </div>
-      <div class="clearfix">
-        <%= f.label :password_confirmation, "Повтор пароля" %>
-        <div class="input">
-          <%= f.password_field :password_confirmation %>
-        </div>
-      </div>
+
+    <%= semantic_form_for(resource, as: resource_name, url: registration_path(resource_name, promocode: params[:promocode]), html: { class: "form-stacked" }) do |f| %>
+      <%= f.input :full_name, required: false, input_html: { tabindex: 1, autofocus: true } %>
+      <%= f.input :email, required: false, input_html: { tabindex: 2 } %>
+      <%= f.input :phone_number, required: false, input_html: { tabindex: 3 } %>
+      <%= f.input :company, required: false, input_html: { tabindex: 4 } %>
+      <%= f.input :password, required: false, input_html: { tabindex: 5 } %>
+      <%= f.input :password_confirmation, required: false, input_html: { tabindex: 6 } %>
+
       <% if promocode %>
-        <div class="clearfix">
-          <%= f.label :promocode, "Промо-код (будьте внимательны!)" %>
-          <div class="input">
-            <%= f.text_field :promocode %>
-          </div>
-        </div>
+        <%= f.input :promocode_value, required: false, input_html: { tabindex: 7 } %>
       <% else %>
-        <div class="clearfix">
-          <%= f.label :message, "Какую проблему Вы хотели бы решить?" %>
-          <div class="input">
-            <%= f.text_area :message %>
-          </div>
-        </div>
+        <%= f.input :message, as: :text, required: false, input_html: { tabindex: 7 } %>
       <% end %>
-      <div class="clearfix">
-        <%= f.submit (promocode ? "Зарегистрироваться" : "Отправить запрос"), :class => "btn primary" %>
-      </div>
+
+      <%= f.submit (promocode ? "Зарегистрироваться" : "Отправить запрос"), class: 'btn info', tabindex: 8 %>
     <% end %>
   </div>
+
   <div class="span4 columns">
-    <%= link_to "Войти", new_session_path(resource_name), :class => 'btn info second' %>
+    <%= link_to "Войти", new_session_path(resource_name), class: 'btn info second' %>
   </div>
   <div class="span4 columns">&#8201;</div>
 </div>
