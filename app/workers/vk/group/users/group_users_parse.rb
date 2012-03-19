@@ -2,10 +2,11 @@ class Vk::GroupUsersParse
   @queue = "bothunter"
 
   def self.perform gid
-    group  = Group.find_by_gid gid
-    offset = 0
-    count  = 0
-    token  = group.users.shuffle.first.token_for('vkontakte')
+    group    = Group.find_by_gid gid
+    group_id = group.id
+    offset   = 0
+    count    = 0
+    token    = group.users.shuffle.first.token_for('vkontakte')
 
     people_limit = group.users.map(&:people_limit).max
 
@@ -32,7 +33,7 @@ class Vk::GroupUsersParse
       now = Time.now
 
       new_uids = result_uids.map do |id|
-        "('#{id}', '#{now}', '#{now}')"
+        "('#{id}','#{now}','#{now}')"
       end
 
       new_ids = []
@@ -51,7 +52,7 @@ class Vk::GroupUsersParse
       next if ids_for_group.empty?
 
       ids_for_group.map! do |id|
-        "('#{id}', '#{gid}')"
+        "('#{id}','#{group_id}')"
       end
 
       ActiveRecord::Base.transaction do
