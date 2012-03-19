@@ -1,40 +1,27 @@
 <h2>Промо-коды</h2>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>№</th>
-      <th>Код</th>
-      <th>Группы, шт.</th>
-      <th>Пользователи, шт.</th>
-      <th>Используется</th>
-    </tr>
-  </thead>
+<br>
+<a href="<%= new_promocode_path %>" data-controls-modal="create-promocode-modal" class="btn btn-primary">Создать новый промо-код</a>
+<br>
 
-  <tbody>
-    <% @promocodes.each_with_index do |promocode, index| %>
+<% if @promocodes.present? %>
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <th><%= index + 1 %></th>
-        <th><%= promocode.code %></th>
-        <th><%= promocode.groups_limit %></th>
-        <th><%= promocode.people_limit %></th>
-        <th>
-          <% if promocode.user.nil? %>
-            <span class="label">нет</span>
-          <% else %>
-            <a href="<%= user_path promocode.user %>"></a>
-          <% end %>
-        </th>
+        <th>ID</th>
+        <th>Код</th>
+        <th>Группы, шт.</th>
+        <th>Пользователи, шт.</th>
+        <th>Используется</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<h3>Создать промо-коды</h3>
-
-<div class="row">
-  <a href="<%= new_promocode_path %>" data-controls-modal="create-promocode-modal" class="btn btn-primary btn-large">Создать</a>
-</div>
+    <tbody>
+      <%= render @promocodes %>
+    </tbody>
+  </table>
+<% end %>
 
 <div id="create-promocode-modal" class="modal hide fade alert-message in"></div>
 

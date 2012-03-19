@@ -1,5 +1,12 @@
 class Promocode < ActiveRecord::Base
+  attr_accessor :email_to
+
   belongs_to :user
+
+  validates_numericality_of :groups_limit, greater_than: 0
+  validates_numericality_of :people_limit, greater_than: 0
+  validates_email_format_of :email_to, :if => proc { |record| record.email_to.present? }
+  validates :code, uniqueness: true, presence: true
 
   ##before_create :multiply
   #

@@ -1,46 +1,20 @@
-<%= form_for @promocode do |f| %>
-  <a class="close" href="#">x</a>
+<%= semantic_form_for @promocode do |f| %>
   <h2>Создание промо-кодов</h2>
-  <div class="clearfix">
-    <label>Ваше имя</label>
-
-    <div class="input">
-      <span class="uneditable-input">
-        <%= current_user.full_name %>
-      </span>
-    </div>
-  </div>
-
-  <div class="clearfix">Необходимо указать количество групп и страниц, которыми будет ограничиваться пользователь, зарегистрировавшийся по промо-коду.</div>
-  <div class="clearfix">
-    <%= f.label :groups_limit, 'Количество групп' %>
-    <div class="input">
-      <%= f.text_field :groups_limit, placeholder: '0' %>
-    </div>
-  </div>
 
   <div class="clearfix">
-    <%= f.label :people_limit, 'Количество страниц' %>
-    <div class="input">
-      <%= f.text_field :people_limit, placeholder: '0.00' %>
-    </div>
+    Необходимо указать количество групп и страниц, которыми будет ограничиваться пользователь, зарегистрировавшийся по промо-коду.
   </div>
 
-  <!--div class="clearfix"-->
-    <!--| Также необходимо указать количество создаваемых промо-кодов с такими свойствами.-->
-  <!--div class="clearfix"-->
-    <!--= f.label :promocodes_count, 'Сколько?'-->
-    <!--div class="input"-->
-      <!--= f.text_field :promocodes_count, :placeholder => '1'-->
-
-  <div class="clearfix">
-    <%= f.label :code, 'Сам код' %>
-    <div class="input">
-      <%= f.text_field :code %>
-    </div>
+  <%= f.input :groups_limit, as: :string, required: false, input_html: { autofocus: true, tabindex: 1 } %>
+  <%= f.input :people_limit, as: :string, required: false, input_html: { tabindex: 2 } %>
+  <%= f.input :email_to, as: :email, required: false, input_html: { tabindex: 3 } %>
+  <%= f.input :code, as: :string, required: false, input_html: { tabindex: 4 } %>
+  <div>
+    <%= link_to new_promocode_path, remote: true, title: 'Обновить промо-код' do %>
+      <i class="icon-refresh"></i>&nbsp;Обновить
+    <% end %>
   </div>
 
-  <div class="clearfix">
-    <%= f.submit 'Выполнить', class: 'btn danger' %>
-  </div>
+  <br>
+  <%= f.submit 'Создать', class: 'btn btn-primary', tabindex: 5 %>
 <% end %>

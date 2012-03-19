@@ -8,6 +8,12 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :password_confirmation, :remember_me, :company, :full_name, :phone_number, :message, :promocode_value
 
+  after_create do
+    if @promocode_value.present? && self.promocode.present?
+      self.promocode.touch
+    end
+  end
+
   belongs_to :invoices
 
   has_one :promocode
@@ -28,9 +34,9 @@ class User < ActiveRecord::Base
       if self.promocode.nil?
         errors.add(:promocode_value, 'неправильный промокод')
       else
-        self.approved = true
-        self.objects_amount = promo_code.groups_limit
-        self.people_limit = promo_code.people_limit
+        self.approved       = true
+        self.objects_amount = self.promocode.groups_limit
+        self.people_limit   = self.promocode.people_limit
       end
     end
   end

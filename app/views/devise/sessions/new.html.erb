@@ -158,7 +158,7 @@
     <%= f.input :password, required: false, input_html: { tabindex: 2 } %>
 
     <% if devise_mapping.rememberable? %>
-      <%= f.input :remember_me, required: false, input_html: { tabindex: 3 } %>
+      <%= f.input :remember_me, as: :boolean, required: false, input_html: { tabindex: 3 } %>
     <% end %>
 
     <%= f.submit "Войти", class: "btn info", tabindex: 4 %>

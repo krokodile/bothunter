@@ -1,0 +1,45 @@
+<tr>
+  <td><%= promocode.id %></td>
+  <td>
+    <% if promocode.user.nil? %>
+      <span class="badge badge-success">
+        <%= promocode.code %>
+      </span>
+
+      <div class="float-right">
+        <%= raw clippy promocode.code %>
+      </div>
+    <% else %>
+      <span class="badge"><%= promocode.code %></span>
+    <% end %>
+  </td>
+  <td><%= number_with_delimiter promocode.groups_limit %></td>
+  <td><%= number_with_delimiter promocode.people_limit %></td>
+  <td>
+    <% if promocode.user.nil? %>
+      <span class="label label-success">нет</span>
+    <% else %>
+      <%= gravatar_image_tag promocode.user.email, class: 'gravatar-12', gravatar: { size: 12 } %>
+      <a href="<%= user_path promocode.user %>"><%= promocode.user.full_name %> (<%= promocode.user.email %>)</a>
+    <% end %>
+  </td>
+  <td>
+    <div class="btn-group">
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        Опции
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href='#' title="Отправить промо-код на email"><i class="icon-envelope"></i>&nbsp;Отправить на email</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <%= link_to promocode, method: 'delete', title: "Удалить промо-код", confirm: 'Вы уверены?' do %>
+            <i class="icon-remove"></i>&nbsp;Удалить
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </td>
+</tr>

@@ -81,9 +81,22 @@ footer li {
 	padding-left: 10px;
 }
 
-
 .second {
 	margin-top:4.35em;
 	margin-left:2em;
 }
 
+img.gravatar-12 {
+    display: inline-block;
+    border: 0;
+    width: 12px;
+    height: 12px;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}

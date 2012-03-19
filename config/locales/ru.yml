@@ -9,3 +9,8 @@ ru:
       password_confirmation: 'Повтор пароля'
       promocode_value: 'Промо-код (будьте внимательны!)'
       message: 'Какую проблему Вы хотели бы решить?'
+      remember_me: 'Запомнить меня'
+      groups_limit: 'Лимит групп'
+      people_limit: 'Лимит людей'
+      code: 'Промо-код'
+      email_to: 'Email, куда отправить промо-код(опционально)'
