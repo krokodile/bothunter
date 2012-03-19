@@ -53,18 +53,14 @@
       </a>
     </div>
     <div class="span1">
-      <% if user.id == current_user.id %>
-        <span class="label warning">!</span>
-      <% else %>
+      <% unless user.id == current_user.id %>
         <a href="<%= manager_user_path(user) %>" class="label <%= user.manager? ? 'success' : '' %>" data-manager-id="<%= user.id.to_s %>" data-remote="true" data-method="post">
           <%= user.manager? ? 'Y' : 'N' %>
         </a>
       <% end %>
     </div>
     <div class="span1">
-      <% if user.id == current_user.id %>
-        <span class="label warning">!</span>
-      <% else %>
+      <% unless user.id == current_user.id %>
         <a href="<%= approved_user_path(user) %>" class="label <%= user.approved? ? 'success' : '' %>" data-approved-id="<%= user.id.to_s %>" data-remote="true" data-method="post">
           <%= user.approved? ? 'Y' : 'N' %>
         </a>
