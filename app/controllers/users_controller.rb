@@ -9,6 +9,25 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def edit
+    @user = User.find params[:id]
+  end
+
+  def send_message_to_all
+    emails = User.for_type(params[:to]).map(&:email) rescue []
+    emails.delete current_user.email
+
+    emails.each do |email|
+      MessageToAll.broadcast_message(
+        email,
+        params[:title],
+        params[:message]
+      ).deliver!
+    end
+
+    redirect_to users_path, notice: 'Письмо отправлено'
+  end
+
   def index
     @users = User.latest.page params[:page]
   end

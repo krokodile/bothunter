@@ -2,6 +2,8 @@
 
 class User < ActiveRecord::Base
   RIGHTS = ['admin', 'manager']
+  TYPES = ['all', 'approved', 'unapproved'] + RIGHTS
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -25,6 +27,22 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :groups, uniq: true
 
   scope :latest, order('created_at DESC, updated_at DESC')
+  scope :for_type, -> type {
+    if TYPES.include? type.to_s
+      case type.downcase
+        when 'all'
+          self.scoped
+        when 'approved'
+          self.where(approved: true, rights: nil)
+        when 'unapproved'
+          self.where(approved: false)
+        when 'admin'
+          self.where(rights: 'admin')
+        when 'manager'
+          self.where(rights: 'manager')
+      end
+    end
+  }
 
   validates_presence_of :full_name, :company, :phone_number
   validate :promocode_value_check

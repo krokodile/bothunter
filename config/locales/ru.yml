@@ -1,4 +1,8 @@
 ru:
+  activerecord:
+    models:
+      user: 'пользователя'
+
   formtastic:
     labels:
       full_name: 'Полное имя'
@@ -21,3 +25,9 @@ ru:
     rights:
       admin: 'Администратор'
       manager: 'Менеджер'
+    types_to:
+      all: 'Всем'
+      approved: 'Подтвержденным'
+      unapproved: 'Неподтвержденным'
+      admin: 'Администраторам'
+      manager: 'Менеджерам'

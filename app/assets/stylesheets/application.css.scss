@@ -113,3 +113,21 @@ form {
     margin-right: 10px;
   }
 }
+
+.modal {
+  form {
+    margin: 0;
+
+    textarea, input[type=text] {
+      width: 500px;
+    }
+  }
+}
+
+th.id {
+  width: 1%;
+}
+
+th.options {
+  width: 70px;
+}

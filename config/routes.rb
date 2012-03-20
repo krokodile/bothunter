@@ -27,6 +27,7 @@ BotHunter::Application.routes.draw do
 
     collection do
       post :create_as_admin
+      post :send_message_to_all
     end
 
     member do

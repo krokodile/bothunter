@@ -11,6 +11,8 @@ gem 'oauth2'
 gem 'devise'
 gem 'formtastic'
 
+gem 'letter_opener'
+
 gem 'devise-russian'
 gem 'russian'
 gem 'unicode_utils'

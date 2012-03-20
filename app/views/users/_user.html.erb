@@ -1,8 +1,8 @@
 <tr>
-  <td><%= user.id %></td>
+  <td><%= link_to user.id, user %></td>
   <td>
     <%= gravatar_image_tag user.email, class: 'gravatar-12', gravatar: { size: 12 } %>
-    <%= user.email %>
+    <%= link_to user.email, user %>
     
     <% if user.rights.nil? && user.approved? %>
       <% if user.oauth_tokens.present? %>
@@ -36,28 +36,42 @@
   <td><%= number_with_delimiter user.groups_limit %></td>
   <td><%= number_with_delimiter user.people_limit %></td>
   <td><%= Russian::strftime(user.created_at, '%d %b %H:%M') %></td>
-  <td style="width: 70px">
-    <div class="btn-group">
-      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-        Опции
-        <span class="caret"></span>
-      </a>
-      <ul class="dropdown-menu">
-        <li>
-          <%= link_to "mailto:#{user.email}?subject=Bothunter" do %>
-            <i class="icon-envelope"></i>&nbsp;Отправить на email
-          <% end %>
-        </li>
+  <td>
+    <% unless user == current_user %>
+      <div class="btn-group">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+          Опции
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <%= link_to user do %>
+              <i class="icon-list-alt"></i>&nbsp;Страница пользователя
+            <% end %>
+          </li>
+          <li>
+            <%= link_to edit_user_path(user) do %>
+              <i class="icon-edit"></i>&nbsp;Изменить настройки
+            <% end %>
+          </li>
+
+          <li class="divider"></li>
+
+          <li>
+            <%= link_to "mailto:#{user.email}?subject=Bothunter" do %>
+              <i class="icon-envelope"></i>&nbsp;Отправить на email
+            <% end %>
+          </li>
         
-        <% unless user == current_user %>
+
           <li class="divider"></li>
           <li>
             <%= link_to user, method: 'delete', confirm: 'Вы уверены?' do %>
               <i class="icon-trash"></i>&nbsp;Удалить
             <% end %>
           </li>
-        <% end %>
-      </ul>
-    </div>
+        </ul>
+      </div>
+   <% end %>
   </td>
 </tr>

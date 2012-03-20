@@ -1,15 +1,47 @@
-<h2>Пользователи</h2>
+<h2 xmlns="http://www.w3.org/1999/html">Пользователи</h2>
 
 <br>
 <a href="<%= new_user_path %>" data-controls-modal="create-promocode-modal" class="btn btn-primary">Создать нового пользователя</a>
 &nbsp;
-<a href="<%= new_promocode_path %>" data-controls-modal="create-promocode-modal" class="btn btn-dfault" title="Написать сообщение, которое будет отправлено всем зарегистрированным пользователям">Написать всем сообщения на Email</a>
+<a data-toggle="modal" href="#myModal" data-controls-modal="create-promocode-modal" class="btn btn-dfault" title="Написать сообщение, которое будет отправлено всем зарегистрированным пользователям">Написать сообщение всем</a>
 <br>
+<br>
+
+<div class="modal fade" id="myModal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Сообщение пользователям</h3>
+  </div>
+
+  <%= form_tag send_message_to_all_users_path do %>
+    <div class="modal-body">
+      <p>
+        <%= label_tag :title, 'Тема' %>
+        <%= text_field_tag :title, nil, autofocus: true, tabindex: 1 %>
+      </p>
+
+      <p>
+        <%= label_tag :message, 'Сообщение' %>
+        <%= text_area_tag :message, nil, rows: 8, cols: 45, tabindex: 2 %>
+      </p>
+      
+      <p>
+        <%= label_tag :to, 'Кому' %>
+        <%= select_tag :to, options_for_select(User::TYPES.map { |type| [I18n.t("titles.types_to.#{type}"), type] }), tabindex: 3 %>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Закрыть</a>
+
+      <%= submit_tag 'Отправить', class: 'btn btn-primary', tabindex: 4 %>
+    </div>
+  <% end %>
+</div>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
+      <th class="id">ID</th>
       <th>Email</th>
       <th>Полное имя</th>
       <th>Телефон</th>
@@ -18,7 +50,7 @@
       <th title="Ограничение на колечество групп">Лимит групп</th>
       <th title="Ограничение на колечество людей в группах">Лимит людей</th>
       <th title="Дата регистрации">Регистрация</th>
-      <th></th>
+      <th class="options"></th>
     </tr>
   </thead>
 

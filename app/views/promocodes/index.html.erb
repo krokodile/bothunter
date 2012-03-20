@@ -3,17 +3,18 @@
 <br>
 <a href="<%= new_promocode_path %>" data-controls-modal="create-promocode-modal" class="btn btn-primary">Создать новый промо-код</a>
 <br>
+<br>
 
 <% if @promocodes.present? %>
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>ID</th>
+        <th class="id">ID</th>
         <th>Код</th>
         <th>Группы, шт.</th>
         <th>Пользователи, шт.</th>
         <th>Используется</th>
-        <th></th>
+        <th class="options"></th>
       </tr>
     </thead>
 
