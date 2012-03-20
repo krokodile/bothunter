@@ -1,84 +1,31 @@
 <h2>Пользователи</h2>
 
-<div class="tabbable row">
-  <ul class="nav nav-tabs">
-    <li class="<%= params[:show].nil? ? 'active' : '' %>">
-      <a href="<%= users_path %>">Все</a>
-    </li>
-    <li class="<%= params[:show] == 'inactive' ? 'active' : '' %>">
-      <a href="<%= users_path show: 'inactive' %>">Неактивные</a>
-    </li>
-  </ul>
-</div>
+<br>
+<a href="<%= new_user_path %>" data-controls-modal="create-promocode-modal" class="btn btn-primary">Создать нового пользователя</a>
+&nbsp;
+<a href="<%= new_promocode_path %>" data-controls-modal="create-promocode-modal" class="btn btn-dfault" title="Написать сообщение, которое будет отправлено всем зарегистрированным пользователям">Написать всем сообщения на Email</a>
+<br>
 
-<div class="row">
-  <div class="span1">
-    <h4>№</h4>
-  </div>
-  <div class="span3">
-    <h4>Имя</h4>
-  </div>
-  <div class="span2">
-    <h4>Телефон</h4>
-  </div>
-  <div class="span3">
-    <h4>Компания</h4>
-  </div>
-  <div class="span2">
-    <h4>Остаток</h4>
-  </div>
-  <div class="span1">
-    <h4>Менеджер?</h4>
-  </div>
-  <div class="span1">
-    <h4>Активен?</h4>
-  </div>
-</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <!--<th>Статус</th>-->
+      <th>Email</th>
+      <th>Полное имя</th>
+      <th>Телефон</th>
+      <th>Компания</th>
+      <th title="Количество групп у пользователя в данный момент">Групп</th>
+      <th title="Ограничение на колечество групп">Лимит групп</th>
+      <th title="Ограничение на колечество людей в группах">Лимит людей</th>
+      <th title="Дата регистрации">Регистрация</th>
+      <th></th>
+    </tr>
+  </thead>
 
-<% @users.each_with_index do |user, index| %>
-  <div class="row">
-    <div class="span1"><%= index %></div>
-    <div class="span3">
-      <%= user.full_name %>
-    </div>
-    <div class="span2">
-      <%= user.phone_number %>
-    </div>
-    <div class="span3">
-     <%= user.company %>
-    </div>
-    <div class="span2">
-      <a href="#" data-user-id="<%= user.id.to_s %>" data-controls-modal="create-invoice-modal" data-keyboard="true" data-backdrop="true">
-        <%= user.objects_amount %>
-      </a>
-    </div>
-    <div class="span1">
-      <% unless user.id == current_user.id %>
-        <a href="<%= manager_user_path(user) %>" class="label <%= user.manager? ? 'success' : '' %>" data-manager-id="<%= user.id.to_s %>" data-remote="true" data-method="post">
-          <%= user.manager? ? 'Y' : 'N' %>
-        </a>
-      <% end %>
-    </div>
-    <div class="span1">
-      <% unless user.id == current_user.id %>
-        <a href="<%= approved_user_path(user) %>" class="label <%= user.approved? ? 'success' : '' %>" data-approved-id="<%= user.id.to_s %>" data-remote="true" data-method="post">
-          <%= user.approved? ? 'Y' : 'N' %>
-        </a>
-      <% end %>
-    </div>
-  </div>
-<% end %>
+  <tbody>
+    <%= render @users %>
+  </tbody>
+</table>
 
-<div id="create-invoice-modal" class="modal hide fade alert-message warning"></div>
-
-<script>
-  $('a[data-user-id]').click(function() {
-    $('#create-invoice-modal').load("<%= raw new_user_manual_invoice_path('USER_ID') %>".replace(/USER_ID/,this.getAttribute('data-user-id')))
-  });
-  $('a[data-manager-id]').click(function(){
-    $(this).text('...')
-  });
-  $('a[data-approved-id]').click(function(){
-    $(this).text('...')
-  });
-</script>
+<%= paginate @users %>

@@ -3,7 +3,9 @@ class UsersController < ApplicationController
 
   authorize_resource
 
-  inherit_resources
+  def index
+    @users = User.page params[:page]
+  end
 
   def manager
     manager = !resource.manager?

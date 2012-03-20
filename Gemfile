@@ -29,6 +29,8 @@ gem 'validates_email_format_of'
 
 gem 'gravatar_image_tag'
 
+gem 'phony'
+
 gem 'simple_xlsx_writer'
 gem 'grit'
 gem 'foreman'

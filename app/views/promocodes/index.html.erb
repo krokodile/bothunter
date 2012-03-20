@@ -23,12 +23,4 @@
   </table>
 <% end %>
 
-<div id="create-promocode-modal" class="modal hide fade alert-message in"></div>
-
-<script>
-  $('a[data-controls-modal="create-promocode-modal"]').click(function() {
-    $('#create-promocode-modal').load("<%= raw new_promocode_path %>")
-  })
-//  $('a[data-manager-id]').click(function(){ $(this).text('...') })
-//  $('a[data-approved-id]').click(function(){ $(this).text('...') })
-</script>
+<%= paginate @promocodes %>

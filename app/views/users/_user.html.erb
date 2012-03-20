@@ -1,0 +1,50 @@
+<tr>
+  <td><%= user.id %></td>
+  <td>
+    <%= gravatar_image_tag user.email, class: 'gravatar-12', gravatar: { size: 12 } %>
+    <%= link_to user.email, "mailto:#{user.email}?subject=Bothunter" %>
+
+    <div class="float-right">
+      <% if user.approved? %>
+        <% if user.admin? %>
+          <span class="label label-important" title="Пользователь является администратором">Администратор</span>
+        <% elsif user.manager? %>
+          <span class="label label-success" title="Пользователь является менеджером">Менеджер</span>
+        <% else %>
+          <span class="label label-info" title="Пользователь является подтвержденным">Подтвержденный</span>
+        <% end %>
+      <% else %>
+        <span class="label label-warning" title="Пользователь ожидает подтверждения">Неподтвержденный</span>
+        <% if !user.approved? && user.message.present? %>
+          <a href="#" popover-title="<%= user.message %>"><i class="icon-inbox"></i></a>
+        <% end %>
+      <% end %>
+    </div>
+  </td>
+  <td><%= user.full_name %></td>
+  <td><%= number_to_phone user.phone_number, delimiter: ' ' %></td>
+  <td><%= user.company %></td>
+  <td><%= user.groups.size %></td>
+  <td><%= number_with_delimiter user.objects_amount %></td>
+  <td><%= number_with_delimiter user.people_limit %></td>
+  <td><%= Russian::strftime(user.created_at, '%d %b %H:%M') %></td>
+  <td style="width: 90px">
+    <div class="btn-group">
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        Опции
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href='#'><i class="icon-envelope"></i>&nbsp;</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <%= link_to user, method: 'delete', confirm: 'Вы уверены?' do %>
+            <i class="icon-remove"></i>&nbsp;Удалить
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </td>
+</tr>

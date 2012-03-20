@@ -31,6 +31,6 @@ class PromocodesController < ApplicationController
     @promocode = Promocode.find params[:id]
     @promocode.delete
 
-    redirect_to action: 'index', notice: 'Промо-код удален'
+    redirect_to promocodes_path, notice: 'Промо-код удален'
   end
 end

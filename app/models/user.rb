@@ -11,19 +11,24 @@ class User < ActiveRecord::Base
   after_create do
     if @promocode_value.present? && self.promocode.present?
       self.promocode.touch
+      self.touch
     end
   end
 
   belongs_to :invoices
 
-  has_one :promocode
-  has_many :campaigns
-  has_many :oauth_tokens, uniq: true
+  has_one :promocode, dependent: :destroy
+  has_many :campaigns, dependent: :destroy
+  has_many :oauth_tokens, uniq: true, dependent: :destroy
   has_and_belongs_to_many :groups, uniq: true
 
   validates_presence_of :full_name, :company, :phone_number
   validate :promocode_value_check
-         
+
+  def phone_number= number
+    super Phony.normalize number.gsub(/[^0-9]/, '')
+  end
+
   def update_with_password params = {}
     params.delete :current_password
     self.update_without_password params
