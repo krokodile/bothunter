@@ -1,10 +1,26 @@
+# encoding: utf-8
+
 class UsersController < ApplicationController
   before_filter :authenticate_user!
 
   authorize_resource
 
+  def new
+    @user = User.new
+  end
+
   def index
-    @users = User.page params[:page]
+    @users = User.latest.page params[:page]
+  end
+
+  def create_as_admin
+    @user = User.new params[:user], as: :admin
+
+    if @user.save
+      redirect_to users_path, notice: 'Пользователь успешно создан'
+    else
+      render 'new'
+    end
   end
 
   def manager
@@ -17,6 +33,20 @@ class UsersController < ApplicationController
     approved = !resource.approved?
     resource.set :approved, approved
     render :js => %<$('a[data-approved-id="#{resource.id.to_s}"]')['#{approved ? 'addClass' : 'removeClass'}']('success').text('#{approved ? 'Y' : 'N'}')>
+  end
+
+  def destroy
+    @user = User.find params[:id]
+
+    unless user == current_user
+      @user.delete
+
+      flash[:notice] = 'Пользователь удален'
+    else
+      flash[:error] = 'Пользователь не может удалить самого себя!'
+    end
+
+    redirect_to users_path
   end
 
   protected

@@ -8,7 +8,7 @@ class Invoice < ActiveRecord::Base
 
   #field :money_amount, :type => Integer, :default => 0 # amount is in cents!
 
-  #field :objects_amount, :type => Integer, :default => 0
+  #field :groups_limit, :type => Integer, :default => 0
   #field :objects_filter, :type => String
   #validates_presence_of :objects_filter
 

@@ -14,3 +14,10 @@ ru:
       people_limit: 'Лимит людей'
       code: 'Промо-код'
       email_to: 'Email, куда отправить промо-код(опционально)'
+      rights: 'Права пользователя'
+      approved: 'Подтвержденный'
+
+  titles:
+    rights:
+      admin: 'Администратор'
+      manager: 'Менеджер'

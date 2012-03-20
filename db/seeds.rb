@@ -1,7 +1,8 @@
 user = User.create! email: 'yeah@yeah.com', password: 'qwerty', password_confirmation: 'qwerty', company: 'sdadawd', phone_number: 'eda2323', full_name: 'sdsdawewe'
 user.approved = true
-user.objects_amount = 10000
+user.groups_limit = 10000
 user.people_limit = 10000000
+user.rights = "admin"
 user.save!
 
 #@user = User.first(conditions: {email: "aksimas@gmail.com"})

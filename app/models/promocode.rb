@@ -8,6 +8,9 @@ class Promocode < ActiveRecord::Base
   validates_email_format_of :email_to, :if => proc { |record| record.email_to.present? }
   validates :code, uniqueness: true, presence: true
 
+  scope :available, where(user_id: nil)
+  scope :latest, order('created_at DESC, updated_at DESC')
+
   ##before_create :multiply
   #
   #

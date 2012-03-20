@@ -2,7 +2,7 @@
   <td><%= user.id %></td>
   <td>
     <%= gravatar_image_tag user.email, class: 'gravatar-12', gravatar: { size: 12 } %>
-    <%= link_to user.email, "mailto:#{user.email}?subject=Bothunter" %>
+    <%= user.email %>
 
     <div class="float-right">
       <% if user.approved? %>
@@ -25,10 +25,10 @@
   <td><%= number_to_phone user.phone_number, delimiter: ' ' %></td>
   <td><%= user.company %></td>
   <td><%= user.groups.size %></td>
-  <td><%= number_with_delimiter user.objects_amount %></td>
+  <td><%= number_with_delimiter user.groups_limit %></td>
   <td><%= number_with_delimiter user.people_limit %></td>
   <td><%= Russian::strftime(user.created_at, '%d %b %H:%M') %></td>
-  <td style="width: 90px">
+  <td style="width: 70px">
     <div class="btn-group">
       <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
         Опции
@@ -36,14 +36,19 @@
       </a>
       <ul class="dropdown-menu">
         <li>
-          <a href='#'><i class="icon-envelope"></i>&nbsp;</a>
-        </li>
-        <li class="divider"></li>
-        <li>
-          <%= link_to user, method: 'delete', confirm: 'Вы уверены?' do %>
-            <i class="icon-remove"></i>&nbsp;Удалить
+          <%= link_to "mailto:#{user.email}?subject=Bothunter" do %>
+            <i class="icon-envelope"></i>&nbsp;Отправить на email
           <% end %>
         </li>
+        
+        <% unless user == current_user %>
+          <li class="divider"></li>
+          <li>
+            <%= link_to user, method: 'delete', confirm: 'Вы уверены?' do %>
+              <i class="icon-remove"></i>&nbsp;Удалить
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     </div>
   </td>

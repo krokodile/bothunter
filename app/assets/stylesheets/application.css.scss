@@ -100,3 +100,16 @@ img.gravatar-12 {
 .float-right {
     float: right;
 }
+
+form {
+  ul {
+    list-style: none;
+    margin: 0;
+  }
+
+  input[type=checkbox] {
+    float: left;
+    display: inline-block;
+    margin-right: 10px;
+  }
+}

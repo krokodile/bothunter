@@ -1,12 +1,14 @@
 # encoding: utf-8
 
 class User < ActiveRecord::Base
+  RIGHTS = ['admin', 'manager']
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessible :email, :password, :password_confirmation, :remember_me, :company, :full_name, :phone_number, :message, :promocode_value
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :company, :full_name, :phone_number, :message, :promocode_value, :approved, :people_limit, :groups_amount, :rights, as: :admin
 
   after_create do
     if @promocode_value.present? && self.promocode.present?
@@ -21,6 +23,8 @@ class User < ActiveRecord::Base
   has_many :campaigns, dependent: :destroy
   has_many :oauth_tokens, uniq: true, dependent: :destroy
   has_and_belongs_to_many :groups, uniq: true
+
+  scope :latest, order('created_at DESC, updated_at DESC')
 
   validates_presence_of :full_name, :company, :phone_number
   validate :promocode_value_check
@@ -40,18 +44,18 @@ class User < ActiveRecord::Base
         errors.add(:promocode_value, 'неправильный промокод')
       else
         self.approved       = true
-        self.objects_amount = self.promocode.groups_limit
+        self.groups_amount = self.promocode.groups_limit
         self.people_limit   = self.promocode.people_limit
       end
     end
   end
 
   def admin?
-    self.rights.to_s == 'admin'
+    self.approved? && self.rights.to_s == 'admin'
   end
 
   def manager?
-    self.rights.to_s == 'manager'
+    self.approved? && self.rights.to_s == 'manager'
   end
 
   def promocode_value

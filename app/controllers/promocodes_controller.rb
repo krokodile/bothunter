@@ -6,7 +6,7 @@ class PromocodesController < ApplicationController
   authorize_resource
 
   def index
-    @promocodes = Promocode.page params[:page]
+    @promocodes = Promocode.latest.page params[:page]
   end
 
   def new

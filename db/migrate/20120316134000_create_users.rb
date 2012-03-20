@@ -9,7 +9,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :message
       t.string :rights
 
-      t.integer :objects_amount, default: 0
+      t.integer :groups_limit, default: 0
       t.integer :people_limit, default: 100
 
       t.timestamps

@@ -5,9 +5,9 @@ class RobokassaMerchant
   class << self
 
     # we aren't use signed params in this app
-    #def signed_start_params objects_amount, objects_filter, objects_cost, profile
+    #def signed_start_params groups_limit, objects_filter, objects_cost, profile
     #  hash = {
-    #    'objects_amount' => objects_amount.to_s,
+    #    'groups_limit' => groups_limit.to_s,
     #    'objects_filter' => objects_filter.to_s,
     #    'objects_cost'   => objects_cost.to_s,
     #    'user_id'        => profile.id.to_s,
@@ -20,10 +20,10 @@ class RobokassaMerchant
     #end
 
 
-    def signed_start_params objects_amount, objects_cost, user # objects_filter, 
+    def signed_start_params groups_limit, objects_cost, user # objects_filter,
 
       hash = {
-        'objects_amount' => objects_amount.to_s,
+        'groups_limit' => groups_limit.to_s,
         #'objects_filter' => objects_filter.to_s,
         'objects_cost'   => objects_cost.to_s,
         'user_id'        => user.id.to_s,
@@ -67,7 +67,7 @@ class RobokassaMerchant
         #order_id = params['order_id']
         #order = Order.find order_id rescue return [404, {}, []]
         
-        invoice = RobokassaInvoice.create! :user_id => params['user_id'], :money_amount => Fixnum.cents(params['objects_cost']), :objects_amount => params['objects_amount'] #, :objects_filter => params['objects_filter']
+        invoice = RobokassaInvoice.create! :user_id => params['user_id'], :money_amount => Fixnum.cents(params['objects_cost']), :groups_limit => params['groups_limit'] #, :objects_filter => params['objects_filter']
         invoice_id = invoice.id.to_s
 
         query = {}
@@ -104,7 +104,7 @@ class RobokassaMerchant
         return [409, {}, []] if invoice.paid
 
         return [403, {}, []] unless invoice.money_amount.cost? out_sum
-        invoice.user.inc :objects_amount, invoice.objects_amount
+        invoice.user.inc :groups_limit, invoice.groups_limit
 
         invoice.set :paid, true
         invoice.set :robokassa_invoice_id, inv_id.to_i
@@ -128,7 +128,7 @@ class RobokassaMerchant
         # вполне вероятная ситуация при отсутствии связи между робокассой и сервером
         unless invoice.paid
           return [403, {}, []] unless invoice.money_amount.cost? out_sum
-          invoice.user.inc :objects_amount, invoice.objects_amount
+          invoice.user.inc :groups_limit, invoice.groups_limit
 
           invoice.set :paid, true
           invoice.set :robokassa_invoice_id, inv_id.to_i

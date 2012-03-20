@@ -10,8 +10,8 @@
   <%= f.input :email_to, as: :email, required: false, input_html: { tabindex: 3 } %>
   <%= f.input :code, as: :string, required: false, input_html: { tabindex: 4 } %>
   <div>
-    <%= link_to new_promocode_path, remote: true, title: 'Обновить промо-код' do %>
-      <i class="icon-refresh"></i>&nbsp;Обновить
+    <%= link_to new_promocode_path, remote: true do %>
+      <i class="icon-refresh"></i>&nbsp;Обновить промо-код
     <% end %>
   </div>
 

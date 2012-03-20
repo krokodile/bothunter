@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
   def show
     @groups =  current_user.groups.scoped
 
-    if current_user.objects_amount <= 0
+    if current_user.groups_limit <= 0
       @disabled = true
     end
 

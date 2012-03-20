@@ -8,7 +8,7 @@ class PagesController < ApplicationController
   def index
     @groups =  current_user.groups.all
 
-    if current_user.objects_amount <= 0
+    if current_user.groups_limit <= 0
       @disabled = true
     end
   end
@@ -17,7 +17,7 @@ class PagesController < ApplicationController
     token = current_user.token_for('vkontakte')
 
     if token.present?
-      if current_user.objects_amount > 0
+      if current_user.groups_limit > 0
         gid = Vk::Helpers.parse_gid params['group_url']
         api_result = Vk::API.call_method token, 'groups.getById', gid: gid
 
@@ -31,7 +31,7 @@ class PagesController < ApplicationController
           group.users << current_user
 
           current_user.groups << group
-          current_user.objects_amount -= 1
+          current_user.groups_limit -= 1
           current_user.save!
 
           group.save!

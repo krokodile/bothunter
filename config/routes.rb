@@ -25,6 +25,10 @@ BotHunter::Application.routes.draw do
   resources :users do
     resources :manual_invoices
 
+    collection do
+      post :create_as_admin
+    end
+
     member do
       post 'manager'
       post 'approved'
