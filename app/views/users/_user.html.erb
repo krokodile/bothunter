@@ -3,6 +3,14 @@
   <td>
     <%= gravatar_image_tag user.email, class: 'gravatar-12', gravatar: { size: 12 } %>
     <%= user.email %>
+    
+    <% if user.rights.nil? && user.approved? %>
+      <% if user.oauth_tokens.present? %>
+        <a href="#" title="Пользователь уже авторизовался через наше приложение Вконтакте"><i class="icon-ok"></i></a>
+      <% else %>
+        <a href="#" title="Пользователь не авторизовался через наше приложение Вконтакте"><i class="icon-remove"></i></a>
+      <% end %>
+    <% end %>
 
     <div class="float-right">
       <% if user.approved? %>
@@ -45,7 +53,7 @@
           <li class="divider"></li>
           <li>
             <%= link_to user, method: 'delete', confirm: 'Вы уверены?' do %>
-              <i class="icon-remove"></i>&nbsp;Удалить
+              <i class="icon-trash"></i>&nbsp;Удалить
             <% end %>
           </li>
         <% end %>

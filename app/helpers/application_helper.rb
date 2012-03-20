@@ -1,4 +1,24 @@
 module ApplicationHelper
+  def link_highlight title, link, *args, &block
+    li_class = if parse_uri(link) == parse_uri(request.env['PATH_INFO'])
+                 'active'
+               else
+                 nil
+               end
+
+    content_tag :li, class: li_class do
+      if block_given?
+        link_to link, *args, &block
+      else
+        link_to title, link, *args
+      end
+    end
+  end
+
+  def parse_uri str
+    str.gsub(/\?.*/, '').gsub(/\#.*/, '')
+  end
+
   def clippy text, bgcolor='#FFFFFF'
     html = <<-EOF
     <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"

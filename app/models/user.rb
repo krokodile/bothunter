@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessible :email, :password, :password_confirmation, :remember_me, :company, :full_name, :phone_number, :message, :promocode_value
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :company, :full_name, :phone_number, :message, :promocode_value, :approved, :people_limit, :groups_amount, :rights, as: :admin
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :company, :full_name, :phone_number, :message, :promocode_value, :approved, :people_limit, :groups_limit, :rights, as: :admin
 
   after_create do
     if @promocode_value.present? && self.promocode.present?
@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   validate :promocode_value_check
 
   def phone_number= number
-    super Phony.normalize number.gsub(/[^0-9]/, '')
+    super Phony.normalize number.gsub(/[^0-9]/, '') rescue nil
   end
 
   def update_with_password params = {}
@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
         errors.add(:promocode_value, 'неправильный промокод')
       else
         self.approved       = true
-        self.groups_amount = self.promocode.groups_limit
+        self.groups_limit   = self.promocode.groups_limit
         self.people_limit   = self.promocode.people_limit
       end
     end
