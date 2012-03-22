@@ -5,6 +5,10 @@ class GroupsController < ApplicationController
 
   authorize_resource
 
+  def index
+    @groups = current_user.groups
+  end
+
   def show
     @groups =  current_user.groups.scoped
 

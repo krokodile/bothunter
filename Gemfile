@@ -33,6 +33,8 @@ gem 'gravatar_image_tag'
 
 gem 'phony'
 
+gem 'carrierwave'
+
 gem 'simple_xlsx_writer'
 gem 'grit'
 gem 'foreman'

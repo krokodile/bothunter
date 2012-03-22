@@ -8,6 +8,8 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :gid
   validates_numericality_of :gid, greater_than: 0
 
+  mount_uploader :cover
+
   def self.report_persons gid
     #workbook = RubyXL::Workbook.new
     #serializer = ::SimpleXlsx::Serializer.new("/home/boris/me.xls") do |doc|

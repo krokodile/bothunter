@@ -24,8 +24,9 @@ class PagesController < ApplicationController
         if api_result.present? && api_result["gid"].to_i > 0
           group = ::Group.find_or_create_by_gid api_result["gid"].to_s
           group.update_attributes!({
-            title: api_result["name"],
-            domain: api_result["screen_name"]
+            title:  api_result["name"],
+            domain: api_result["screen_name"],
+            remote_cover_url:  api_result["photo_medium"]
           })
 
           group.users << current_user

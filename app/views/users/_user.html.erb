@@ -1,16 +1,8 @@
 <tr>
-  <td><%= link_to user.id, user %></td>
+  <td><%= link_to user.id, user_groups_path(user) %></td>
   <td>
     <%= gravatar_image_tag user.email, class: 'gravatar-12', gravatar: { size: 12 } %>
-    <%= link_to user.email, user %>
-    
-    <% if user.rights.nil? && user.approved? %>
-      <% if user.oauth_tokens.present? %>
-        <a href="#" title="Пользователь уже авторизовался через наше приложение Вконтакте"><i class="icon-ok"></i></a>
-      <% else %>
-        <a href="#" title="Пользователь не авторизовался через наше приложение Вконтакте"><i class="icon-remove"></i></a>
-      <% end %>
-    <% end %>
+    <%= link_to user.email, user_groups_path(user) %>
 
     <div class="float-right">
       <% if user.approved? %>
@@ -20,6 +12,10 @@
           <span class="label label-success" title="Пользователь является менеджером">Менеджер</span>
         <% else %>
           <span class="label label-info" title="Пользователь является подтвержденным">Подтвержденный</span>
+
+          <% unless user.oauth_tokens.present? %>
+            <a href="#" title="Пользователь не авторизовался через наше приложение Вконтакте"><i class="icon-remove"></i></a>
+          <% end %>
         <% end %>
       <% else %>
         <span class="label label-warning" title="Пользователь ожидает подтверждения">Неподтвержденный</span>
@@ -45,8 +41,8 @@
         </a>
         <ul class="dropdown-menu">
           <li>
-            <%= link_to user do %>
-              <i class="icon-list-alt"></i>&nbsp;Страница пользователя
+            <%= link_to user_groups_path(user) do %>
+              <i class="icon-list-alt"></i>&nbsp;Группы пользователя
             <% end %>
           </li>
           <li>

@@ -30,10 +30,13 @@
         <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
-        <li>
-          <a href='#'><i class="icon-envelope"></i>&nbsp;Отправить на email</a>
-        </li>
-        <li class="divider"></li>
+        <% if promocode.user.nil? %>
+          <li>
+            <a href='#'><i class="icon-envelope"></i>&nbsp;Отправить на email</a>
+          </li>
+          <li class="divider"></li>
+        <% end %>
+
         <li>
           <%= link_to promocode, method: 'delete', confirm: 'Вы уверены?' do %>
             <i class="icon-trash"></i>&nbsp;Удалить

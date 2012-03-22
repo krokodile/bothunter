@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120319074751) do
+ActiveRecord::Schema.define(:version => 20120322184911) do
 
   create_table "groups", :force => true do |t|
     t.string   "domain"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20120319074751) do
     t.string   "gid",        :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "cover"
   end
 
   add_index "groups", ["gid"], :name => "index_groups_on_gid"
