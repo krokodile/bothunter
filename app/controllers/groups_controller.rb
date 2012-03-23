@@ -17,6 +17,7 @@ class GroupsController < ApplicationController
     end
 
     @group = @groups.find params[:id]
+
     @humans = @group.people.where(state: :human)
     @robots = @group.people.where(state: :robot)
     @undetected = @group.people.where(state: :undetected)

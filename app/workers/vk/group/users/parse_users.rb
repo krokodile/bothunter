@@ -6,10 +6,11 @@ class ParseUsers
     persons = Person.where(state: :pending)
 
     threads = []
-    25.times do
+    5.times do
       threads << Thread.new do
         while person = persons.pop
           Vk::ProfileParse.perform token, person
+          puts "#{person.uid} has parsed"
         end
       end
     end

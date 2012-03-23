@@ -11,15 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120322184911) do
+ActiveRecord::Schema.define(:version => 20120323052950) do
 
   create_table "groups", :force => true do |t|
     t.string   "domain"
     t.string   "title"
-    t.string   "gid",        :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "gid",                      :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
     t.string   "cover"
+    t.integer  "users_count", :limit => 8
   end
 
   add_index "groups", ["gid"], :name => "index_groups_on_gid"

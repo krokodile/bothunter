@@ -16,6 +16,7 @@
   </div>
 </div>
 
+<% if @groups.present? %>
 <div class="row" style="position: relative;">
   <div class="span16">
     <div class="row">
@@ -23,22 +24,10 @@
         <h4>Ваши группы</h4>
 
         <ul>
-          <% @groups.each do |group| %>
-            <%= image_tag group.cover.url %>
-
-            <li><%= link_to "#{group.title}", group %></li>
-          <% end %>
+          <%= render @groups %>
         </ul>
-      </div>
-      <div data-pjax-container>
-        <% if @group %>
-          <%= render "groups/show" %>
-        <% else %>
-          <div class="span12">
-            <h6>Выберите группу для просмотра юзеров</h6>
-          </div>
-        <% end %>
       </div>
     </div>
   </div>
 </div>
+<% end %>
