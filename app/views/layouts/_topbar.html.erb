@@ -4,13 +4,15 @@
       <%= link_to "Бот-хантер", root_path, class: 'brand' %>
 
       <ul class="nav">
-        <%= link_highlight 'FAQ', '#' %>
-        <%= link_highlight 'Профиль', edit_user_registration_path %>
+        <%= link_highlight 'Мои группы', groups_path %>
 
         <% if can? :manage, Manager %>
           <%= link_highlight 'Пользователи', users_path %>
           <%= link_highlight 'Промо-коды', promocodes_path %>
         <% end %>
+
+        <%= link_highlight 'Профиль', edit_user_registration_path %>
+        <%= link_highlight 'FAQ', '#' %>
       </ul>
 
       <ul class="nav secondary-nav pull-right">

@@ -35,7 +35,7 @@ gem 'phony'
 
 gem 'carrierwave'
 
-gem 'simple_xlsx_writer'
+gem 'simple_xlsx_writer', require: 'simple_xlsx'
 gem 'grit'
 gem 'foreman'
 gem 'socksify'

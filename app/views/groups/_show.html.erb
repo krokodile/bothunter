@@ -1,7 +1,7 @@
 <!--<div>-->
 	<!--<div class="span4">-->
 	  <!--<h4>Реальные</h4>-->
-	  <!--<% @humans.each do |profile| %>-->
+	  <!--<% @alive.each do |profile| %>-->
 	    <!--<div>-->
 	      <!--<a href="http://vkontakte.ru/id<%= profile.uid %>">-->
           <!--<img width="16" height="16" src="<%= profile.photo %>">-->
@@ -14,7 +14,7 @@
 	  <!--<h4>-->
 	    <!--Неопределенные-->
     <!--</h4>-->
-	  <!--<% @undetected.each do |profile| %>-->
+	  <!--<% @unknown.each do |profile| %>-->
 	    <!--<div>-->
 	      <!--<%= link_to "◀", {:human_person_id => profile, :group_id => @group}, {:class => "label success real", :id => "pjax", :rel => "twipsy", :title => "Реальный пользователь", :"data-placement" => "left"} %>-->
 	      <!--<a href="http://vkontakte.ru/id<%= profile.uid %>">-->
@@ -27,7 +27,7 @@
   <!--</div>-->
 	<!--<div class="span4">-->
 	  <!--<h4>Боты</h4>-->
-	  <!--<% @robots.each do |profile| %>-->
+	  <!--<% @bots.each do |profile| %>-->
 	    <!--<div>-->
 	      <!--<a href="http://vkontakte.ru/id<%= profile.uid %>">-->
           <!--<img width="16" height="16" src="<%= profile.photo %>">-->
@@ -59,18 +59,11 @@
 <!--</div>-->
 
 <div>
-  <div class="span4">
-    <h4>Живые <%= @humans.count %></h4>
+  <div class="span4" style="position: absolute; right: 0; top: 0;">
+    <a href="/groups/<%= @group.id %>/report_persons" class="btn btn-primary btn-large">Загрузить отчет</a>
   </div>
-  <div class="span4">
-    <h4>Сомнительные <%= @undetected.count %></h4>
-  </div>
-  <div class="span4">
-    <h4>Боты <%= @robots.count %></h4>
-  </div>
-  <div class="span4" style="position: absolute; right: 0; bottom: 0;">
-    <a href="/groups/<%= @group.id %>/report_persons">
-      <h4>Загрузить отчет</h4>
-    </a>
-  </div>
+
+  <h4>Живые: <%= link_to @alive.count, alive_group_path(@group) %></h4>
+  <h4>Сомнительные: <%= link_to @unknown.count, unknown_group_path(@group) %></h4>
+  <h4>Боты: <%= link_to @bots.count, bots_group_path(@group) %></h4>
 </div>

@@ -11,6 +11,10 @@ BotHunter::Application.routes.draw do
   end
   resources :groups do
     member do
+      get :alive
+      get :unknown
+      get :bots
+
       post :delete_robots
       get :report_persons
     end
@@ -24,7 +28,13 @@ BotHunter::Application.routes.draw do
 
   resources :users do
     resources :manual_invoices
-    resources :groups
+    resources :groups do
+      member do
+        get :alive
+        get :unknown
+        get :bots
+      end
+    end
 
     collection do
       post :create_as_admin

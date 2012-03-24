@@ -15,6 +15,9 @@ module ApplicationHelper
     end
   end
 
+  def link_to_groups_with_permissions
+  end
+
   def parse_uri str
     str.gsub(/\?.*/, '').gsub(/\#.*/, '')
   end

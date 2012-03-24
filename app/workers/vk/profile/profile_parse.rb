@@ -61,12 +61,7 @@ class Vk::ProfileParse
   def self.perform token, person
     person = self.parse token, person
 
-    return unless person.present? || person.uid.present?
-
-    if person.state != 'pending'
-      puts "return!!!!!!!!!!!!!!!!!"
-      return
-    end
+    return unless person.present? || person.uid.present? || person.state == 'pending'
 
     bot_points = 0
 
@@ -90,9 +85,9 @@ class Vk::ProfileParse
       bot_points += 3
     end
 
-    persons_wall_posts_count_in = person.wall_posts.where(['likes_count IN (?)', [1,2,3]]).count
-    persons_wall_posts_count_notin = person.wall_posts.where(['likes_count NOT IN (?)', [1,2,3]]).count
-    if persons_wall_posts_count_in / persons_wall_posts_count_notin.to_f <= 0.95
+    if person.wall_posts.where(['likes_count IN (?)', [1,2,3]]).count /
+        person.wall_posts.where(['likes_count NOT IN (?)', [1,2,3]]).count.to_f <= 0.95
+
       bot_points += 3
     end
 

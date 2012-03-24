@@ -1,0 +1,7 @@
+<li>
+  <%= link_to "http://vk.com/id#{person.uid}", target: '_blank' do %>
+    <%= image_tag person.photo %>
+
+    <%= person.first_name %> <%= person.last_name %>
+  <% end %>
+</li>
