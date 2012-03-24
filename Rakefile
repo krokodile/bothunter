@@ -44,14 +44,14 @@ namespace :bothunter do
     parse_groups_thread = Thread.new do
       loop do
         ParseGroups.perform
-        sleep 60
+        sleep 10
       end
     end
 
     parse_users_thread = Thread.new do
       loop do
         ParseUsers.perform
-        sleep 60
+        sleep 10
       end
     end
 

@@ -15,17 +15,20 @@
       <%= render "layouts/topbar" %>
     <% end %>
 
-    <div class="messages">
-      <% flash.each do |type, message| %>
-        <%= content_tag :div, class: "alert alert-#{type}" do %>
-          <%= link_to 'x', '#', class: 'close', 'data-dismiss' => 'alert' %>
-          <p><%= message %></p>
-        <% end %>
-      <% end %>
-    </div>
-
     <div class="container">
       <div class="toolbar-free-space"></div>
+
+      <% if flash.present? %>
+        <% flash.each do |type, message| %>
+          <%= content_tag :div, class: "alert alert-#{type}" do %>
+            <%= link_to 'x', '#', class: 'close', 'data-dismiss' => 'alert' %>
+            <strong><%= t("alerts.#{type}") %></strong> <%= message %>
+          <% end %>
+        <% end %>
+
+        <div class="toolbar-free-space"></div>
+      <% end %>
+
       <div class="content">
         <%= yield %>
       </div>

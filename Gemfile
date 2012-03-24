@@ -34,6 +34,7 @@ gem 'gravatar_image_tag'
 gem 'phony'
 
 gem 'carrierwave'
+gem 'rmagick'
 
 gem 'simple_xlsx_writer', require: 'simple_xlsx'
 gem 'grit'

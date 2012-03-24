@@ -19,14 +19,27 @@ class PagesController < ApplicationController
     if token.present?
       if current_user.groups_limit > 0
         gid = Vk::Helpers.parse_gid params['group_url']
-        api_result = Vk::API.call_method token, 'groups.getById', gid: gid
+        api_result = Vk::API.call_method(
+          token,
+          'groups.getById',
+          gid: gid,
+          fields: 'description'
+        )
 
         if api_result.present? && api_result["gid"].to_i > 0
+          group_members_count = Vk::API.call_method(
+            token,
+            'groups.getMembers',
+            gid: gid
+          )['count'].to_i
+
           group = ::Group.find_or_create_by_gid api_result["gid"].to_s
           group.update_attributes!({
-            title:  api_result["name"],
-            domain: api_result["screen_name"],
-            remote_cover_url:  api_result["photo_medium"]
+            title:            api_result["name"],
+            domain:           api_result["screen_name"],
+            description:      api_result["description"].gsub('<br>', ''),
+            remote_cover_url: api_result["photo_big"],
+            members_count:    group_members_count
           })
 
           group.users << current_user

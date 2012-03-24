@@ -16,12 +16,12 @@
     <!--</h4>-->
 	  <!--<% @unknown.each do |profile| %>-->
 	    <!--<div>-->
-	      <!--<%= link_to "◀", {:human_person_id => profile, :group_id => @group}, {:class => "label success real", :id => "pjax", :rel => "twipsy", :title => "Реальный пользователь", :"data-placement" => "left"} %>-->
+	      <!--<%= link_to "◀", {:alive_person_id => profile, :group_id => @group}, {:class => "label success real", :id => "pjax", :rel => "twipsy", :title => "Реальный пользователь", :"data-placement" => "left"} %>-->
 	      <!--<a href="http://vkontakte.ru/id<%= profile.uid %>">-->
           <!--<img width="16" height="16" src="<%= profile.photo %>">-->
           <!--"<%= "#{profile.first_name} #{profile.last_name}" %>"-->
 	      <!--</a>-->
-        <!--<%= link_to "▶", {:robot_person_id => profile, :group_id => @group}, {:class => "label important bot", :id => "pjax", :rel => 'twipsy', :title => "Бот", :"data-placement" => "right"} %>-->
+        <!--<%= link_to "▶", {:bot_person_id => profile, :group_id => @group}, {:class => "label important bot", :id => "pjax", :rel => 'twipsy', :title => "Бот", :"data-placement" => "right"} %>-->
       <!--</div>-->
     <!--<% end %>-->
   <!--</div>-->
@@ -33,14 +33,14 @@
           <!--<img width="16" height="16" src="<%= profile.photo %>">-->
           <!--"<%= "#{profile.first_name} #{profile.last_name}" %>"-->
 	      <!--</a>-->
-        <!--<a href="#" class="btn danger" data-controls-modal="robots-destroy-modal" data-keyboard="true" data-backdrop="true" data-gid-to-delete="<%= @group.gid %>">Сжечь!</a>-->
+        <!--<a href="#" class="btn danger" data-controls-modal="bots-destroy-modal" data-keyboard="true" data-backdrop="true" data-gid-to-delete="<%= @group.gid %>">Сжечь!</a>-->
       <!--</div>-->
     <!--<% end %>-->
   <!--</div>-->
 
-	<!--<div id="robots-destroy-modal" class="modal hide fade alert-message warning">-->
+	<!--<div id="bots-destroy-modal" class="modal hide fade alert-message warning">-->
 	  <!--<div class="clearfix">Извините, в бета-версии этот функционал пока недоступен.</div>-->
-	  <!--<form method="post" action="#{delete_robots_group_path @group}" data-remote="true">-->
+	  <!--<form method="post" action="#{delete_bots_group_path @group}" data-remote="true">-->
 	    <!--<a class="close" href="#">x</a>-->
 	    <!--<h2>Удаление роботов из группы</h2>-->
 	    <!--<div class="clearfix">Необходимы логин и пароль от аккаунта администратора этой группы.</div>-->
@@ -52,7 +52,7 @@
 	      <!--<%= password_field_tag 'password', '', :placeholder => 'пароль' %>-->
       <!--</div>-->
 	    <!--<div class="clearfix">-->
-	      <!--<%= submit_tag 'Выполнить', class: 'btn danger', onclick: %<$('#robots-destroy-modal').modal('hide'); $('a[data-gid-to-delete="#{@group.gid}"]').removeClass('danger').text('Выполняется...')> %>-->
+	      <!--<%= submit_tag 'Выполнить', class: 'btn danger', onclick: %<$('#bots-destroy-modal').modal('hide'); $('a[data-gid-to-delete="#{@group.gid}"]').removeClass('danger').text('Выполняется...')> %>-->
       <!--</div>-->
     <!--</form>-->
   <!--</div>-->

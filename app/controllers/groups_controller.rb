@@ -7,6 +7,11 @@ class GroupsController < ApplicationController
   authorize_resource
 
   def index
+    groups_ids = @groups.map(&:id)
+
+    @alive_count   = Group.alive_for_groups groups_ids
+    @unknown_count = Group.unknown_for_groups groups_ids
+    @bots_count    = Group.bots_for_groups groups_ids
   end
 
   def show
@@ -14,27 +19,27 @@ class GroupsController < ApplicationController
       @disabled = true
     end
 
-    @alive   = @group.people.where(state: 'human')
-    @bots    = @group.people.where(state: 'robot')
-    @unknown = @group.people.where(state: 'undetected')
+    @alive   = @group.people.where(state: 'alive')
+    @bots    = @group.people.where(state: 'bot')
+    @unknown = @group.people.where(state: 'unknown')
   end
 
   def alive
-    @persons = @group.people.where(state: 'human').page params[:page]
+    @persons = @group.people.alive.page params[:page]
     @title = 'Живые пользователи'
 
     render 'show_persons'
   end
 
   def bots
-    @persons = @group.people.where(state: 'robot').page params[:page]
+    @persons = @group.people.bots.page params[:page]
     @title = 'Боты'
 
     render 'show_persons'
   end
 
   def unknown
-    @persons = @group.people.where(state: 'undetected').page params[:page]
+    @persons = @group.people.unknown.page params[:page]
     @title = 'Сомнительные'
 
     render 'show_persons'
@@ -53,9 +58,9 @@ class GroupsController < ApplicationController
 
   #def show #gid
   #  @group = Group.first( :conditions {id: params['group_id']})
-  #  @humans = @group.persons.where(state: :human)
-  #  @robots = @group.persons.where(state: :robot)
-  #  @undetected = @group.persons.where(state: :undetected)
+  #  @alives = @group.persons.where(state: :alive)
+  #  @bots = @group.persons.where(state: :bot)
+  #  @unknown = @group.persons.where(state: :unknown)
   #end
 
   def report_persons
@@ -75,14 +80,14 @@ class GroupsController < ApplicationController
 
     file_name = "persons-report#{Time.now}"
     serializer = SimpleXlsx::Serializer.new(file_name) do |workbook|
-      workbook.add_sheet("Живые") do |humans|
-        make_sheet(humans, 'human')
+      workbook.add_sheet("Живые") do |alives|
+        make_sheet(alives, 'alive')
       end
-      workbook.add_sheet("Сомнительные") do |undetected|
-        make_sheet(undetected, 'undetected')
+      workbook.add_sheet("Сомнительные") do |unknown|
+        make_sheet(unknown, 'unknown')
       end
-      workbook.add_sheet("Боты") do |robots|
-        make_sheet(robots, 'robot')
+      workbook.add_sheet("Боты") do |bots|
+        make_sheet(bots, 'bot')
       end
     end
 
@@ -104,7 +109,7 @@ class GroupsController < ApplicationController
       @user = current_user
     end
 
-    @groups = @user.groups.scoped
+    @groups = @user.groups.latest.scoped
     @group = @groups.find params[:id] if params[:id].present?
 
     authorize! :read, @groups

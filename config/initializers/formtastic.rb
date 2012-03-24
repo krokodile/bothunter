@@ -46,7 +46,7 @@
 # Formtastic::FormBuilder.default_inline_error_class = "inline-errors"
 # Formtastic::FormBuilder.default_error_list_class = "errors"
 
-# Set the method to call on label text to transform or format it for human-friendly
+# Set the method to call on label text to transform or format it for alive-friendly
 # reading when formtastic is used without object. Defaults to :humanize.
 # Formtastic::FormBuilder.label_str_method = :humanize
 

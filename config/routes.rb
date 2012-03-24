@@ -15,7 +15,7 @@ BotHunter::Application.routes.draw do
       get :unknown
       get :bots
 
-      post :delete_robots
+      post :delete_bots
       get :report_persons
     end
   end

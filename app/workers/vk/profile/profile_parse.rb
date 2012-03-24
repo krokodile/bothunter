@@ -42,7 +42,7 @@ class Vk::ProfileParse
     #  banned = true
 
     if banned
-      person.state = 'robot'
+      person.state = 'bot'
       r = /^(.*) (.*)$/.match((page.search "#title").first.content)
       person.first_name = r[1]
       person.last_name = r[2]
@@ -96,11 +96,11 @@ class Vk::ProfileParse
     end
 
     if bot_points <= 14
-      person.state = 'human'
+      person.state = 'alive'
     elsif bot_points <= 17
-      person.state = 'undetected'
+      person.state = 'unknown'
     else
-      person.state= 'robot'
+      person.state= 'bot'
     end
 
     person.save!

@@ -193,6 +193,7 @@ GEM
       vegas (~> 0.1.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rmagick (2.13.1)
     rspec (2.9.0)
       rspec-core (~> 2.9.0)
       rspec-expectations (~> 2.9.0)
@@ -291,6 +292,7 @@ DEPENDENCIES
   redis
   resque
   rest-client
+  rmagick
   rspec-rails (~> 2.6)
   russian
   sass-rails

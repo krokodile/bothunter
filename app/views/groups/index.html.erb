@@ -1,3 +1,21 @@
-<h2>Группы</h2>
+<div class="row">
+  <div class="span12">
+    <h2>Мои группы</h2>
 
-<%= render @groups %>
+    <br>
+
+    <ul class="thumbnails">
+      <%= render @groups %>
+    </ul>
+
+    <br>
+  </div>
+
+  <% if @groups.present? &&
+      (@alive_count > 0 || @bots_count > 0 || @unknown_count > 0) %>
+
+    <div class="span12">
+      <div id="statistics-chart-pie" main-title="Статистика по группам" data-alive="<%= @alive_count %>" data-unknown="<%= @unknown_count %>" data-bots="<%= @bots_count %>" style="max-width: 1000px; height: 400px; margin: 0 auto"></div>
+    </div>
+  <% end %>
+</div>

@@ -1,3 +1,46 @@
-<%= image_tag group.cover.url %>
+<% alive_count    = group.people.alive.count %>
+<% unknown_count  = group.people.unknown.count %>
+<% bots_count     = group.people.bots.count %>
+<% members_count  = group.members_count %>
+<% complete_count = (alive_count + unknown_count + bots_count) %>
+<% percentage     = (complete_count / members_count.to_f) * 100 %>
 
-<li><%= link_to "#{group.title}", group %></li>
+<li class="span3">
+  <div class="thumbnail">
+    <%= image_tag group.cover.thumb.url, class: 'img-260x94' %>
+
+    <div class="caption">
+      <h5><%= image_tag '/assets/vk.png' %>&nbsp;<%= link_to "#{group.title}", group %></h5>
+      <p><%= truncate group.description, length: 36 %></p>
+
+      <p class="group-count-label">
+        <%= link_to alive_group_path(group) do %>
+          <i class="icon-user"></i>&nbsp;Живые: <span class="label label-success" style="float: right"><%= number_with_delimiter alive_count %></span>
+        <% end %>
+      </p>
+      <p class="group-count-label">
+        <%= link_to unknown_group_path(group) do %>
+          <i class="icon-question-sign"></i>&nbsp;Сомнительные: <span class="label label-warning" style="float: right"><%= number_with_delimiter unknown_count %></span>
+        <% end %>
+      </p>
+      <p class="group-count-label">
+        <%= link_to bots_group_path(group) do %>
+          <i class="icon-fire"></i>&nbsp;Боты: <span class="label label-important" style="float: right"><%= number_with_delimiter bots_count %></span>
+        <% end %>
+      </p>
+      <p class="group-count-label">
+        <i class="icon-time"></i>&nbsp;Непроверенные: <span class="label" style="float: right"><%= number_with_delimiter group.people.pending.count %></span>
+      </p>
+      <p class="group-count-label">
+        Всего подписчиков: <span style="float: right"><%= number_with_delimiter members_count %></span>
+      </p>
+      <br>
+
+      <div class="progress <%= complete_count == members_count ? 'progress-success' : 'progress-striped active' %>"> <!-- progress-info progress-success progress-warning progress-danger -->
+        <div class="bar" style="width: <%= percentage.round %>%;"></div>
+      </div>
+
+      <p><a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a></p>
+    </div>
+  </div>
+</li>

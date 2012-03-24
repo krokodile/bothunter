@@ -9,9 +9,9 @@ class PeopleController < ApplicationController
     # (not possible to do easy way because of DB schema)
 
     if request.get?
-      @person.set :state, :human
+      @person.set :state, :alive
     elsif request.delete?
-      @person.set :state, :robot
+      @person.set :state, :bot
     end
 
   end
