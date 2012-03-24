@@ -37,6 +37,8 @@ BotHunter::Application.routes.draw do
     end
 
     collection do
+      get :profile
+
       post :create_as_admin
       post :send_message_to_all
     end

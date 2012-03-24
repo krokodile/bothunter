@@ -13,6 +13,12 @@ class UsersController < ApplicationController
     @user = User.find params[:id]
   end
 
+  def profile
+    @user = current_user
+
+    render 'edit'
+  end
+
   def send_message_to_all
     emails = User.for_type(params[:to]).map(&:email) rescue []
     emails.delete current_user.email
