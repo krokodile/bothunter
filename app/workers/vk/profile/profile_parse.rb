@@ -42,7 +42,7 @@ class Vk::ProfileParse
     #  banned = true
 
     if banned
-      person.state = :robot
+      person.state = 'robot'
       r = /^(.*) (.*)$/.match((page.search "#title").first.content)
       person.first_name = r[1]
       person.last_name = r[2]
@@ -63,7 +63,8 @@ class Vk::ProfileParse
 
     return unless person.present? || person.uid.present?
 
-    if person.state != :pending
+    if person.state != 'pending'
+      puts "return!!!!!!!!!!!!!!!!!"
       return
     end
 
@@ -75,7 +76,7 @@ class Vk::ProfileParse
       if person.photo == "http://vk.com/images/camera_a.gif"
         bot_points += 10
       end
-    elsif (person.wall_posts.where(:repost_from.exists => true).count /
+    elsif (person.wall_posts.where(['copy_post_id IS NOT NULL']).count /
           person.wall_posts.count.to_f) > 0.95
       bot_points += 4
     end
@@ -89,21 +90,22 @@ class Vk::ProfileParse
       bot_points += 3
     end
 
-    if  (person.wall_posts.where(:likes_count.in => [1,2,3]).count /
-        person.wall_posts.where(:likes_count.nin => [1,2,3]).count.to_f) <= 0.95
+    persons_wall_posts_count_in = person.wall_posts.where(['likes_count IN (?)', [1,2,3]]).count
+    persons_wall_posts_count_notin = person.wall_posts.where(['likes_count NOT IN (?)', [1,2,3]]).count
+    if persons_wall_posts_count_in / persons_wall_posts_count_notin.to_f <= 0.95
       bot_points += 3
     end
 
-    if person.wall_posts.where(:comments_count.gte => 1).count == 0
+    if person.wall_posts.where(['comments_count >= ?', 1]).count == 0
       bot_points += 3
     end
 
     if bot_points <= 14
-      person.state = :human
+      person.state = 'human'
     elsif bot_points <= 17
-      person.state = :undetected
+      person.state = 'undetected'
     else
-      person.state= :robot
+      person.state= 'robot'
     end
 
     person.save!

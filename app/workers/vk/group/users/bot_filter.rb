@@ -17,7 +17,7 @@ class BotFilter
         puts "is our superuser!"
         next
       end
-      if person.state == :robot
+      if person.state == 'robot'
         puts "DELETE #{uid}"
         req_params = {
             cookies: cookies,

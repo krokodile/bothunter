@@ -18,9 +18,9 @@ class GroupsController < ApplicationController
 
     @group = @groups.find params[:id]
 
-    @humans = @group.people.where(state: :human)
-    @robots = @group.people.where(state: :robot)
-    @undetected = @group.people.where(state: :undetected)
+    @humans = @group.people.where(state: 'human')
+    @robots = @group.people.where(state: 'robot')
+    @undetected = @group.people.where(state: 'undetected')
   end
 
   def delete_robots
@@ -57,13 +57,13 @@ class GroupsController < ApplicationController
     file_name = "persons-report#{Time.now}"
     serializer = SimpleXlsx::Serializer.new(file_name) do |workbook|
       workbook.add_sheet("Живые") do |humans|
-        make_sheet(humans,:human)
+        make_sheet(humans, 'human')
       end
       workbook.add_sheet("Сомнительные") do |undetected|
-        make_sheet(undetected,:undetected)
+        make_sheet(undetected, 'undetected')
       end
       workbook.add_sheet("Боты") do |robots|
-        make_sheet(robots,:robot)
+        make_sheet(robots, 'robot')
       end
     end
     send_file file_name, :disposition => 'attachment', :type => "application/ms-excel",

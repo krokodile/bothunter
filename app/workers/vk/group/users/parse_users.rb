@@ -3,7 +3,7 @@ class ParseUsers
 
   def self.perform
     token  = User.order('RANDOM()').first.token_for('vkontakte')
-    persons = Person.where(state: :pending)
+    persons = Person.where(state: 'pending')
 
     threads = []
     5.times do

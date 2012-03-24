@@ -19,7 +19,7 @@ class Group < ActiveRecord::Base
 
     doc = SimpleXlsx::Serializer.new("test.xlsx")
     sheet = doc.add_sheet("Живые")
-    Group.where(gid: gid).first.people.where(state: :human).each do |person|
+    Group.where(gid: gid).first.people.where(state: 'human').each do |person|
       sheet.add_row(["http://vk.com/id#{person.uid}",person.first_name,person.last_name])
     end
     #workbook.close
