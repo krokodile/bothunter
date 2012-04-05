@@ -3,7 +3,7 @@
 <% bots_count     = group.people.bots.count %>
 <% members_count  = group.members_count %>
 <% complete_count = (alive_count + unknown_count + bots_count) %>
-<% percentage     = (complete_count / members_count.to_f) * 100 %>
+<% percentage     = ((complete_count / members_count.to_f) * 100).round rescue 0 %>
 
 <li class="span3">
   <div class="thumbnail">
@@ -37,7 +37,7 @@
       <br>
 
       <div class="progress <%= complete_count == members_count ? 'progress-success' : 'progress-striped active' %>"> <!-- progress-info progress-success progress-warning progress-danger -->
-        <div class="bar" style="width: <%= percentage.round %>%;"></div>
+        <div class="bar" style="width: <%= percentage %>%;"></div>
       </div>
 
       <p><a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a></p>

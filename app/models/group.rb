@@ -49,7 +49,7 @@ class Group < ActiveRecord::Base
   def self.count_for_groups groups_ids, state
     uncached do
       self.connection.execute(%Q{
-        SELECT COUNT(DISTINCT(people.id)) as count
+        SELECT COUNT(DISTINCT(people.id))
         FROM people
         JOIN groups ON groups.id IN (#{groups_ids.map(&:to_i).join(',')})
         JOIN groups_people ON groups_people.group_id = groups.id AND
