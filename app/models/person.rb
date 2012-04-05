@@ -6,9 +6,9 @@ class Person < ActiveRecord::Base
   validates_uniqueness_of :uid
   validates_numericality_of :uid, greater_than: 0
 
-  scope :alive, where(state: 'alive')
+  scope :alive,   where(state: 'alive')
   scope :unknown, where(state: 'unknown')
-  scope :bots, where(state: 'bot')
+  scope :bots,    where(state: 'bot')
   scope :pending, where(state: 'pending')
 
   #field :uid, type:String
