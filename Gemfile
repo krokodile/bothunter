@@ -5,6 +5,7 @@ gem 'pg'
 
 gem 'yajl-ruby', require: 'yajl'
 gem 'faraday'
+gem 'capistrano'
 
 gem 'therubyracer'
 gem 'oauth2'
