@@ -135,6 +135,7 @@ GEM
     multipart-post (1.1.5)
     net-http-digest_auth (1.2)
     net-http-persistent (2.5.2)
+    newrelic_rpm (3.3.3)
     nokogiri (1.5.2)
     ntlm-http (0.1.1)
     oauth2 (0.5.2)
@@ -281,6 +282,7 @@ DEPENDENCIES
   kaminari
   letter_opener
   mechanize
+  newrelic_rpm
   nokogiri
   oauth2
   omniauth

@@ -11,6 +11,8 @@ gem 'oauth2'
 gem 'devise'
 gem 'formtastic'
 
+gem 'newrelic_rpm'
+
 gem 'letter_opener'
 
 gem 'devise-russian'
