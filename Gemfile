@@ -18,6 +18,7 @@ gem 'letter_opener'
 gem 'devise-russian'
 gem 'russian'
 gem 'unicode_utils'
+gem 'chronic'
 
 gem 'inherited_resources'
 gem 'rack-pjax'

@@ -32,8 +32,9 @@
         <i class="icon-time"></i>&nbsp;Непроверенные: <span class="label" style="float: right"><%= number_with_delimiter group.people.pending.count %></span>
       </p>
       <p class="group-count-label">
-        Всего подписчиков: <span style="float: right"><%= number_with_delimiter members_count %></span>
+        Всего подписчиков: <span style="float: right"><%= number_with_delimiter members_count %> <!-- (лимит) --></span>
       </p>
+
       <br>
 
       <div class="progress <%= complete_count == members_count ? 'progress-success' : 'progress-striped active' %>"> <!-- progress-info progress-success progress-warning progress-danger -->
