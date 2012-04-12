@@ -12,7 +12,7 @@ set :rvm_type, :system
 
 set :deploy_to, "/var/www/bothunter.myhotspot.ru"
 set :deploy_via, :remote_cache
-set :branch, 'master'
+set :branch, 'timothy'
 set :scm, :git
 set :scm_verbose, true
 set :use_sudo, false
@@ -32,13 +32,16 @@ ssh_options[:forward_agent] = true
 ssh_options[:port] = 2122
 
 namespace :deploy do
+  task :migrate do
+    run "cd #{release_path} && bundle exec rake RAILS_ENV=production  db:migrate --trace"
+  end
   #task :restart do
   # run "/etc/init.d/bothunter restart"
   #end
 
   desc "Force restart"
   task :restart do
-    run "sudo stop videohq && sudo start videohq"
+    run "sudo restart bothunter"
   end
   
   namespace :unicorn do
@@ -53,6 +56,7 @@ namespace :deploy do
   desc "Make symlinks"
   task :symlink_configs do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/oauth_credentials.yml #{release_path}/config/oauth_credentials.yml"
     run "ln -nfs #{shared_path}/config/unicorn.rb #{release_path}/config/unicorn.rb"
     run "ln -nfs #{shared_path}/uploads #{release_path}/public/uploads"
     run "ln -nfs #{shared_path}/private #{release_path}/public/private"
