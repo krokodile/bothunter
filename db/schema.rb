@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120324201037) do
+ActiveRecord::Schema.define(:version => 20120411080039) do
 
   create_table "groups", :force => true do |t|
     t.string   "domain"
@@ -54,9 +54,9 @@ ActiveRecord::Schema.define(:version => 20120324201037) do
     t.string   "last_name"
     t.string   "state"
     t.string   "photo"
-    t.integer  "friends_count"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "friends_count", :default => 0
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   add_index "people", ["uid"], :name => "index_people_on_uid"

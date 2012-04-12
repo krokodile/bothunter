@@ -14,7 +14,7 @@ class Vk::ProfileParse
     person.first_name = profile["first_name"]
     person.last_name  = profile["last_name"]
     person.photo      = profile["photo"]
-    person.bdate      = DateTime.parse profile["bdate"] rescue nil
+    person.bdate      = Chronic.parse(profile["bdate"])
 
     person.save!
 
