@@ -3,6 +3,9 @@ require './config/boot'
 
 load 'deploy/assets'
 
+set :application, 'bothunter'
+set :repository,  "git@github.com:myhotspot/bothunter.git"
+
 set :deploy_to, "/var/www/bothunter"
 set :deploy_via, :remote_cache
 set :branch, 'timothy'
@@ -68,8 +71,6 @@ CMD
     run "touch #{shared_path}/log/development.log #{shared_path}/log/production.log #{shared_path}/log/test.log"
   end
 end
-
-
 
 namespace :logs do
   task :watch do
