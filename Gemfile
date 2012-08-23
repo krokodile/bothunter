@@ -57,6 +57,7 @@ git 'git://github.com/railsware/js-routes.git', branch: 'master' do
 end
 
 gem 'twitter-bootstrap-rails'
+gem 'formtastic-bootstrap', git: 'git://github.com/mjbellantoni/formtastic-bootstrap.git', branch: 'v2.0.0-wip'
 
 gem 'resque'
 

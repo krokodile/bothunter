@@ -8,6 +8,15 @@ GIT
       omniauth-oauth2 (~> 1.0)
 
 GIT
+  remote: git://github.com/mjbellantoni/formtastic-bootstrap.git
+  revision: 98b29fb2666e859fefa5390423d0ba56563095d2
+  branch: v2.0.0-wip
+  specs:
+    formtastic-bootstrap (1.2.0)
+      formtastic
+      rails (>= 3.1.0)
+
+GIT
   remote: git://github.com/railsware/js-routes.git
   revision: afa7533530e28b77af927f040014261ff9ddbd21
   branch: master
@@ -294,6 +303,7 @@ DEPENDENCIES
   faraday
   foreman
   formtastic
+  formtastic-bootstrap!
   gravatar_image_tag
   grit
   inherited_resources

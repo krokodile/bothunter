@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: bothunter
+  pool: 5
+  username: timothyklim
+  password:
+
