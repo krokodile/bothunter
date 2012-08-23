@@ -82,12 +82,10 @@ namespace :logs do
   end
 end
 
-after "deploy:update_code", "deploy:symlink_configs"
+before "deploy:assets:precompile", "deploy:symlink_configs"
 after "deploy:symlink_configs", "deploy:migrate"
-load 'deploy/assets'
-#after "deploy:setup", "deploy:create_shared_dirs"
 after "deploy:setup", "deploy:create_log_files"
 
 #after "deploy:setup", "deploy:stop_resque"
 #after "deploy:setup", "deploy:force_restart_through_upstart"
-#after "deploy:setup", "bothunter:workers"% 
+#after "deploy:setup", "bothunter:workers"
