@@ -1,5 +1,5 @@
-domain = 'scrm.myhotspot.ru'
-server 'scrm.myhotspot.ru', :web, :app
+domain = '89.104.91.109'
+server '89.104.91.109', :web, :app
 #server domain, :db, :primary => true
 
 set :port, 2122
