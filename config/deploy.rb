@@ -1,16 +1,9 @@
-$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
-require "rvm/capistrano" # Load RVM's capistrano plugin.
-require 'bundler/capistrano'
+require "bundler/capistrano"
+require './config/boot'
 
-set :application, 'videohq.itforest.co'
-server '89.104.91.109', :web, :app
-server '89.104.91.109', :db, :primary => true
-set :repository, "git@github.com:reflow/bothunter.git"
+load 'deploy/assets'
 
-set :rvm_ruby_string, '1.9.3'
-set :rvm_type, :system
-
-set :deploy_to, "/var/www/bothunter.myhotspot.ru"
+set :deploy_to, "/var/www/bothunter"
 set :deploy_via, :remote_cache
 set :branch, 'timothy'
 set :scm, :git
@@ -33,7 +26,7 @@ ssh_options[:port] = 2122
 
 namespace :deploy do
   task :migrate do
-    run "cd #{release_path} && bundle exec rake RAILS_ENV=production  db:migrate --trace"
+    run "cd #{release_path} && bundle exec rake RAILS_ENV=production db:migrate --trace"
   end
   #task :restart do
   # run "/etc/init.d/bothunter restart"
