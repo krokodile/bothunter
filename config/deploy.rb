@@ -6,6 +6,9 @@ load 'deploy/assets'
 set :application, 'bothunter'
 set :repository,  "git@github.com:myhotspot/bothunter.git"
 
+set :stages, ['production', 'staging']
+set :default_stage, "production"
+
 set :deploy_to, "/var/www/bothunter"
 set :deploy_via, :remote_cache
 set :branch, 'timothy'
@@ -19,7 +22,8 @@ set :resque_pid, "#{deploy_to}/shared/pids/resque.pid"
 set :unicorn_script, "/etc/init.d/bothunter"
 
 set :keep_releases, 5
-#require 'capistrano/ext/multistage'
+
+require 'capistrano/ext/multistage'
 
 default_run_options[:pty] = true
 ssh_options[:paranoid] = false
